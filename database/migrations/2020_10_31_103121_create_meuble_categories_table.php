@@ -13,8 +13,9 @@ class CreateMeubleCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('MeubleCategory', function (Blueprint $table) {
-            //
+        Schema::table('meuble_category', function (Blueprint $table) {
+            $table->id();
+            $table->string('description', 255);
         });
     }
 
@@ -25,8 +26,6 @@ class CreateMeubleCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('MeubleCategory', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('meuble_category');
     }
 }

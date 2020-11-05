@@ -13,8 +13,24 @@ class CreateInvoicePurchaseTable extends Migration
      */
     public function up()
     {
-        Schema::table('InvoicePurchase', function (Blueprint $table) {
-            //
+        Schema::create('invoice_purchase', function (Blueprint $table) {
+            $table->string('numInvoicePO', 20);
+            $table->string('numPO', 20);
+            $table->bigInteger('responsibleEmployee');
+            $table->boolean('receivedStatus');
+            $table->date('date');
+        });
+
+        Schema::table('invoice_purchase', function (Blueprint $table) {
+            $table->primary('numInvoicePO');
+            $table->foreign('numPO')
+                ->references('numPO')
+                ->on('purchase_order')
+                ->cascadeOnDelete();
+            $table->foreign('responsibleEmployee')
+                ->references('responsibleEmployee')
+                ->on('employee')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +41,6 @@ class CreateInvoicePurchaseTable extends Migration
      */
     public function down()
     {
-        Schema::table('InvoicePurchase', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('invoice_purchase');
     }
 }

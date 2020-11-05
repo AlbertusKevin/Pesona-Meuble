@@ -13,8 +13,22 @@ class CreateDiscountsTable extends Migration
      */
     public function up()
     {
-        Schema::table('Discount', function (Blueprint $table) {
-            //
+        Schema::create('discount', function (Blueprint $table) {
+            $table->string('code', 20);
+            $table->string('description', 255);
+            $table->float('percentDisc', 5, 2);
+            $table->bigInteger('responsibleEmployee');
+            $table->boolean('statusActive');
+            $table->date('from');
+            $table->date('to');
+        });
+
+        Schema::table('discount', function (Blueprint $table) {
+            $table->primary('code');
+            $table->foreign('responsibleEmployee')
+                ->references('id')
+                ->on('employee')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +39,6 @@ class CreateDiscountsTable extends Migration
      */
     public function down()
     {
-        Schema::table('Discount', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('discount');
     }
 }

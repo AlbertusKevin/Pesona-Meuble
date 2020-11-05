@@ -13,8 +13,28 @@ class CreateInvoiceSalesTable extends Migration
      */
     public function up()
     {
-        Schema::table('InvoiceSales', function (Blueprint $table) {
-            //
+        Schema::create('invoce_sales', function (Blueprint $table) {
+            $table->string('numInvoiceSO', 20);
+            $table->string('numSO', 20);
+            $table->bigInteger('deliveryNum');
+            $table->bigInteger('responsibleEmployee');
+            $table->date('date');
+        });
+
+        Schema::table('invoce_sales', function (Blueprint $table) {
+            $table->primary('numInvoiceSO', 20);
+            $table->foreign('numSO')
+                ->references('numSO')
+                ->on('sales_order')
+                ->cascadeOnDelete();
+            $table->foreign('responsibleEmployee')
+                ->references('id')
+                ->on('employee')
+                ->cascadeOnDelete();
+            $table->foreign('deliveryNum')
+                ->references('deliveryNum')
+                ->on('delivery')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +45,6 @@ class CreateInvoiceSalesTable extends Migration
      */
     public function down()
     {
-        Schema::table('InvoiceSales', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('invoice_sales');
     }
 }

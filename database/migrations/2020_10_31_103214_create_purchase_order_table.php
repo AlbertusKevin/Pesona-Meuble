@@ -13,8 +13,34 @@ class CreatePurchaseOrderTable extends Migration
      */
     public function up()
     {
-        Schema::table('PurchaseOrder', function (Blueprint $table) {
-            //
+        Schema::create('purchase_order', function (Blueprint $table) {
+            $table->string('numPO', 20);
+            $table->string('vendor', 255);
+            $table->bigInteger('responsibleEmployee');
+            $table->date('date');
+            $table->date('validTo');
+            $table->tinyInteger('transactionStatus');
+            $table->integer('totalItem');
+            $table->integer('freightIn');
+            $table->integer('totalPrice');
+            $table->integer('totalDiscount');
+            $table->integer('totalPayment');
+        });
+
+        Schema::table('purchase_order', function (Blueprint $table) {
+            $table->primary('numPO', 255);
+            $table->foreign('vendor')
+                ->references('companyCode')
+                ->on('vendor')
+                ->cascadeOnDelete();
+            $table->foreign('responsibleEmployee')
+                ->references('id')
+                ->on('employee')
+                ->cascadeOnDelete();
+            $table->foreign('transactionStatus')
+                ->references('id')
+                ->on('transaction_status')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +51,6 @@ class CreatePurchaseOrderTable extends Migration
      */
     public function down()
     {
-        Schema::table('PurchaseOrder', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('purchase_order');
     }
 }
