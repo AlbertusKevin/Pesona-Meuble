@@ -6,7 +6,7 @@
     <h1>List of Sales Order</h1>
     <div class="card" style="width: 18rem;">
         <div class="card-body">
-            <p class="card-text"></p>
+            <p class="card-text">Hello World!</p>
         </div>
     </div>
 </div>
