@@ -1,0 +1,147 @@
+Create table Vendor (
+	companyCode VARCHAR(255) not null primary key,
+	name VARCHAR(255) not null,
+	email VARCHAR(255) not null,
+	telephone VARCHAR(255) not null,
+	address VARCHAR(255) not null
+);
+
+Create table Employee (
+	id int NOT NULL AUTO_INCREMENT Primary Key,
+	name VARCHAR(255) not null,
+	address VARCHAR(255) not null,
+	email VARCHAR(255) not null,
+	telephone VARCHAR(20) not null,
+	password VARCHAR(255) not null,
+	raiseIteration int(1) not null,
+	role VARCHAR(10) not null
+);
+
+Create table Discount (
+	code VARCHAR(20) NOT NULL Primary Key,
+	description VARCHAR(255) NOT NULL,
+	percentDisc float NOT NULL,
+	responsibleEmployee int NOT NULL,
+	status boolean,
+	dateStart Date not null,
+	duration_Day int(3) not null,
+	FOREIGN KEY (responsibleEmployee) REFERENCES Employee(id)
+);
+
+Create table Customer (
+	id int NOT NULL AUTO_INCREMENT Primary Key,
+	name VARCHAR(255) not null,
+	email VARCHAR(255) not null,
+	telephone VARCHAR(255) not null,
+	address VARCHAR(255) not null,
+	memberId int(11)
+);
+
+Create table Member (
+	id int NOT NULL AUTO_INCREMENT Primary Key,
+	customer int NOT NULL,
+	registerDate Date not null,
+	FOREIGN KEY (customer) REFERENCES Customer(id)
+);
+
+Create table MeubleCategory (
+	id int(2) NOT NULL AUTO_INCREMENT Primary Key,
+	description VARCHAR(255) NOT NULL
+);
+
+Create table Meuble (
+	modelType VARCHAR(255) NOT NULL Primary Key,
+	price int NOT NULL,
+	category int(2) not null,
+	warantyPeriodeMonth int(3) not null,
+	size VARCHAR(25),
+	stock int(3) NOT NULL,
+	vendor VARCHAR(255) NOT NULL,
+	color VARCHAR(15),
+	FOREIGN KEY (vendor) REFERENCES Vendor(companyCode),
+	FOREIGN KEY (category) REFERENCES MeubleCategory(id)
+);
+
+Create table PurchaseOrder (
+	numPO VARCHAR(20) not null Primary key,
+	totalItem int not null,
+	freightIn int not null,
+	responsibleEmployee int NOT NULL,
+	transactionStatus boolean not null,
+	date DATE not null,
+	validTo DATE not null, 
+	vendor VARCHAR(255) not null,
+	totalPrice int not null,
+	totalDiscount int not null,
+	totalPayment int not null,
+	FOREIGN KEY (responsibleEmployee) REFERENCES Employee(id),
+	FOREIGN KEY (vendor) REFERENCES Vendor(companyCode)
+);
+
+Create table InvoicePurchase (
+	numInvoicePO VARCHAR(20) not null Primary Key,
+	numPO VARCHAR(20) not null,
+	receiveStatus boolean not null,
+	responsibleEmployee int not null,
+	date DATE not null,
+	FOREIGN KEY (numPO) REFERENCES PurchaseOrder (numPO)
+);
+
+Create table PurchaseOrderLine (
+	numPO VARCHAR(20) not null,
+	modelType VARCHAR(255) not null,
+	qty int not null,
+	price int not null,
+	PRIMARY KEY (numPO, modelType),
+	FOREIGN KEY (numPO) REFERENCES PurchaseOrder(numPO)
+);
+
+Create table SalesOrder (
+	numSO VARCHAR(20) not null PRIMARY KEY,
+	responsibleEmployee int not null,
+	customer int not null,
+	transactionStatus boolean,
+	date DATE not null,
+	validTo DATE not null,
+	totalItem int not null,
+	totalMeubleDiscount int not null,
+	transactionDiscount VARCHAR(20) not null,
+	totalPrice int not null,
+	totalDiscount int not null,
+	totalPayment int not null,
+	FOREIGN KEY (responsibleEmployee) REFERENCES Employee(id),
+	FOREIGN KEY (transactionDiscount) REFERENCES Discount(code),
+	FOREIGN KEY (customer) REFERENCES Customer(id)
+);
+
+Create table SalesOrderLine (
+	numSO VARCHAR(20) not null,
+	modelType VARCHAR(255) not null,
+	discountMeuble VARCHAR(20) not null,
+	qty int not null,
+	price int not null,
+	PRIMARY KEY (numSO, modelType),
+	FOREIGN KEY (numSO) REFERENCES SalesOrder(numSO),
+	FOREIGN KEY (modelType) REFERENCES Meuble(modelType),
+	FOREIGN KEY (discountMeuble) REFERENCES Discount(code)
+);
+
+Create table InvoiceSales (
+	numInvoiceSO VARCHAR(20) not null Primary Key,
+	numSO VARCHAR(20) not null,
+	receiveStatus boolean not null,
+	responsibleEmployee int not null,
+	date DATE not null,
+	FOREIGN KEY (numSO) REFERENCES SalesOrder (numSO)
+);
+
+Create table delivery (
+	deliveryNum int not null AUTO_INCREMENT,
+	numInvoiceSO VARCHAR(20) not null,
+	shippingPoint VARCHAR(255) not null,
+	status boolean not null,
+	dateDelivery DATE not null,
+	dateReceive DATE not null,
+	PRIMARY KEY (deliveryNum, numInvoiceSO),
+	FOREIGN KEY (numInvoiceSO) REFERENCES InvoiceSales(numInvoiceSO)
+);

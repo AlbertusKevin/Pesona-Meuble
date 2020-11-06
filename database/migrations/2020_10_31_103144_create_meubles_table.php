@@ -13,8 +13,27 @@ class CreateMeublesTable extends Migration
      */
     public function up()
     {
-        Schema::table('Meuble', function (Blueprint $table) {
-            //
+        Schema::create('meuble', function (Blueprint $table) {
+            $table->string('modelType', 255);
+            $table->integer('price');
+            $table->integer('category');
+            $table->tinyInteger('warantyPeriodeMonth');
+            $table->string('size', 25);
+            $table->integer('stock');
+            $table->string('vendor', 255);
+            $table->string('color', 25);
+        });
+
+        Schema::table('meuble', function (Blueprint $table) {
+            $table->primary('modelType');
+            $table->foreign('category')
+                ->references('id')
+                ->on('meuble_category')
+                ->onDelete('cascade');
+            $table->foreign('vendor')
+                ->references('companyCode')
+                ->on('vendor')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +44,6 @@ class CreateMeublesTable extends Migration
      */
     public function down()
     {
-        Schema::table('Meuble', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('meuble');
     }
 }

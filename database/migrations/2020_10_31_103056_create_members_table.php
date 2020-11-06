@@ -13,8 +13,17 @@ class CreateMembersTable extends Migration
      */
     public function up()
     {
-        Schema::table('Member', function (Blueprint $table) {
-            //
+        Schema::create('member', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('customer');
+            $table->date('registerDate');
+        });
+
+        Schema::table('member', function (Blueprint $table) {
+            $table->foreign('customer')
+                ->references('id')
+                ->on('customer')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +34,6 @@ class CreateMembersTable extends Migration
      */
     public function down()
     {
-        Schema::table('Member', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('Discount');
     }
 }

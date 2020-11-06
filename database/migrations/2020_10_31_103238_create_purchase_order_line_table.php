@@ -13,8 +13,23 @@ class CreatePurchaseOrderLineTable extends Migration
      */
     public function up()
     {
-        Schema::table('PurchaseOrderLine', function (Blueprint $table) {
-            //
+        Schema::create('purchase_order_line', function (Blueprint $table) {
+            $table->string('numPO', 20);
+            $table->string('modelType', 255);
+            $table->integer('price');
+            $table->integer('quantity');
+        });
+
+        Schema::table('purchase_order_line', function (Blueprint $table) {
+            $table->primary(['numPO', 'modelType']);
+            $table->foreign('modelType')
+                ->references('modelType')
+                ->on('meuble')
+                ->cascadeOnDelete();
+            $table->foreign('numPO')
+                ->references('numPO')
+                ->on('purchase_order')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +40,6 @@ class CreatePurchaseOrderLineTable extends Migration
      */
     public function down()
     {
-        Schema::table('PurchaseOrderLine', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('purchase_order_line');
     }
 }

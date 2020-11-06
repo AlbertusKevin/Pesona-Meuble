@@ -13,8 +13,39 @@ class CreateSalesOrderTable extends Migration
      */
     public function up()
     {
-        Schema::table('SalesOrder', function (Blueprint $table) {
-            //
+        Schema::create('sales_order', function (Blueprint $table) {
+            $table->string('numSO', 20);
+            $table->integer('responsibleEmployee');
+            $table->bigInteger('customer');
+            $table->date('date');
+            $table->date('validTo');
+            $table->tinyInteger('transactionStatus');
+            $table->integer('totalItem');
+            $table->integer('totalMeubleDiscount');
+            $table->integer('totalPrice');
+            $table->string('paymentDiscount', 20);
+            $table->integer('totalDiscount');
+            $table->integer('totalPayment');
+        });
+
+        Schema::table('sales_order', function (Blueprint $table) {
+            $table->primary('numSO');
+            $table->foreign('responsibleEmployee')
+                ->references('id')
+                ->on('employee')
+                ->cascadeOnDelete();
+            $table->foreign('customer')
+                ->references('id')
+                ->on('customer')
+                ->cascadeOnDelete();
+            $table->foreign('paymentDiscount')
+                ->references('code')
+                ->on('discount')
+                ->cascadeOnDelete();
+            $table->foreign('transactionStatus')
+                ->references('id')
+                ->on('transaction_status')
+                ->cascadeOnDelete();
         });
     }
 
@@ -25,8 +56,6 @@ class CreateSalesOrderTable extends Migration
      */
     public function down()
     {
-        Schema::table('SalesOrder', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('sales_order');
     }
 }
