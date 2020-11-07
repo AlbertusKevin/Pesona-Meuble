@@ -14,7 +14,7 @@ class CreateTransactionStatusTable extends Migration
     public function up()
     {
         Schema::create('transaction_status', function (Blueprint $table) {
-            $table->tinyInteger('id', true);
+            $table->tinyInteger('id');
             $table->string('description', 10); //0. on process 1. accept 2. canceled 3. expired
         });
 

@@ -16,7 +16,7 @@ class CreateInvoicePurchaseTable extends Migration
         Schema::create('invoice_purchase', function (Blueprint $table) {
             $table->string('numInvoicePO', 20);
             $table->string('numPO', 20);
-            $table->bigInteger('responsibleEmployee');
+            $table->bigInteger('responsibleEmployee')->unsigned();
             $table->boolean('receivedStatus');
             $table->date('date');
         });
@@ -28,7 +28,7 @@ class CreateInvoicePurchaseTable extends Migration
                 ->on('purchase_order')
                 ->cascadeOnDelete();
             $table->foreign('responsibleEmployee')
-                ->references('responsibleEmployee')
+                ->references('id')
                 ->on('employee')
                 ->cascadeOnDelete();
         });

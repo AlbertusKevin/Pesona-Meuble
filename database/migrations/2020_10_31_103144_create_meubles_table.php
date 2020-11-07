@@ -16,7 +16,7 @@ class CreateMeublesTable extends Migration
         Schema::create('meuble', function (Blueprint $table) {
             $table->string('modelType', 255);
             $table->integer('price');
-            $table->integer('category');
+            $table->bigInteger('category')->unsigned();
             $table->tinyInteger('warantyPeriodeMonth');
             $table->string('size', 25);
             $table->integer('stock');

@@ -13,16 +13,16 @@ class CreateInvoiceSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoce_sales', function (Blueprint $table) {
+        Schema::create('invoice_sales', function (Blueprint $table) {
             $table->string('numInvoiceSO', 20);
             $table->string('numSO', 20);
             $table->bigInteger('deliveryNum');
-            $table->bigInteger('responsibleEmployee');
+            $table->bigInteger('responsibleEmployee')->unsigned();
             $table->date('date');
         });
 
-        Schema::table('invoce_sales', function (Blueprint $table) {
-            $table->primary('numInvoiceSO', 20);
+        Schema::table('invoice_sales', function (Blueprint $table) {
+            $table->primary('numInvoiceSO');
             $table->foreign('numSO')
                 ->references('numSO')
                 ->on('sales_order')

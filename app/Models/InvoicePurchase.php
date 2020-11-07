@@ -11,4 +11,8 @@ class InvoicePurchase extends Model
     protected $table = 'invoice_purchase';
     public $timestamps = false;
     protected $keyType = 'string';
+
+    public function purchaseorder() { 
+        return $this->belongsTo(PurchaseOrder::class);
+    }
 }

@@ -10,4 +10,8 @@ class MeubleCategory extends Model
     use HasFactory;
     protected $table = 'meuble_category';
     public $timestamps = false;
+
+    public function meubles() { 
+        return $this->hasMany(Meuble::class); 
+    }
 }

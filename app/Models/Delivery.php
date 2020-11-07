@@ -10,4 +10,8 @@ class Delivery extends Model
     use HasFactory;
     protected $table = 'delivery';
     public $timestamps = false;
+
+    public function invoicesales() { 
+        return $this->hasMany(InvoiceSales::class);
+    }
 }

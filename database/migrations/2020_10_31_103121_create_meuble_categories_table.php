@@ -13,7 +13,7 @@ class CreateMeubleCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('meuble_category', function (Blueprint $table) {
+        Schema::create('meuble_category', function (Blueprint $table) {
             $table->id();
             $table->string('description', 255);
         });

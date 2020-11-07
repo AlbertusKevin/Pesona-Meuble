@@ -15,7 +15,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create('member', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('customer');
+            $table->bigInteger('customer')->unsigned();
             $table->date('registerDate');
         });
 

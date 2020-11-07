@@ -10,4 +10,12 @@ class Employee extends Model
     use HasFactory;
     protected $table = 'employee';
     public $timestamps = false;
+
+    public function salesorders() { 
+        return $this->hasMany(SalesOrder::Class);
+    }
+
+    public function purchaseorders() { 
+        return $this->hasMany(PurchaseOrder::Class);
+    }
 }

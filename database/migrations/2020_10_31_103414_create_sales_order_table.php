@@ -15,8 +15,8 @@ class CreateSalesOrderTable extends Migration
     {
         Schema::create('sales_order', function (Blueprint $table) {
             $table->string('numSO', 20);
-            $table->integer('responsibleEmployee');
-            $table->bigInteger('customer');
+            $table->bigInteger('responsibleEmployee')->unsigned();
+            $table->bigInteger('customer')->unsigned();
             $table->date('date');
             $table->date('validTo');
             $table->tinyInteger('transactionStatus');

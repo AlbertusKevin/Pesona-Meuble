@@ -17,7 +17,7 @@ class CreateDiscountsTable extends Migration
             $table->string('code', 20);
             $table->string('description', 255);
             $table->float('percentDisc', 5, 2);
-            $table->bigInteger('responsibleEmployee');
+            $table->bigInteger('responsibleEmployee')->unsigned();
             $table->boolean('statusActive');
             $table->date('from');
             $table->date('to');

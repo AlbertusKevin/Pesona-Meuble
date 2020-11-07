@@ -16,7 +16,7 @@ class CreatePurchaseOrderTable extends Migration
         Schema::create('purchase_order', function (Blueprint $table) {
             $table->string('numPO', 20);
             $table->string('vendor', 255);
-            $table->bigInteger('responsibleEmployee');
+            $table->bigInteger('responsibleEmployee')->unsigned();
             $table->date('date');
             $table->date('validTo');
             $table->tinyInteger('transactionStatus');
