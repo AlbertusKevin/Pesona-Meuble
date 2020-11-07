@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeSeeder extends Seeder
 {
@@ -13,6 +14,38 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('employee')->insert(
+            [
+                'name' => 'Albertus',
+                'email' => 'albertus@gmail.com',
+                'phone' => '087854563231',
+                'address' => 'Jl. Kenangan no. 14',
+                'password' => 'owner',
+                'raiseIteration' => 0,
+                'role' => 'owner'
+            ]
+        );
+        DB::table('employee')->insert(
+            [
+                'name' => 'Watson',
+                'email' => 'watson@gmail.com',
+                'phone' => '0896721456311',
+                'address' => 'Jl. jalan no. 24',
+                'password' => 'sales',
+                'raiseIteration' => 0,
+                'role' => 'sales'
+            ]
+        );
+        DB::table('employee')->insert(
+            [
+                'name' => 'Holmes',
+                'email' => 'holmes@gmail.com',
+                'phone' => '0812237261872',
+                'address' => 'Jl. saturnus no. 34',
+                'password' => 'inventory',
+                'raiseIteration' => 0,
+                'role' => 'inventory'
+            ]
+        );
     }
 }
