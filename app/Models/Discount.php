@@ -12,7 +12,8 @@ class Discount extends Model
     public $timestamps = false;
     protected $keyType = 'string';
 
-    public function salesorders() { 
+    public function salesorders()
+    {
         return $this->hasMany(SalesOrder::class);
     }
 }

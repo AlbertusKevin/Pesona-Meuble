@@ -11,11 +11,13 @@ class Employee extends Model
     protected $table = 'employee';
     public $timestamps = false;
 
-    public function salesorders() { 
-        return $this->hasMany(SalesOrder::Class);
+    public function salesorders()
+    {
+        return $this->hasMany(SalesOrder::class);
     }
 
-    public function purchaseorders() { 
-        return $this->hasMany(PurchaseOrder::Class);
+    public function purchaseorders()
+    {
+        return $this->hasMany(PurchaseOrder::class);
     }
 }

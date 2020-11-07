@@ -12,11 +12,13 @@ class Vendor extends Model
     public $timestamps = false;
     protected $keyType = 'string';
 
-    public function meubles() { 
+    public function meubles()
+    {
         return $this->hasMany(Meuble::class);
     }
 
-    public function purchaseorders() { 
+    public function purchaseorders()
+    {
         return $this->hasMany(PurchaseOrder::class);
     }
 }
