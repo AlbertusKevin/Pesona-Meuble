@@ -1,0 +1,11 @@
+Sesudah clone:
+- Buat database masing-masing, pesona_meuble
+- jalankan: composer install
+- Copy file .env.example, rename copy file dengan .env, sesuaikan:
+    APP_NAME=Pesona_Meuble_Shop (line 1)
+    DB_DATABASE=pesona_meuble (line 13)
+- php artisan key:generate
+- php artisan migrate
+- php artisan db:seed --class=EmployeeSeeder
+- php artisan db:seed --class=VendorSeeder
+- php artisan db:seed --class=DiscountSeeder
