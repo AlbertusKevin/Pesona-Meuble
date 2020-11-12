@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Procurement\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +17,7 @@ class PurchaseOrder extends Model
 
     public function purchaseorderlines()
     {
-        return $this->hasMany(PurchaseOrder::class);
+        return $this->hasMany(PurchaseOrderLine::class);
     }
 
     public function employee()
@@ -25,8 +25,8 @@ class PurchaseOrder extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function invoicepurchases()
-    {
-        return $this->hasMany(InvoicePurchase::class);
-    }
+    // public function invoicepurchases()
+    // {
+    //     return $this->hasMany(InvoicePurchase::class);
+    // }
 }

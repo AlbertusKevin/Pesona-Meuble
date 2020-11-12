@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Procurement\Entity;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,13 +12,13 @@ class Vendor extends Model
     public $timestamps = false;
     protected $keyType = 'string';
 
-    public function meubles()
-    {
-        return $this->hasMany(Meuble::class);
-    }
+    // public function meubles()
+    // {
+    //     return $this->hasMany(Meuble::class);
+    // }
 
-    public function purchaseorders()
-    {
-        return $this->hasMany(PurchaseOrder::class);
-    }
+    // public function purchaseorders()
+    // {
+    //     return $this->hasMany(PurchaseOrder::class);
+    // }
 }

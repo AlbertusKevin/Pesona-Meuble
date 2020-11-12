@@ -17,6 +17,6 @@ class PurchaseOrderLine extends Model
 
     public function meuble()
     {
-        return $this->belongsTo(Meuble::class);
+        return $this->hasOne(Meuble::class);
     }
 }
