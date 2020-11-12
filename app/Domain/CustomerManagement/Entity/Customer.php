@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\CustomerManagement\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +16,6 @@ class Customer extends Model
 
     public function members()
     {
-        return $this->hasMany(Member::class);
+        return $this->hasOne(Member::class);
     }
 }
