@@ -16,8 +16,8 @@ class Employee extends Model
         return $this->hasMany(SalesOrder::class);
     }
 
-    public function purchaseorders()
-    {
-        return $this->hasMany(PurchaseOrder::class);
-    }
+    // public function purchaseorders()
+    // {
+    //     return $this->hasMany(PurchaseOrder::class);
+    // }
 }
