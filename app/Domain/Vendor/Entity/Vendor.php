@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Vendor\Entity;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Vendor extends Model
 {
     use HasFactory;
-    protected $table = 'employee';
+    protected $table = 'vendor';
     public $timestamps = false;
+    protected $keyType = 'string';
 
-    public function salesorders()
-    {
-        return $this->hasMany(SalesOrder::class);
-    }
+    // public function meubles()
+    // {
+    //     return $this->hasMany(Meuble::class);
+    // }
 
     // public function purchaseorders()
     // {
