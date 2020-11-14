@@ -1,0 +1,184 @@
+body {
+    overflow-x: hidden;
+}
+.card_border :hover {
+    border: 1px solid red;
+}
+
+.overlay {
+    position: absolute;
+    width: 280px;
+    height: 348px;
+    top: 48px;
+    left: 192px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.footer {
+    margin-top: 96px;
+    padding: 120px;
+    color: #ffffff;
+    background-color: #9b51e0;
+}
+.footer a {
+    color: white;
+}
+.footerparagraph {
+    border-right: 2px solid white;
+    max-height: 100%;
+}
+
+.carousel_image {
+    max-height: 500px;
+    position: relative !important;
+}
+
+.more {
+    font-weight: bold;
+    color: #333333;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.clickShowMore {
+    color: #828282;
+    text-decoration: none;
+}
+
+.more:hover {
+    color: #828282;
+    text-decoration: none;
+}
+
+.clickShowMore:hover {
+    color: #333333;
+    text-decoration: none;
+}
+
+.updatePost {
+    background-color: #9b51e0;
+    color: white;
+    max-height: 75px;
+    margin-top: 120px;
+}
+
+.updatePost:hover {
+    background-color: #683796;
+    color: white;
+}
+
+.loginbtn {
+    background-color: #9b51e0;
+    color: white;
+}
+
+.loginbtn:hover {
+    background-color: #683796;
+    color: white;
+}
+.defaultbtn {
+    background-color: #9b51e0;
+    color: white;
+}
+
+.defaultbtn:hover {
+    background-color: #683796;
+    color: white;
+}
+.separator {
+    min-height: 20px;
+}
+.trcard {
+    background: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.16);
+    margin-bottom: 12px;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+.trcard:hover {
+    background: #ebebeb;
+}
+.profilepicture {
+    border-radius: 50%;
+    max-width: 300px;
+    max-height: 300px;
+}
+.maxheight {
+    max-height: 240px;
+}
+
+.borderShipment {
+    border-left: 1px solid black;
+}
+
+.mwShipment {
+    max-width: 120px;
+}
+
+.discount {
+    font-weight: bold;
+    color: #61a0ff;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.discount:hover {
+    color: #3473d3;
+    text-decoration: none;
+}
+
+.buttonPurple {
+    background-color: #9b51e0;
+    color: white;
+    max-height: 75px;
+    margin-top: 40px;
+}
+
+.defaultbtn {
+    background-color: #9b51e0;
+    color: white;
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .overlay {
+        display: none;
+    }
+    .footer {
+        margin-top: 48px;
+        padding: 24px;
+    }
+    .footerparagraph {
+        border-right: none;
+        border-bottom: 2px solid white;
+        max-width: 100%;
+    }
+    .footer h2 {
+        padding-top: 24px;
+        padding-left: 0 !important;
+    }
+    .footer ul {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+    }
+}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .overlay {
+        display: none;
+    }
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .overlay {
+        display: none;
+    }
+}
+
+/* Large devices (desktops, less than 1200px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .overlay {
+        display: none;
+    }
+}

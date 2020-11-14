@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <h1 class="text-center pt-5 pb-5">List of Sales Order</h1>
+    <h1 class="text-center pt-5 pb-5">List of Purchase Order</h1>
     <div class="row">
         <div class="col-12 col-md-6 pb-5">
             <div class="card" style="width: 100%;">
