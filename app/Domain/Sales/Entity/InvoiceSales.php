@@ -12,7 +12,7 @@ class InvoiceSales extends Model
 
     public function salesorder()
     {
-        return $this->belongsTo(SalesOrder::class);
+        return $this->hasOne(SalesOrder::class);
     }
 
     public function delivery()

@@ -27,6 +27,6 @@ class SalesOrder extends Model
 
     public function invoicesales()
     {
-        return $this->hasMany(InvoiceSales::class);
+        return $this->belongsTo(InvoiceSales::class);
     }
 }
