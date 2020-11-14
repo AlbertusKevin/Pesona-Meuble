@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\CustomerManagement\Entity;
+namespace App\Domain\Vendor\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
