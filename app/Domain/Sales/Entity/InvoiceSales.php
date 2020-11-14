@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Sales\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SalesOrderLine extends Model
+class InvoiceSales extends Model
 {
-    protected $table = 'sales_order_line';
+    protected $table = 'invoice_sales';
     public $timestamps = false;
     protected $keyType = 'string';
 
@@ -15,8 +15,8 @@ class SalesOrderLine extends Model
         return $this->belongsTo(SalesOrder::class);
     }
 
-    public function meuble()
+    public function delivery()
     {
-        return $this->belongsTo(Meuble::class);
+        return $this->belongsTo(Delivery::class);
     }
 }
