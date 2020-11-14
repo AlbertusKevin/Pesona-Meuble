@@ -1,5 +1,6 @@
 @extends('layouts.authdummy')
 @section('content')
+{{--  hellow  --}}
   <div class="container">
     <div class="row justify-content-center">
       <h1 class="text-center mt-5 mb-5 font-weight-bold">Pesona.</h1>
