@@ -17,43 +17,49 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Employee Name:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Total Amount:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Net Discount:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Sales Order Number:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Sales Order Date:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Total Payment:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Total Discount:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customerName" class="col-sm-4 col-form-label">Total Price:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control">
                             </div>

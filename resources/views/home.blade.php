@@ -62,19 +62,23 @@
     <div class="col-12 pt-4">
         <h1 class="text-center">Our Product</h1>
     </div>
-        <div class="row justify-content-center">
-            <div class="col-md-4 pt-3">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="font-weight-bold">Syntherine</h4>
-                        <p class="card-text text-muted">Stylish cafe chair</p>
-                        <h5 class="font-weight-bold">Rp 1.500.000,00</h5>
-                        <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
+    <div class="row justify-content-center">
+        @if(count($meubles) > 0)
+            @foreach($meubles as $meuble)
+                <div class="col-md-4 pt-3">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="font-weight-bold">{{$meuble->modelType}}</h4>
+                            <p class="card-text text-muted">Stylish cafe chair</p>
+                            <h5 class="font-weight-bold">{{$meuble->price}}</h5>
+                            <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
+                        </div>
                     </div>
-                  </div>
-            </div>
-            <div class="col-md-4 pt-3">
+                </div>
+            @endforeach
+            
+            {{-- <div class="col-md-4 pt-3">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{{ asset('images/lolito.svg') }}" alt="Card image cap">
                     <div class="card-body">
@@ -128,15 +132,18 @@
                         <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
                     </div>
                   </div>
-            </div>
-        </div>
+            </div> --}}
+        {{-- </div>
         <div class="row justify-content-center pt-5">
             <a name="" id="" class="btn btn-outline-primary btn-lg w-25" href="#" role="button">Show more</a>
-        </div>
-</div> 
+        </div> --}}
+        {{-- {{ $meubles->paginate(2)->links() }} --}}
 
-<div>
+        @else 
+            <h3>No Item Found</h3>
+        @endif
 
+    </div> 
 </div>    
 
 @endsection

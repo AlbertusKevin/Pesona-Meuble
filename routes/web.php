@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Employee\Entity\Employee;
+use App\Domain\Procurement\Entity\Meuble;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 // Home and Display Product
 //=============================================================================================================
 Route::get('/', function () {
-    return view('home');
+    $meubles = Meuble::all(); 
+    return view('home', ['meubles' => $meubles]);
 });
 
 //=============================================================================================================
@@ -36,10 +38,14 @@ Route::get('/admin/{id}', function (Employee $id) {
 //=============================================================================================================
 
 Route::get('/listSalesOrder', function () {
-    return view('listSalesOrder');
+    return view('sales.sales_order.listSalesOrder');
 });
 Route::get('/createSalesOrder', function () {
-    return view('createSalesOrder');
+    return view('sales.sales_order.createSalesOrder');
+});
+
+Route::get('/updateSalesOrder', function () {
+    return view('sales.sales_order.updateViewSalesOrder');
 });
 
 //=============================================================================================================
