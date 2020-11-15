@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Employee\Entity\Employee;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,15 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//=============================================================================================================
+// Home and Display Product
+//=============================================================================================================
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/home', function () {
-    return view('home');
+
+//=============================================================================================================
+// Domain Employee
+//=============================================================================================================
+Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
+Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
+
+Route::get('/admin/{id}', function (Employee $id) {
+    return view('employee_service.home', $id);
 });
-Route::get('/customer', function () {
-    return view('customer');
-});
+
+//=============================================================================================================
+// Domain Sales
+//=============================================================================================================
+
 Route::get('/listSalesOrder', function () {
     return view('listSalesOrder');
 });
@@ -29,26 +42,53 @@ Route::get('/createSalesOrder', function () {
     return view('createSalesOrder');
 });
 
-Route::get('/logindummy', function () {
-    return view('logindummy');
+//=============================================================================================================
+// Domain Procurement
+//=============================================================================================================
+
+
+//=============================================================================================================
+// Domain Financial
+//=============================================================================================================
+
+
+//=============================================================================================================
+// Domain Employee
+//=============================================================================================================
+
+//=============================================================================================================
+// Domain Vendor
+//=============================================================================================================
+
+//=============================================================================================================
+// Domain Customer
+//=============================================================================================================
+Route::get('/customer', function () {
+    return view('customer');
 });
-Route::get('/shipmentlist', function () {
-    return view('shipmentlist');
+
+Route::get('/customerlist', function () {
+    return view('customerlist');
 });
+
+Route::get('/updatecustomer', function () {
+    return view('updatecustomer');
+});
+
 Route::get('/warrantylist', function () {
     return view('warrantylist');
+});
+
+
+
+Route::get('/shipmentlist', function () {
+    return view('shipmentlist');
 });
 Route::get('/employeelist', function () {
     return view('employeelist');
 });
 Route::get('/discountlist', function () {
     return view('discountlist');
-});
-Route::get('/customerlist', function () {
-    return view('customerlist');
-});
-Route::get('/updatecustomer', function () {
-    return view('updatecustomer');
 });
 Route::get('/updatestaff', function () {
     return view('updatestaff');

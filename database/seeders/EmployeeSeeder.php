@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class EmployeeSeeder extends Seeder
                 'email' => 'albertus@gmail.com',
                 'phone' => '087854563231',
                 'address' => 'Jl. Kenangan no. 14',
-                'password' => 'owner',
+                'password' => Hash::make('owner'),
                 'raiseIteration' => 0,
                 'role' => 'owner'
             ]
@@ -31,7 +32,7 @@ class EmployeeSeeder extends Seeder
                 'email' => 'watson@gmail.com',
                 'phone' => '0896721456311',
                 'address' => 'Jl. jalan no. 24',
-                'password' => 'sales',
+                'password' => Hash::make('sales'),
                 'raiseIteration' => 0,
                 'role' => 'sales'
             ]
@@ -42,7 +43,7 @@ class EmployeeSeeder extends Seeder
                 'email' => 'holmes@gmail.com',
                 'phone' => '0812237261872',
                 'address' => 'Jl. saturnus no. 34',
-                'password' => 'inventory',
+                'password' => Hash::make('inventory'),
                 'raiseIteration' => 0,
                 'role' => 'inventory'
             ]
