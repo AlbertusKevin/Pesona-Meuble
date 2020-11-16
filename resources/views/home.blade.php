@@ -72,7 +72,7 @@
                             <h4 class="font-weight-bold">{{$meuble->modelType}}</h4>
                             <p class="card-text text-muted">Stylish cafe chair</p>
                             <h5 class="font-weight-bold">{{$meuble->price}}</h5>
-                            <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
+                            <a style="color:#9B51E0;text-decoration:none" href="/meuble/{{$meuble->modelType}}">Detail</a>
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,10 @@
         <div class="row justify-content-center pt-5">
             <a name="" id="" class="btn btn-outline-primary btn-lg w-25" href="#" role="button">Show more</a>
         </div> --}}
-        {{-- {{ $meubles->paginate(2)->links() }} --}}
+        
+        <p class="col-md-4 pt-3">
+            {{ $meubles->links() }}
+        </p>
 
         @else 
             <h3>No Item Found</h3>

@@ -61,34 +61,40 @@
 <div class="container pt-5">
     <div class="row">
         <div class="col-12 col-md-6">
-            <img src="{{ asset('images/detail.svg') }}" class="d-block w-100 h-100" alt="...">
+            <img src="{{$meuble->image}}" class="d-block w-100 h-100" alt="...">
         </div>
         <div class="col-12 col-md-6git">
             <h2>Craft the home with furniture</h2>
             <p class="font-weight-bold">Deskripsi</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                In ornare neque tellus, accumsan pretium purus congue vitae.
-                Morbi eu varius turpis, ac aliquet massa.
-                Integer ac tortor consectetur, rhoncus felis sit amet, ullamcorper ex.
-                Etiam a pretium purus. Aliquam eget tincidunt lectus, in vulputate odio.
-                Nullam eget nisl auctor ante imperdiet accumsan non eget nisl.
-                Aliquam pharetra non risus sed laoreet.
-                Quisque accumsan leo ac odio accumsan, luctus pulvinar sapien commodo.
-                Nunc dui nibh, aliquet id hendrerit id, scelerisque egestas odio.
-                Fusce a erat orci. Sed vel diam metus.
-            </p>
+            <p>{{$meuble->modelType}}</p>
             <p class="font-weight-bold">Tipe Model</p>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                In ornare neque tellus, accumsan pretium purus congue vitae.
-                Morbi eu varius turpis, ac aliquet massa.
-                Integer ac tortor consectetur, rhoncus felis sit amet, ullamcorper ex.
-                Etiam a pretium purus. Aliquam eget tincidunt lectus, in vulputate odio.
-                Nullam eget nisl auctor ante imperdiet accumsan non eget nisl.
-                Aliquam pharetra non risus sed laoreet.
-                Quisque accumsan leo ac odio accumsan, luctus pulvinar sapien commodo.
-                Nunc dui nibh, aliquet id hendrerit id, scelerisque egestas odio.
-                Fusce a erat orci. Sed vel diam metus.
+                <table>
+                    <tr>
+                        <td>Category </td>
+                        <td>: {{$meuble->category}}</td>
+                    </tr>
+                    <tr>
+                        <td>Price </td>
+                        <td>: {{$meuble->price}}</td>
+                    </tr>
+                    <tr>
+                        <td>Warranty Period (Month) </td>
+                        <td>: {{$meuble->warantyPeriodeMonth}}</td>
+                    </tr>
+                    <tr>
+                        <td>Size </td>
+                        <td>: {{$meuble->size}}</td>
+                    </tr>
+                    <tr>
+                        <td>Stock </td>
+                        <td>: {{$meuble->stock}}</td>
+                    </tr>
+                    <tr>
+                        <td>Color </td>
+                        <td>: {{$meuble->stock}}</td>
+                    </tr>
+                </table>
             </p>
         </div>
     </div>

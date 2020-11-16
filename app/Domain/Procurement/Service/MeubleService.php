@@ -17,8 +17,7 @@ class MeubleService extends Controller
 
     public function HomeView(Request $request)
     {
-        $meubles = MeubleDao::findAllMeuble(); 
-        return view('home', ['meubles' => $meubles]);
+        
     }
 
     

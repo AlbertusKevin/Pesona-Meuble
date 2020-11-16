@@ -14,9 +14,9 @@ class SalesOrderDao extends Controller
      * @return Response
      */
 
-    public function findAllSalesOrder(Request $request)
+    public static function findAllSalesOrders()
     {
-        $salesorders = SalesOrder::all();
+        $salesorders = SalesOrder::orderBy('numSO', 'asc')->paginate(9);
         return $salesorders; 
     }
 

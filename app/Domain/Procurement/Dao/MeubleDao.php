@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Domain\Procurement\Entity\Meuble;
 use Illuminate\Http\Request;
 
-class MeubleService extends Controller
+class MeubleDao extends Controller
 {
     /**
      * Show the profile for the given user.
@@ -14,11 +14,16 @@ class MeubleService extends Controller
      * @return Response
      */
 
-    public function findAllMeuble(Request $request)
+    public static function findAllMeubles()
     {
-        $meubles = Meuble::all();
+        $meubles = Meuble::orderBy('modelType', 'asc')->paginate(2);
         return $meubles; 
     }
 
+    public static function findMeubleByModelType($modelType)
+    {
+        $meuble = Meuble::where('modelType', '=', $modelType)->first();
+        return $meuble; 
+    }
     
 }

@@ -1,7 +1,8 @@
 <?php
 
 use App\Domain\Employee\Entity\Employee;
-use App\Domain\Procurement\Entity\Meuble;
+use App\Domain\Procurement\Dao\MeubleDao;
+use App\Domain\Sales\Dao\SalesOrderDao;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 // Home and Display Product
 //=============================================================================================================
 Route::get('/', function () {
-    $meubles = Meuble::all(); 
-    return view('home', ['meubles' => $meubles]);
+    $meubles = MeubleDao::findAllMeubles(); 
+    return view('home')->with('meubles', $meubles);
 });
 
 //=============================================================================================================
@@ -37,14 +38,16 @@ Route::get('/admin/{id}', function (Employee $id) {
 // Domain Sales
 //=============================================================================================================
 
-Route::get('/listSalesOrder', function () {
-    return view('sales.sales_order.listSalesOrder');
+Route::get('/salesorder', function () {
+    $salesorders = SalesOrderDao::findAllSalesOrders();
+    return view('sales.sales_order.listSalesOrder')->with('salesorders', $salesorders);
 });
-Route::get('/createSalesOrder', function () {
-    return view('sales.sales_order.createSalesOrder');
+Route::get('/salesorder/create', function () {
+    $meubles = MeubleDao::findAllMeubles(); 
+    return view('sales.sales_order.createSalesOrder')->with('meubles', $meubles);
 });
 
-Route::get('/updateSalesOrder', function () {
+Route::get('/salesorder/update', function () {
     return view('sales.sales_order.updateViewSalesOrder');
 });
 
@@ -69,8 +72,9 @@ Route::get('/updateSalesOrder', function () {
 //=============================================================================================================
 // Domain Customer
 //=============================================================================================================
-Route::get('/customer', function () {
-    return view('customer');
+Route::get('/meuble/{typeModel}', function ($typeModel) {
+    $meuble = MeubleDao::findMeubleByModelType($typeModel);
+    return view('customer_service.customer_data.customer')->with('meuble', $meuble);
 });
 
 Route::get('/customerlist', function () {
@@ -139,7 +143,7 @@ Route::get('/editWarranty', function () {
     return view('editWarranty');
 });
 Route::get('/employeeDetail', function () {
-    return view('employeeDetail');
+    return view('employee_service.employee_data.employeeDetail');
 });
 Route::get('/warrantyDetail', function () {
     return view('warrantyDetail');

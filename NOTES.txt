@@ -1,0 +1,28 @@
+ToDoList:
+- Perbaikan Skema tabel
+- Relasi antar tabel lewat model di laravel
+- Seeder untuk Employee dan Vendor
+
+Workflow dan Workspace:
+1. Buat sistem login (pembeda admin dan owner)
+2. Workspace: Procurement (CRUD)
+3. Home: List barang
+4. Detailed Produce: Detail dari list barang
+5. Workspace: Sales Order (CRUD)
+6. Workspace: Financial (Retrieve FI statement, Diskon CRUD)
+7. Workspace: Employee (CRUD)
+8. Workspace: Vendor (CRUD)
+9. Workspace: Customer (CRU)
+10. Workspace: Waranty
+
+Masalah : 
+- Database meuble itu barang ? Di database meuble tambahain nama barang dan deskripsi (?).
+- Show more ganti jadi pagenation 
+- utk date, mau dimskin dari form atau lgsung dari sistem nya masukin tgl hari itu ? 
+- masukan : route url jgn kaya historySalesOrder, createPurchaseOrder, tapi salesorder/history, purchaseorder/create. 
+- Yg diupdate apa aja buat salesorder, purchaseorder, sm yg lainnya (ga mungkin semuanya field formnya bisa diupdate, hrs ada yg tampilin tp di disable buat diedit). 
+- Di Database Total Price sama Total Payment apa bedanya ? 
+
+- Halaman detail barang namanya file blade customer.blade.php ato mau diganti (?)
+- Pagenation masih kacau layoutn ya 
+- Di detail barang bisa kasi tombol back di page nya (?)
