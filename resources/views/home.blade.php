@@ -143,7 +143,9 @@
         </p>
 
         @else 
-            <h3>No Item Found</h3>
+            <div class="row w-100 justify-content-center">
+                <h3>No Item Found</h3>
+            </div>
         @endif
 
     </div> 

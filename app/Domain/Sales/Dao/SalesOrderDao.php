@@ -16,8 +16,14 @@ class SalesOrderDao extends Controller
 
     public static function findAllSalesOrders()
     {
-        $salesorders = SalesOrder::orderBy('numSO', 'asc')->paginate(9);
+        $salesorders = SalesOrder::orderBy('numSO', 'asc')->paginate(1);
         return $salesorders; 
+    }
+
+    public static function findSalesOrderByNumSO($numSO)
+    {
+        $salesorder = SalesOrder::where('numSO', '=', $numSO)->first();
+        return $salesorder; 
     }
 
     public function createSalesOrder(Request $request)

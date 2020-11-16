@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Employee\Entity\Employee;
+use App\Domain\Finance\Entity\Discount;
 use App\Domain\Procurement\Dao\MeubleDao;
 use App\Domain\Sales\Dao\SalesOrderDao;
 use Illuminate\Support\Facades\Route;
@@ -42,13 +43,56 @@ Route::get('/salesorder', function () {
     $salesorders = SalesOrderDao::findAllSalesOrders();
     return view('sales.sales_order.listSalesOrder')->with('salesorders', $salesorders);
 });
+
+Route::get('/salesorder/history', function () {
+    $salesorders = SalesOrderDao::findAllSalesOrders();
+    return view('sales.sales_order.historySalesOrder')->with('salesorders', $salesorders);
+});
+
 Route::get('/salesorder/create', function () {
     $meubles = MeubleDao::findAllMeubles(); 
-    return view('sales.sales_order.createSalesOrder')->with('meubles', $meubles);
+    $employees = Employee::all();
+    $discounts = Discount::all(); 
+    return view('sales.sales_order.createSalesOrder', [
+        'meubles' => $meubles, 
+        'employees' => $employees,
+        'discounts' => $discounts,
+    ]);
+});
+
+
+Route::post('/salesorder', function (Request $request) {
+    
+    $validator = Validator::make($request->all(), [
+		'numSO' => 'required|min:4|unique:numSO',
+        'customer' => 'required',
+        'employee' => 'required',
+        'date' => 'required', 
+        'validTo' => 'required', 
+        'totalItem' => 'required', 
+        'totalPrice' => 'required', 
+        'totalDiscount' => 'required', 
+        'totalPayment' => 'required', 
+	]);
+
+	if ($validator->fails()) {
+		return redirect('/salesorder/create')
+            ->withInput()
+            ->withErrors($validator);
+    }
+
+    SalesOrderDao::createSalesOrder($request);
+    return redirect('/salesorder')->with(['success' => 'Sales Order Created !']);
+ 
 });
 
 Route::get('/salesorder/update', function () {
     return view('sales.sales_order.updateViewSalesOrder');
+});
+
+Route::get('/salesorder/{numSO}', function ($numSO) {
+    $salesorder = SalesOrderDao::findSalesOrderByNumSO($numSO);
+    return view('sales.sales_order.salesOrderDetail')->with('salesorder', $salesorder);
 });
 
 //=============================================================================================================
@@ -72,6 +116,7 @@ Route::get('/salesorder/update', function () {
 //=============================================================================================================
 // Domain Customer
 //=============================================================================================================
+
 Route::get('/meuble/{typeModel}', function ($typeModel) {
     $meuble = MeubleDao::findMeubleByModelType($typeModel);
     return view('customer_service.customer_data.customer')->with('meuble', $meuble);
