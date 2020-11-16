@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // Home and Display Product
 //=============================================================================================================
 Route::get('/', function () {
-    $meubles = MeubleDao::findAllMeubles(); 
+    $meubles = MeubleDao::findAllMeubles();
     return view('home')->with('meubles', $meubles);
 });
 
@@ -31,8 +31,8 @@ Route::get('/', function () {
 Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
 Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
 
-Route::get('/admin/{id}', function (Employee $id) {
-    return view('employee_service.home', $id);
+Route::get('/admin', function () {
+    return view('employee_service.home');
 });
 
 //=============================================================================================================
@@ -50,11 +50,11 @@ Route::get('/salesorder/history', function () {
 });
 
 Route::get('/salesorder/create', function () {
-    $meubles = MeubleDao::findAllMeubles(); 
+    $meubles = MeubleDao::findAllMeubles();
     $employees = Employee::all();
-    $discounts = Discount::all(); 
+    $discounts = Discount::all();
     return view('sales.sales_order.createSalesOrder', [
-        'meubles' => $meubles, 
+        'meubles' => $meubles,
         'employees' => $employees,
         'discounts' => $discounts,
     ]);
@@ -62,28 +62,27 @@ Route::get('/salesorder/create', function () {
 
 
 Route::post('/salesorder', function (Request $request) {
-    
+
     $validator = Validator::make($request->all(), [
-		'numSO' => 'required|min:4|unique:numSO',
+        'numSO' => 'required|min:4|unique:numSO',
         'customer' => 'required',
         'employee' => 'required',
-        'date' => 'required', 
-        'validTo' => 'required', 
-        'totalItem' => 'required', 
-        'totalPrice' => 'required', 
-        'totalDiscount' => 'required', 
-        'totalPayment' => 'required', 
-	]);
+        'date' => 'required',
+        'validTo' => 'required',
+        'totalItem' => 'required',
+        'totalPrice' => 'required',
+        'totalDiscount' => 'required',
+        'totalPayment' => 'required',
+    ]);
 
-	if ($validator->fails()) {
-		return redirect('/salesorder/create')
+    if ($validator->fails()) {
+        return redirect('/salesorder/create')
             ->withInput()
             ->withErrors($validator);
     }
 
     SalesOrderDao::createSalesOrder($request);
     return redirect('/salesorder')->with(['success' => 'Sales Order Created !']);
- 
 });
 
 Route::get('/salesorder/update', function () {
@@ -98,6 +97,9 @@ Route::get('/salesorder/{numSO}', function ($numSO) {
 //=============================================================================================================
 // Domain Procurement
 //=============================================================================================================
+Route::get('/procurement/menu', 'App\Domain\Procurement\Service\ProcurementService@listProcurement');
+Route::get('/procurement/detail', 'App\Domain\Procurement\Service\ProcurementService@detail_updateProcurement');
+Route::get('/procurement/create', 'App\Domain\Procurement\Service\ProcurementService@createProcurement');
 
 
 //=============================================================================================================

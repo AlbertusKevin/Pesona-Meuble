@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <h1 class="text-center pt-5 pb-5">Update Purchase Order</h1>
+    <h1 class="text-center pt-5 pb-5">Detail Purchase Order</h1>
     <div class="row">
         <div class="col-12 col-md-6 pb-5">
             <div class="card" style="width: 100%;">
@@ -108,11 +108,19 @@
             <div class="card-body">
                 <div class="row pt-3">
                     <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
-                    <div class="col-12 col-md-9 pt-4"><h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p><p class="font-weight-bold">Discount: Rp 100.000,00</p><p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p></div>
+                    <div class="col-12 col-md-9 pt-4">
+                        <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
+                        <p class="font-weight-bold">Discount: Rp 100.000,00</p>
+                        <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
+                    </div>
                 </div>
                 <div class="row pt-5">
                     <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
-                    <div class="col-12 col-md-9 pt-4"><h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p><p class="font-weight-bold">Discount: Rp 100.000,00</p><p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p></div>
+                    <div class="col-12 col-md-9 pt-4">
+                        <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
+                        <p class="font-weight-bold">Discount: Rp 100.000,00</p>
+                        <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
+                    </div>
                 </div>
             </div>
         </div>

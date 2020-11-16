@@ -3,8 +3,7 @@
 namespace App\Domain\Employee\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Employee\Dao\Employee;
-use App\Domain\Employee\Entity\Employee as EntityEmployee;
+use App\Domain\Employee\Dao\EmployeeDB as Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,6 +14,13 @@ class Login extends Controller
      *
      * @return Response
      */
+
+    private $emp;
+
+    public function __construct()
+    {
+        $this->emp = new Employee();
+    }
 
     public function login_view()
     {
@@ -28,10 +34,10 @@ class Login extends Controller
             'password' => 'required'
         ]);
 
-        $user = EntityEmployee::where('email', $request->email)->first();
-        if (isset($user)) {
-            if (Hash::check($request->password, $user->password)) {
-                return redirect('/admin/' . $user->id);
+        $employee = $this->emp->findEmployee($request);
+        if (isset($employee)) {
+            if (Hash::check($request->password, $employee->password)) {
+                return redirect('/admin')->with('employee', $employee);
             }
         }
 
