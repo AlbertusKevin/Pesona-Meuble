@@ -30,10 +30,10 @@
                         <a class="nav-link" href="#">Product <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/sales/{{$employee->id}}">Sales Order</a>
+                        <a class="nav-link" href="#">Sales Order</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/procurement/menu/{{$employee->id}}">Procurement</a>
+                        <a class="nav-link" href="#">Procurement</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
@@ -72,6 +72,6 @@
 </body>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}" defer></script>
-
+<script src="/js/script.js"></script>
 
 </html>

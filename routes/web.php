@@ -30,11 +30,6 @@ Route::get('/', function () {
 //=============================================================================================================
 Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
 Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
-
-Route::get('/admin', function () {
-    return view('employee_service.home');
-});
-
 //=============================================================================================================
 // Domain Sales
 //=============================================================================================================
@@ -97,10 +92,10 @@ Route::get('/salesorder/{numSO}', function ($numSO) {
 //=============================================================================================================
 // Domain Procurement
 //=============================================================================================================
-Route::get('/procurement/menu', 'App\Domain\Procurement\Service\ProcurementService@listProcurement');
-Route::get('/procurement/detail', 'App\Domain\Procurement\Service\ProcurementService@detail_updateProcurement');
-Route::get('/procurement/create', 'App\Domain\Procurement\Service\ProcurementService@createProcurement');
-
+Route::get('/procurement/menu/{id}', 'App\Domain\Procurement\Service\ProcurementService@show');
+Route::get('/procurement/detail/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@find');
+Route::get('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@viewCreate');
+Route::post('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@create');
 
 //=============================================================================================================
 // Domain Financial

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Domain\Employee\Dao\EmployeeDB as Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class Login extends Controller
 {
@@ -37,7 +38,7 @@ class Login extends Controller
         $employee = $this->emp->findEmployee($request);
         if (isset($employee)) {
             if (Hash::check($request->password, $employee->password)) {
-                return redirect('/admin')->with('employee', $employee);
+                return view('employee_service.home', compact('employee'));
             }
         }
 

@@ -4,6 +4,10 @@ namespace App\Domain\Procurement\Service;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Domain\Procurement\Dao\ProcurementDB;
+use App\Domain\Employee\Dao\EmployeeDB;
+use App\Domain\Procurement\Dao\MeubleDao;
+use App\Domain\Vendor\Dao\VendorDB;
 
 class ProcurementService extends Controller
 {
@@ -13,17 +17,48 @@ class ProcurementService extends Controller
      * @return Response
      */
 
-    public function listProcurement()
+    private $procurement;
+    private $employee;
+    private $vendor;
+    private $category;
+
+    public function __construct()
     {
-        return view('procurement.listOfProcurement');
+        $this->procurement = new ProcurementDB();
+        $this->employee = new EmployeeDB();
+        $this->vendor = new VendorDB();
+        $this->category = new MeubleDao();
     }
 
-    public function detail_updateProcurement()
+    public function show($id)
     {
-        return view('procurement.updateviewPurchaseOrder');
+        $procurement = $this->procurement->showAll();
+        $employee = $this->employee->findById($id);
+        return view('procurement.listOfProcurement', [
+            "procurement" => $procurement,
+            "employee" => $employee
+        ]);
     }
 
-    public function createProcurement()
+    public function find($numPO)
+    {
+        $detailProcurement = $this->procurement->showDetail($numPO);
+        return view('procurement.updateviewPurchaseOrder', compact('detailProcurement'));
+    }
+
+    public function viewCreate($id)
+    {
+        $vendor = $this->vendor->showAll();
+        $employee = $this->employee->findById($id);
+        $category = $this->category->showCategory();
+        return view('procurement.createPurchaseOrder', [
+            "employee" => $employee,
+            "vendor" => $vendor,
+            "category" => $category
+        ]);
+    }
+
+    public function create(Request $request)
     {
         return view('procurement.createPurchaseOrder');
     }

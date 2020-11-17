@@ -4,160 +4,49 @@
 
 <div class="container">
     <h1 class="text-center pt-5 pb-5">List of Purchase Order</h1>
+    <div class="row w-100 justify-content-center">
+        <a href="/procurement/create/{{$employee->id}}" type="button" class="btn btn-secondary">Create</a>
+    </div>
     <div class="row">
+        @if(count($procurement) == 0):
         <div class="col-12 col-md-4 pb-5">
             <div class="card" style="width: 100%;">
                 <div class="card-body pl-5 pt-4">
                     <div class="row card-text">
-                        <h3 class="font-weight-bold">Num: 40001</h3>
-                    </div>
-                    <div class="row card-text">
-                        <p>20 Oktober 2020</p>
-                    </div>
-                    <div class="row pb-3">
-                        <p>Customer: Lorem<br>
-                            Person in Charge: Mikhael Adriel<br>
-                            Total Item: 2<br>
-                            Net Discount: 200000<br>
-                            Amount Total: 1500000<br>
-                            Amount Diskon: 500000<br>
-                            Total Purchase: 800000
-                        </p>
-                    </div>
-                    <div class="row card-text">
-                        <a href="#" class="more">More...</a>
+                        <h3 class="font-weight-bold">Tidak Ada Pembelian yang harus diproses</h3>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
+        @foreach($procurement as $po):
         <div class="col-12 col-md-4 pb-5">
             <div class="card" style="width: 100%;">
                 <div class="card-body pl-5 pt-4">
                     <div class="row card-text">
-                        <h3 class="font-weight-bold">Num: 40001</h3>
+                        <h3 class="font-weight-bold">Num: {{$procurement->numPO}}</h3>
                     </div>
                     <div class="row card-text">
-                        <p>20 Oktober 2020</p>
+                        <p>{{$procurement->date}} to {{$procurement->validTo}}</p>
                     </div>
                     <div class="row pb-3">
-                        <p>Customer: Lorem<br>
-                            Person in Charge: Mikhael Adriel<br>
-                            Total Item: 2<br>
-                            Net Discount: 200000<br>
-                            Amount Total: 1500000<br>
-                            Amount Diskon: 500000<br>
-                            Total Purchase: 800000
+                        <p>Vendor: {{$procurement->vendor}}<br>
+                            Person in Charge: {{$employee->name}}<br>
+                            Total Item: {{$procurement->totalItem}}<br>
+                            Amount Total: {{$procurement->totalPrice}}<br>
+                            Amount Diskon: {{$procurement->totalDiscount}}<br>
+                            Freight In: {{$procurement->freightIn}}<br>
+                            Total Purchase: {{$procurement->totalPayment}}
                         </p>
                     </div>
                     <div class="row card-text">
-                        <a href="#" class="more">More...</a>
+                        <a href="/procurement/detail/{{$employee->id}}/{{$procurement->numPO}}" class="more">More...</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-4 pb-5">
-            <div class="card" style="width: 100%;">
-                <div class="card-body pl-5 pt-4">
-                    <div class="row card-text">
-                        <h3 class="font-weight-bold">Num: 40001</h3>
-                    </div>
-                    <div class="row card-text">
-                        <p>20 Oktober 2020</p>
-                    </div>
-                    <div class="row pb-3">
-                        <p>Customer: Lorem<br>
-                            Person in Charge: Mikhael Adriel<br>
-                            Total Item: 2<br>
-                            Net Discount: 200000<br>
-                            Amount Total: 1500000<br>
-                            Amount Diskon: 500000<br>
-                            Total Purchase: 800000
-                        </p>
-                    </div>
-                    <div class="row card-text">
-                        <a href="#" class="more">More...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 pb-5">
-            <div class="card" style="width: 100%;">
-                <div class="card-body pl-5 pt-4">
-                    <div class="row card-text">
-                        <h3 class="font-weight-bold">Num: 40001</h3>
-                    </div>
-                    <div class="row card-text">
-                        <p>20 Oktober 2020</p>
-                    </div>
-                    <div class="row pb-3">
-                        <p>Customer: Lorem<br>
-                            Person in Charge: Mikhael Adriel<br>
-                            Total Item: 2<br>
-                            Net Discount: 200000<br>
-                            Amount Total: 1500000<br>
-                            Amount Diskon: 500000<br>
-                            Total Purchase: 800000
-                        </p>
-                    </div>
-                    <div class="row card-text">
-                        <a href="#" class="more">More...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 pb-5">
-            <div class="card" style="width: 100%;">
-                <div class="card-body pl-5 pt-4">
-                    <div class="row card-text">
-                        <h3 class="font-weight-bold">Num: 40001</h3>
-                    </div>
-                    <div class="row card-text">
-                        <p>20 Oktober 2020</p>
-                    </div>
-                    <div class="row pb-3">
-                        <p>Customer: Lorem<br>
-                            Person in Charge: Mikhael Adriel<br>
-                            Total Item: 2<br>
-                            Net Discount: 200000<br>
-                            Amount Total: 1500000<br>
-                            Amount Diskon: 500000<br>
-                            Total Purchase: 800000
-                        </p>
-                    </div>
-                    <div class="row card-text">
-                        <a href="#" class="more">More...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-4 pb-5">
-            <div class="card" style="width: 100%;">
-                <div class="card-body pl-5 pt-4">
-                    <div class="row card-text">
-                        <h3 class="font-weight-bold">Num: 40001</h3>
-                    </div>
-                    <div class="row card-text">
-                        <p>20 Oktober 2020</p>
-                    </div>
-                    <div class="row pb-3">
-                        <p>Customer: Lorem<br>
-                            Person in Charge: Mikhael Adriel<br>
-                            Total Item: 2<br>
-                            Net Discount: 200000<br>
-                            Amount Total: 1500000<br>
-                            Amount Diskon: 500000<br>
-                            Total Purchase: 800000
-                        </p>
-                    </div>
-                    <div class="row card-text">
-                        <a href="#" class="more">More...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row w-100 justify-content-center">
-            <a href="#" class="clickShowMore">Click Here Show More</a>
-        </div>
+        @endforeach
+
     </div>
 </div>
 

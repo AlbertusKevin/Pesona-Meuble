@@ -2,12 +2,22 @@
 
 namespace App\Domain\Employee\Dao;
 
-use App\Domain\Employee\Entity\Employee as EntityEmployee;
+use App\Domain\Employee\Entity\Employee;
 
 class EmployeeDB
 {
-    public function findEmployee($request)
+    public function showAll()
     {
-        return EntityEmployee::where('email', $request->email)->first();
+        return Employee::all();
+    }
+
+    public function findByEmail($request)
+    {
+        return Employee::where('email', $request->email)->first();
+    }
+
+    public function findById($id)
+    {
+        return Employee::where('id', $id)->first();
     }
 }
