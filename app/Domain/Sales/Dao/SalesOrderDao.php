@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Domain\Sales\Entity\SalesOrder;
 use Illuminate\Http\Request;
 
+
 class SalesOrderDao extends Controller
 {
     /**
@@ -14,13 +15,13 @@ class SalesOrderDao extends Controller
      * @return Response
      */
 
-    public static function findAllSalesOrders()
+    public function findAllSalesOrders()
     {
-        $salesorders = SalesOrder::orderBy('numSO', 'asc')->paginate(1);
+        $salesorders = SalesOrder::orderBy('numSO', 'asc')->paginate(9);
         return $salesorders; 
     }
 
-    public static function findSalesOrderByNumSO($numSO)
+    public function findSalesOrderByNumSO($numSO)
     {
         $salesorder = SalesOrder::where('numSO', '=', $numSO)->first();
         return $salesorder; 
@@ -65,5 +66,7 @@ class SalesOrderDao extends Controller
         
         $salesorder->save(); 
     }
+
+
     
 }

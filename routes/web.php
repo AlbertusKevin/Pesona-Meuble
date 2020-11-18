@@ -20,10 +20,7 @@ use Illuminate\Support\Facades\Route;
 //=============================================================================================================
 // Home and Display Product
 //=============================================================================================================
-Route::get('/', function () {
-    $meubles = MeubleDao::findAllMeubles();
-    return view('home')->with('meubles', $meubles);
-});
+Route::get('/', 'App\Domain\Procurement\Service\MeubleService@homeView');
 
 //=============================================================================================================
 // Domain Employee
@@ -34,26 +31,11 @@ Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
 // Domain Sales
 //=============================================================================================================
 
-Route::get('/salesorder', function () {
-    $salesorders = SalesOrderDao::findAllSalesOrders();
-    return view('sales.sales_order.listSalesOrder')->with('salesorders', $salesorders);
-});
+Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView');
 
-Route::get('/salesorder/history', function () {
-    $salesorders = SalesOrderDao::findAllSalesOrders();
-    return view('sales.sales_order.historySalesOrder')->with('salesorders', $salesorders);
-});
+Route::get('/salesorder/history', 'App\Domain\Sales\Service\SalesOrderService@historyView'); 
 
-Route::get('/salesorder/create', function () {
-    $meubles = MeubleDao::findAllMeubles();
-    $employees = Employee::all();
-    $discounts = Discount::all();
-    return view('sales.sales_order.createSalesOrder', [
-        'meubles' => $meubles,
-        'employees' => $employees,
-        'discounts' => $discounts,
-    ]);
-});
+Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@createView');
 
 
 Route::post('/salesorder', function (Request $request) {

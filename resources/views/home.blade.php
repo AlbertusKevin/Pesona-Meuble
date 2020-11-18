@@ -64,7 +64,7 @@
     </div>
     <div class="row justify-content-center">
         @if(count($meubles) > 0)
-            @foreach($meubles as $meuble)
+            @foreach($meubles  as $meuble)
                 <div class="col-md-4 pt-3">
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap">
@@ -139,7 +139,7 @@
         </div> --}}
         
         <p class="col-md-4 pt-3">
-            {{ $meubles->links() }}
+            {{ $meubles ?? ''->links() }}
         </p>
 
         @else 
