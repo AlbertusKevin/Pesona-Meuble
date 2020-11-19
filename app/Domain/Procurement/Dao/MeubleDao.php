@@ -15,7 +15,7 @@ class MeubleDao extends Controller
      * @return Response
      */
 
-    public static function findAllMeubles()
+    public function findAllMeubles()
     {
         $meubles = Meuble::orderBy('modelType', 'asc')->paginate(2);
         return $meubles;

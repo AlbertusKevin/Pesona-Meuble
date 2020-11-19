@@ -186,7 +186,9 @@
         </div> --}}
             @endforeach
         </div>
-        {{$salesorders->links()}}
+        <div class="row w-100 justify-content-center">
+            {{$salesorders->links()}}
+        </div>
     @else 
         <div class="row w-100 justify-content-center">
             <h3>No Sales Order Found</h3>

@@ -94,30 +94,46 @@
         <div class="col-12 col-md-6 pb-5">
             <div class="card" style="width: 100%;">
                 <div class="card-body pt-4">
-                    <h4>Header</h4>
+                    <h4>Line Item</h4>
                     <form>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="modelType" class="col-sm-4 col-form-label">Model Type</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="modelType" name="modelType" 
+                                    placeholder="Model Type">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="meubleName" class="col-sm-4 col-form-label">Meuble Name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" class="form-control" id="name" name="name" 
+                                    placeholder="Model Name" >
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="quantity" class="col-sm-4 col-form-label">Quantity</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="quantity" name="quantity" 
+                                placeholder="Quantity">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name:</label>
+                            <label for="price" class="col-sm-4 col-form-label">Price</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="price" name="prie" 
+                                placeholder="Price">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="price" class="col-sm-4 col-form-label">Discount Meuble</label>
+                            <div class="col-sm-8">
+                                <select id="discountMeuble" name="discountMeuble" class="form-control">
+                                    @foreach ($discounts as $discount)
+                                        <option value="{{$discount->code}}">
+                                            {{$discount->code}}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </form>

@@ -3,9 +3,11 @@
 namespace App\Domain\Procurement\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Procurement\Dao\MeubleDao;
-use App\Domain\Procurement\Entity\Meuble as EntityMeuble;
 use Illuminate\Http\Request;
+use App\Domain\Procurement\Dao\ProcurementDB;
+use App\Domain\Employee\Dao\EmployeeDB;
+use App\Domain\Procurement\Dao\MeubleDao;
+use App\Domain\Vendor\Dao\VendorDB;
 
 class MeubleService extends Controller
 {
@@ -14,11 +16,18 @@ class MeubleService extends Controller
      *
      * @return Response
      */
+    private $meubles;
 
-    public function HomeView(Request $request)
+    public function __construct()
     {
-        
+        $this->meubles = new MeubleDao();
     }
 
-    
+    public function homeView() 
+    { 
+        $meubles = $this->meubles->findAllMeubles(); 
+        return view('home', [
+            'meubles' => $meubles,
+        ]);
+    }
 }
