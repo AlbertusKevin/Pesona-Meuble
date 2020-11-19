@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Product <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/admin/{{$employee->id}}">Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/sales/{{$employee->id}}">Sales Order</a>
@@ -38,8 +38,10 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownId">
-                            <a class="dropdown-item" href="#">Action 1</a>
-                            <a class="dropdown-item" href="#">Action 2</a>
+                            <a class="dropdown-item" href="#">Customer Management</a>
+                            <a class="dropdown-item" href="#">Vendor Management</a>
+                            <a class="dropdown-item" href="#">Employee Management</a>
+                            <a class="dropdown-item" href="#">Finance</a>
                         </div>
                     </li>
                 </ul>
@@ -72,6 +74,7 @@
 </body>
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ asset('js/script.js') }}" defer></script>
 
 
 </html>

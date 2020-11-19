@@ -30,6 +30,7 @@ Route::get('/', function () {
 //=============================================================================================================
 Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
 Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
+Route::get('/admin/{id}', 'App\Domain\Employee\Service\Login@homeAdmin');
 //=============================================================================================================
 // Domain Sales
 //=============================================================================================================

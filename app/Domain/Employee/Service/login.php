@@ -35,13 +35,19 @@ class Login extends Controller
             'password' => 'required'
         ]);
 
-        $employee = $this->emp->findEmployee($request);
+        $employee = $this->emp->findByEmail($request);
         if (isset($employee)) {
             if (Hash::check($request->password, $employee->password)) {
-                return view('employee_service.home', compact('employee'));
+                return redirect("/admin/" . $employee->id);
             }
         }
 
         return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
+    }
+
+    public function homeAdmin($id)
+    {
+        $employee = $this->emp->findById($id);
+        return view('employee_service.home', compact('employee'));
     }
 }
