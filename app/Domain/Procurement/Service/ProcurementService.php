@@ -62,4 +62,9 @@ class ProcurementService extends Controller
     {
         return view('procurement.createPurchaseOrder');
     }
+
+    public function createHeader($id)
+    {
+        print_r($_POST);
+    }
 }

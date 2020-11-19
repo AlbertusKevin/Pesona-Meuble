@@ -34,7 +34,7 @@ Route::get('/admin/{id}', 'App\Domain\Employee\Service\Login@homeAdmin');
 
 Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView');
 
-Route::get('/salesorder/history', 'App\Domain\Sales\Service\SalesOrderService@historyView'); 
+Route::get('/salesorder/history', 'App\Domain\Sales\Service\SalesOrderService@historyView');
 
 Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@createView');
 
@@ -79,6 +79,7 @@ Route::get('/procurement/menu/{id}', 'App\Domain\Procurement\Service\Procurement
 Route::get('/procurement/detail/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@find');
 Route::get('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@viewCreate');
 Route::post('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@create');
+Route::post('/procurement/create/header/{id}', 'App\Domain\Procurement\Service\ProcurementService@createHeader');
 
 //=============================================================================================================
 // Domain Financial

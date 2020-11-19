@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<div id="employee" data-id="{{$employee->id}}"></div>
 <div class="container">
     <h1 class="text-center pt-5 pb-5">Create of Purchase Order</h1>
     <div class="row">
@@ -79,6 +79,7 @@
             </div>
         </div>
         <div class="col-12 col-md-6 pb-5" id="lineHeader">
+
             <div class="card" style="width: 100%;">
                 <div class="card-body pt-4">
                     <h4>Line Item</h4>
@@ -119,12 +120,6 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="image" class="col-sm-4 col-form-label">Image:</label>
-                        <div class="col-sm-8">
-                            <input type="file" class="form-control" id="image" name="image">
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label for="description" class="col-sm-4 col-form-label">Description:</label>
                         <div class="col-sm-8">
                             <textarea rows="4" cols="50" class="form-control" name="description" id="description">input Description</textarea>
@@ -157,32 +152,50 @@
         <div class="col-12 pt-4">
             <h1 class="text-center">Product Lists</h1>
         </div>
-        <div class="card" style="width: 100%;" id="lineItem">
-            <div class="card-body">
-                <div class="row pt-3">
-                    <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
-                    <div class="col-12 col-md-9 pt-4">
-                        <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
-                        <p class="font-weight-bold">Discount: Rp 100.000,00</p>
-                        <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
+        <form id="ajaxInput" action="" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="card" style="width: 100%;" id="lineItem">
+                <!-- <div id="123" data-model="123">
+                <div class="card-body">
+                    <div class="row pt-3">
+                        <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
+                        <div class="col-12 col-md-9 pt-4">
+                            <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
+                            <p class="font-weight-bold">Discount: Rp 100.000,00</p>
+                            <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="row pt-3">
-                    <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
-                    <div class="col-12 col-md-9 pt-4">
-                        <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
-                        <p class="font-weight-bold">Discount: Rp 100.000,00</p>
-                        <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
+            <div id="234" data-model="234">
+                <div class="card-body">
+                    <div class="row pt-3">
+                        <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
+                        <div class="col-12 col-md-9 pt-4">
+                            <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
+                            <p class="font-weight-bold">Discount: Rp 100.000,00</p>
+                            <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class=" row w-100 mh-100 justify-content-end pl-3">
-            <button type="button" class="btn btn-secondary updatePost btn-lg">Add</button>
-        </div>
+            <div id="345" data-model="345">
+                <div class="card-body">
+                    <div class="row pt-3">
+                        <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
+                        <div class="col-12 col-md-9 pt-4">
+                            <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
+                            <p class="font-weight-bold">Discount: Rp 100.000,00</p>
+                            <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            </div>
+            <div class=" row w-100 mh-100 justify-content-end pl-3">
+                <button type="button" class="btn btn-secondary updatePost btn-lg" id="createPO">Add</button>
+            </div>
+        </form>
     </div>
 </div>
 
