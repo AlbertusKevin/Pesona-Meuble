@@ -32,4 +32,22 @@ class MeubleDao extends Controller
         $cat = MeubleCategory::all();
         return $cat;
     }
+
+    public function insert($line)
+    {
+        // modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor
+        // modelType 	image 	name 	description 	price 	category 	warantyPeriodeMonth 	size 	stock 	vendor 	color 	
+        Meuble::create([
+            'modelType' => $line["modelType"],
+            'name' => $line["meubleName"],
+            'description' => $line["description"],
+            'price' => (int)$line["price"],
+            'category' => (int)$line["category"],
+            'warantyPeriodeMonth' => (int)$line["warranty"],
+            'size' => $line["size"],
+            'stock' => (int)$line["quantity"],
+            'vendor' => $line["vendor"],
+            'color' => $line["color"]
+        ]);
+    }
 }

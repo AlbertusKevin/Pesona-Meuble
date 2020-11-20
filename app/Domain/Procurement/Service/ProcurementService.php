@@ -9,6 +9,8 @@ use App\Domain\Employee\Dao\EmployeeDB;
 use App\Domain\Procurement\Dao\MeubleDao;
 use App\Domain\Vendor\Dao\VendorDB;
 
+use function PHPSTORM_META\type;
+
 class ProcurementService extends Controller
 {
     /**
@@ -20,14 +22,14 @@ class ProcurementService extends Controller
     private $procurement;
     private $employee;
     private $vendor;
-    private $category;
+    private $meuble;
 
     public function __construct()
     {
         $this->procurement = new ProcurementDB();
         $this->employee = new EmployeeDB();
         $this->vendor = new VendorDB();
-        $this->category = new MeubleDao();
+        $this->meuble = new MeubleDao();
     }
 
     public function show($id)
@@ -50,21 +52,24 @@ class ProcurementService extends Controller
     {
         $vendor = $this->vendor->showAll();
         $employee = $this->employee->findById($id);
-        $category = $this->category->showCategory();
+        $meuble = $this->meuble->showCategory();
         return view('procurement.createPurchaseOrder', [
             "employee" => $employee,
             "vendor" => $vendor,
-            "category" => $category
+            "category" => $meuble
         ]);
-    }
-
-    public function create(Request $request)
-    {
-        return view('procurement.createPurchaseOrder');
     }
 
     public function createHeader($id)
     {
-        print_r($_POST);
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->procurement->insertHeader($_POST);
+    }
+
+    public function create($id)
+    {
+        $this->meuble->insert($_POST);
+        $this->procurement->insertHeaderLine($_POST);
+        echo "we're in";
     }
 }

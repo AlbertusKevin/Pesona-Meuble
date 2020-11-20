@@ -9,6 +9,19 @@ class Meuble extends Model
     protected $table = 'meuble';
     public $timestamps = false;
     protected $keyType = 'string';
+    protected $fillable = [
+        "modelType",
+        "image",
+        "name",
+        "description",
+        "price",
+        "category",
+        "warantyPeriodeMonth",
+        "size",
+        "stock",
+        "vendor",
+        "color"
+    ];
 
     public function meublecategory()
     {

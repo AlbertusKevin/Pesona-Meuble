@@ -12,13 +12,13 @@
                     <div class="form-group row">
                         <label for="numPO" class="col-sm-4 col-form-label">Num PO:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" disabled value="10000001" id="numPO" name="numPO">
+                            <input type="number" class="form-control header-field-form" disabled value="10000001" id="numPO" name="numPO">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="vendor" class="col-sm-4 col-form-label">Vendor:</label>
                         <div class="col-sm-8">
-                            <select id="vendor" name="vendor" class="form-control">
+                            <select id="vendor" name="vendor" class="form-control header-field-form">
                                 @foreach ($vendor as $vend)
                                 <option value="{{$vend->companyCode}}">
                                     {{$vend->name}}
@@ -30,49 +30,49 @@
                     <div class="form-group row">
                         <label for="employeeName" class="col-sm-4 col-form-label">Employee Name:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" disabled value="{{$employee->name}}" name="employeeName" id="employeeName">
+                            <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$employee->id}}" name="employeeName" id="employeeName">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="date" class="col-sm-4 col-form-label">Date</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="date" name="date">
+                            <input type="date" class="form-control header-field-form" id="date" name="date">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="validTo" class="col-sm-4 col-form-label">Valid To</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="validTo" name="validTo">
+                            <input type="date" class="form-control header-field-form" id="validTo" name="validTo">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="totalItem" class="col-sm-4 col-form-label">Total Item:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" disabled value="0" name="totalItem" id="totalItem">
+                            <input type="number" class="form-control header-field-form" disabled value="0" name="totalItem" id="totalItem">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" value="0" id="freightIn" name="freightIn">
+                            <input type="number" class="form-control header-field-form" value="0" id="freightIn" name="freightIn">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="totalPrice" class="col-sm-4 col-form-label">Total Price:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" disabled value="0" id="totalPrice" name="totalPrice">
+                            <input type="number" class="form-control header-field-form" disabled value="0" id="totalPrice" name="totalPrice">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" disabled value="0" id="totalDisc" name="totalDisc">
+                            <input type="number" class="form-control header-field-form" disabled value="0" id="totalDisc" name="totalDisc">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="totalPayment" class="col-sm-4 col-form-label">Total Payment:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" disabled value="0" id="totalPayment" name="totalPayment">
+                            <input type="number" class="form-control header-field-form" disabled value="0" id="totalPayment" name="totalPayment">
                         </div>
                     </div>
                 </div>
@@ -86,19 +86,19 @@
                     <div class="form-group row">
                         <label for="modelType" class="col-sm-4 col-form-label">Model Type:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="modelType" id="modelType">
+                            <input type="text" class="form-control header-line-field-form" name="modelType" id="modelType">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="meubleName" class="col-sm-4 col-form-label">Meuble Name:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="meubleName" name="meubleName">
+                            <input type="text" class="form-control header-line-field-form" id="meubleName" name="meubleName">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="category" class="col-sm-4 col-form-label">Category:</label>
                         <div class="col-sm-8">
-                            <select id="category" name="category" class="form-control">
+                            <select id="category" name="category" class="form-control header-line-field-form">
                                 @foreach ($category as $cat)
                                 <option value="{{$cat->id}}">
                                     {{$cat->description}}
@@ -110,37 +110,37 @@
                     <div class="form-group row">
                         <label for="size" class="col-sm-4 col-form-label">Size:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="size" id="size">
+                            <input type="text" class="form-control header-line-field-form" name="size" id="size">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="color" class="col-sm-4 col-form-label">Color:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="color" name="color">
+                            <input type="text" class="form-control header-line-field-form" id="color" name="color">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="description" class="col-sm-4 col-form-label">Description:</label>
                         <div class="col-sm-8">
-                            <textarea rows="4" cols="50" class="form-control" name="description" id="description">input Description</textarea>
+                            <textarea rows="4" cols="50" class="form-control header-line-field-form" name="description" id="description">input Description</textarea>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="warranty" class="col-sm-4 col-form-label">Warranty Periode (Month):</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" name="warranty" id="warranty">
+                            <input type="number" class="form-control header-line-field-form" name="warranty" id="warranty">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="price" class="col-sm-4 col-form-label">Price:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" name="price" id="price">
+                            <input type="number" class="form-control header-line-field-form" name="price" id="price">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="quantity" class="col-sm-4 col-form-label">Quantity:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="quantity" name="quantity">
+                            <input type="number" class="form-control header-line-field-form" id="quantity" name="quantity">
                         </div>
                     </div>
                     <div class="row w-100 justify-content-end">
@@ -155,42 +155,7 @@
         <form id="ajaxInput" action="" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card" style="width: 100%;" id="lineItem">
-                <!-- <div id="123" data-model="123">
-                <div class="card-body">
-                    <div class="row pt-3">
-                        <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
-                        <div class="col-12 col-md-9 pt-4">
-                            <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
-                            <p class="font-weight-bold">Discount: Rp 100.000,00</p>
-                            <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="234" data-model="234">
-                <div class="card-body">
-                    <div class="row pt-3">
-                        <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
-                        <div class="col-12 col-md-9 pt-4">
-                            <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
-                            <p class="font-weight-bold">Discount: Rp 100.000,00</p>
-                            <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="345" data-model="345">
-                <div class="card-body">
-                    <div class="row pt-3">
-                        <div class="col-12 col-md-3"><img class="card-img-top" src="{{ asset('images/syntherine.svg') }}" alt="Card image cap"></div>
-                        <div class="col-12 col-md-9 pt-4">
-                            <h3 class="font-weight-bold">Model Type1</h3>Rp 750.000,00<p class="font-weight-bold">Ammount: 1</p>
-                            <p class="font-weight-bold">Discount: Rp 100.000,00</p>
-                            <p class="font-weight-bold">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id mi sit amet justo dignissim interdum.</p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+
             </div>
             <div class=" row w-100 mh-100 justify-content-end pl-3">
                 <button type="button" class="btn btn-secondary updatePost btn-lg" id="createPO">Add</button>
