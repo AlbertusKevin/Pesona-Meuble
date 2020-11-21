@@ -12,6 +12,11 @@ class ProcurementDB
         return PurchaseOrder::all();
     }
 
+    public function getLastNumPO()
+    {
+        return PurchaseOrder::orderBy('numPO', 'desc')->take(1)->get();
+    }
+
     public function showDetail($num)
     {
         return PurchaseOrder::where('numPO', $num)->first();

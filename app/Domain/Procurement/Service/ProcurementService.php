@@ -53,10 +53,20 @@ class ProcurementService extends Controller
         $vendor = $this->vendor->showAll();
         $employee = $this->employee->findById($id);
         $meuble = $this->meuble->showCategory();
+        $numPO = $this->procurement->getLastNumPO();
+        if (count($numPO) != 0) {
+            $numPO = $numPO[0]->numPO;
+            $numPO = ((int)$numPO) + 1;
+            $numPO = (string)$numPO;
+        } else {
+            $numPO = "10000001";
+        }
+
         return view('procurement.createPurchaseOrder', [
             "employee" => $employee,
             "vendor" => $vendor,
-            "category" => $meuble
+            "category" => $meuble,
+            "num" => $numPO
         ]);
     }
 
@@ -68,8 +78,26 @@ class ProcurementService extends Controller
 
     public function create($id)
     {
-        $this->meuble->insert($_POST);
+        $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
+        if (isset($available)) {
+            $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
+            $stock = $stock->stock;
+            $stock += $_POST['quantity'];
+            $this->meuble->update($_POST, $stock);
+        } else {
+            $this->meuble->insert($_POST);
+        }
         $this->procurement->insertHeaderLine($_POST);
-        echo "we're in";
+        echo "success";
+    }
+
+    public function generateMeubleForProcurement()
+    {
+        $meuble = $this->meuble->findMeubleByModelType($_POST['model']);
+        if (isset($meuble)) {
+            return $meuble;
+        }
+
+        return false;
     }
 }

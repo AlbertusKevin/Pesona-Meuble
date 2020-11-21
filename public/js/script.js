@@ -44,6 +44,31 @@ function previewImg(idInput, idImage) {
 //     });   
 // });
 
+$("#modelType").keypress(function (e) {
+    if(e.which == 13){
+        $.ajax({
+            url: `${baseURL}/procurement/meuble`,
+            method: 'post',
+            data: {
+                model: $("#modelType").val(),
+                _token: $("#ajaxInput").children()[0].getAttribute("value")},
+            dataType: "json",
+            success: (data) => {
+                if(data){
+                    $("#vendor").val(data.vendor);
+                    $("#meubleName").val(data.name);
+                    $("#category").val(data.category);
+                    $("#size").val(data.size);
+                    $("#color").val(data.color);
+                    $("#description").val(data.description);
+                    $("#warranty").val(data.warrantyPeriodeMonth);
+                    $("#price").val(data.price);
+                }
+            }
+        });
+    }
+});
+
 $("#addItem").on("click", function (){
     if(validateFormHeaderLine()){
         //ambil data yang ada di bagian field Line Header
@@ -116,7 +141,6 @@ $("#createPO").on("click",function(){
         //ambil semua data di header
         const numPo = $("#numPO").val();
         const vendor = $("#vendor").val();
-        const employeeName = $("#employeeName").val();
         const date = $("#date").val();
         const validTo = $("#validTo").val();
         const totalItem = $("#totalItem").val();
@@ -124,7 +148,7 @@ $("#createPO").on("click",function(){
         const totalPrice = $("#totalPrice").val();
         const totalDisc = $("#totalDisc").val();
         const totalPayment = $("#totalPayment").val();
-        const employee = $("#employee").data("id");
+        const employeeName = $("#employee").data("id");
         
         //ajax query ke database purchase_order
         $.ajax({
@@ -134,7 +158,7 @@ $("#createPO").on("click",function(){
             // success: (data) => {
             //     console.log(data);
             // }
-            success: (data) => {
+            success: () => {
                 // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
                 const item = $("#lineItem").children();
                 //ambil per baris yang ada
@@ -155,6 +179,10 @@ $("#createPO").on("click",function(){
                         url: `${baseURL}/procurement/create/${employee}`,
                         method: "post",
                         data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor,_token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        success: (data) => {
+                            console.log(data);
+                        }
+
                     });
                 }
             }

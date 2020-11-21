@@ -23,9 +23,9 @@ class MeubleService extends Controller
         $this->meubles = new MeubleDao();
     }
 
-    public function homeView() 
-    { 
-        $meubles = $this->meubles->findAllMeubles(); 
+    public function homeView()
+    {
+        $meubles = $this->meubles->findAllMeubles();
         return view('home', [
             'meubles' => $meubles,
         ]);

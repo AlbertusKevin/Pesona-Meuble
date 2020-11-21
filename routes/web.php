@@ -78,6 +78,7 @@ Route::get('/salesorder/{numSO}', function ($numSO) {
 Route::get('/procurement/menu/{id}', 'App\Domain\Procurement\Service\ProcurementService@show');
 Route::get('/procurement/detail/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@find');
 Route::get('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@viewCreate');
+Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\ProcurementService@generateMeubleForProcurement');
 Route::post('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@create');
 Route::post('/procurement/create/header/{id}', 'App\Domain\Procurement\Service\ProcurementService@createHeader');
 

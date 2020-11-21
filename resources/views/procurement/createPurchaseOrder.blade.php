@@ -12,7 +12,7 @@
                     <div class="form-group row">
                         <label for="numPO" class="col-sm-4 col-form-label">Num PO:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control header-field-form" disabled value="10000001" id="numPO" name="numPO">
+                            <input type="number" class="form-control header-field-form" disabled value="{{$num}}" id="numPO" name="numPO">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -30,7 +30,7 @@
                     <div class="form-group row">
                         <label for="employeeName" class="col-sm-4 col-form-label">Employee Name:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$employee->id}}" name="employeeName" id="employeeName">
+                            <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$employee->id}}: {{$employee->name}}" name="employeeName" id="employeeName">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -86,7 +86,7 @@
                     <div class="form-group row">
                         <label for="modelType" class="col-sm-4 col-form-label">Model Type:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control header-line-field-form" name="modelType" id="modelType">
+                            <input type="text" class="form-control header-line-field-form" name="modelType" id="modelType" placeholder="Enter to generate data if exist">
                         </div>
                     </div>
                     <div class="form-group row">

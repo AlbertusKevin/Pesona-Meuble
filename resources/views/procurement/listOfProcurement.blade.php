@@ -24,23 +24,23 @@
             <div class="card" style="width: 100%;">
                 <div class="card-body pl-5 pt-4">
                     <div class="row card-text">
-                        <h3 class="font-weight-bold">Num: {{$procurement->numPO}}</h3>
+                        <h3 class="font-weight-bold">Num: {{$po->numPO}}</h3>
                     </div>
                     <div class="row card-text">
-                        <p>{{$procurement->date}} to {{$procurement->validTo}}</p>
+                        <p>{{$po->date}} to {{$po->validTo}}</p>
                     </div>
                     <div class="row pb-3">
-                        <p>Vendor: {{$procurement->vendor}}<br>
+                        <p>Vendor: {{$po->vendor}}<br>
                             Person in Charge: {{$employee->name}}<br>
-                            Total Item: {{$procurement->totalItem}}<br>
-                            Amount Total: {{$procurement->totalPrice}}<br>
-                            Amount Diskon: {{$procurement->totalDiscount}}<br>
-                            Freight In: {{$procurement->freightIn}}<br>
-                            Total Purchase: {{$procurement->totalPayment}}
+                            Total Item: {{$po->totalItem}}<br>
+                            Amount Total: {{$po->totalPrice}}<br>
+                            Amount Diskon: {{$po->totalDiscount}}<br>
+                            Freight In: {{$po->freightIn}}<br>
+                            Total Purchase: {{$po->totalPayment}}
                         </p>
                     </div>
                     <div class="row card-text">
-                        <a href="/procurement/detail/{{$employee->id}}/{{$procurement->numPO}}" class="more">More...</a>
+                        <a href="/procurement/detail/{{$employee->id}}/{{$po->numPO}}" class="more">More...</a>
                     </div>
                 </div>
             </div>

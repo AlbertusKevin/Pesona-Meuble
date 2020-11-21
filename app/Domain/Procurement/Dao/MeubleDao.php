@@ -23,7 +23,7 @@ class MeubleDao extends Controller
 
     public static function findMeubleByModelType($modelType)
     {
-        $meuble = Meuble::where('modelType', '=', $modelType)->first();
+        $meuble = Meuble::where('modelType', $modelType)->first();
         return $meuble;
     }
 
@@ -49,5 +49,13 @@ class MeubleDao extends Controller
             'vendor' => $line["vendor"],
             'color' => $line["color"]
         ]);
+    }
+
+    public function update($line, $stock)
+    {
+        Meuble::where('modelType', $line["modelType"])
+            ->update([
+                'stock' => $stock
+            ]);
     }
 }
