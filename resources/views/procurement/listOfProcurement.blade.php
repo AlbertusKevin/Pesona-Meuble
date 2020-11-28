@@ -3,12 +3,19 @@
 @section('content')
 
 <div class="container">
+    <div class="row justify-content-center">
+        @if (session('success_po_0'))
+        <div class="alert alert-success">
+            {{ session('success_po_0') }}
+        </div>
+        @endif
+    </div>
     <h1 class="text-center pt-5 pb-5">List of Purchase Order</h1>
     <div class="row w-100 justify-content-center">
         <a href="/procurement/create/{{$employee->id}}" type="button" class="btn btn-secondary">Create</a>
     </div>
     <div class="row">
-        @if(count($procurement) == 0):
+        @if(count($procurement) == 0)
         <div class="col-12 col-md-4 pb-5">
             <div class="card" style="width: 100%;">
                 <div class="card-body pl-5 pt-4">
@@ -19,7 +26,7 @@
             </div>
         </div>
         @endif
-        @foreach($procurement as $po):
+        @foreach($procurement as $po)
         <div class="col-12 col-md-4 pb-5">
             <div class="card" style="width: 100%;">
                 <div class="card-body pl-5 pt-4">

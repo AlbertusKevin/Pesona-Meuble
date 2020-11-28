@@ -9,21 +9,17 @@ use App\Domain\Employee\Dao\EmployeeDB;
 use App\Domain\Procurement\Dao\MeubleDao;
 use App\Domain\Vendor\Dao\VendorDB;
 
-use function PHPSTORM_META\type;
-
 class ProcurementService extends Controller
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @return Response
-     */
-
+    // Deklarasi kelas global, untuk pemanggilan model ORM
     private $procurement;
     private $employee;
     private $vendor;
     private $meuble;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->procurement = new ProcurementDB();
@@ -32,6 +28,10 @@ class ProcurementService extends Controller
         $this->meuble = new MeubleDao();
     }
 
+    //==================================================================================================================================================
+    // Ambil data Pembelian Barang
+    //==================================================================================================================================================
+    // menampilkan semua procurement bagian header
     public function show($id)
     {
         $procurement = $this->procurement->showAll();
@@ -42,12 +42,18 @@ class ProcurementService extends Controller
         ]);
     }
 
-    public function find($numPO)
+    //menampilkan detail line item dari salah satu procurement
+    public function detail($id, $numPO)
     {
         $detailProcurement = $this->procurement->showDetail($numPO);
-        return view('procurement.updateviewPurchaseOrder', compact('detailProcurement'));
+        $employee = $this->employee->findById($id);
+        return view('procurement.updateviewPurchaseOrder', ["po" => $detailProcurement, "employee" => $employee]);
     }
 
+    //==================================================================================================================================================
+    // Insert data Pembelian Barang
+    //==================================================================================================================================================
+    //mengambil view create pembelian barang
     public function viewCreate($id)
     {
         $vendor = $this->vendor->showAll();
@@ -70,34 +76,25 @@ class ProcurementService extends Controller
         ]);
     }
 
+    // Insert Header dari PO
     public function createHeader($id)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->insertHeader($_POST);
     }
 
-    public function create($id)
+    // Insert Line Item PO
+    public function create(Request $request, $id)
     {
-        $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
-        if (isset($available)) {
-            $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
-            $stock = $stock->stock;
-            $stock += $_POST['quantity'];
-            $this->meuble->update($_POST, $stock);
-        } else {
-            $this->meuble->insert($_POST);
-        }
-        $this->procurement->insertHeaderLine($_POST);
-        echo "success";
-    }
+        // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
+        // if (isset($available)) {
+        //     $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
+        //     $stock = $stock->stock;
+        //     $stock += $_POST['quantity'];
+        //     $this->meuble->update($_POST, $stock);
+        // }
 
-    public function generateMeubleForProcurement()
-    {
-        $meuble = $this->meuble->findMeubleByModelType($_POST['model']);
-        if (isset($meuble)) {
-            return $meuble;
-        }
-
-        return false;
+        $this->procurement->insertHeaderLine($request, $id);
+        return redirect()->back()->with('success_po_0', 'Purchase Order with number ' . $request->numPo . ' succesfully created!');
     }
 }

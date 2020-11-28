@@ -11,11 +11,6 @@ use App\Domain\Vendor\Dao\VendorDB;
 
 class MeubleService extends Controller
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @return Response
-     */
     private $meubles;
 
     public function __construct()
@@ -29,5 +24,42 @@ class MeubleService extends Controller
         return view('home', [
             'meubles' => $meubles,
         ]);
+    }
+
+    public function insert(Request $request)
+    {
+        $request->validate([
+            'modelType' => 'required',
+            'meubleName' => 'required',
+            'category' => 'required',
+            'size' => 'required',
+            'color' => 'required',
+            'description' => 'required',
+            'warranty' => 'required',
+            'price' => 'required',
+            'vendor' => 'required',
+            'picture' => 'required'
+        ]);
+        $pict = $request->file('picture');
+        //mendapatkan nama file/image
+        $pictName = $pict->getClientOriginalName();
+        //upload file ke folder yang disediakan
+        $targetUploadDesc = "images\\sales\\meuble";
+        $pict->move($targetUploadDesc, $pictName);
+        //membuat file path yang akan digunakan sebagai src html
+        $pathDesc = $targetUploadDesc . "\\" . $pictName;
+
+        $this->meubles->insert($request, $pathDesc);
+        return redirect()->back()->with('success_new_meuble', 'Meuble ' . $request->modelType . ': ' . $request->meubleName . ' created success!');
+    }
+
+    //mengambil data mebel yang sudah ada untuk field create PO
+    public function generateMeubleForProcurement()
+    {
+        $meuble = $this->meubles->findMeubleByModelType($_GET['model']);
+        if (isset($meuble)) {
+            return $meuble;
+        }
+        return false;
     }
 }

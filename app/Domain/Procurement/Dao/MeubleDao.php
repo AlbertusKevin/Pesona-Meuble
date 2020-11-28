@@ -33,7 +33,8 @@ class MeubleDao extends Controller
         return $cat;
     }
 
-    public function insert($line)
+    //input mebel baru yang dibeli lewat proses PO
+    public function insert($line, $img)
     {
         // modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor
         // modelType 	image 	name 	description 	price 	category 	warantyPeriodeMonth 	size 	stock 	vendor 	color 	
@@ -45,12 +46,14 @@ class MeubleDao extends Controller
             'category' => (int)$line["category"],
             'warantyPeriodeMonth' => (int)$line["warranty"],
             'size' => $line["size"],
-            'stock' => (int)$line["quantity"],
+            'stock' => 0,
             'vendor' => $line["vendor"],
-            'color' => $line["color"]
+            'color' => $line["color"],
+            'image' => $img
         ]);
     }
 
+    //update stok barang jika barang yang dibeli sudah ada di mebel db
     public function update($line, $stock)
     {
         Meuble::where('modelType', $line["modelType"])

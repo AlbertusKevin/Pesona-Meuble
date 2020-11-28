@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:8000";
+const baseURL = 'http://localhost:8000/';
 
 function validateFormHeader() {
     let isValidHeader = true;
@@ -29,108 +29,68 @@ function previewImg(idInput, idImage) {
         contoh.src = (e.target.result);
     }
 }
-// $('#freightIn').on("click", function(){
-//     let freight = parseInt($('#freightIn').val());
-//     console.log(freight);
-//     $('#freightIn').keypress(function (e) {
-//         let key = e.which;
-//         if(key == 13)  // the enter key code
-//         {
-//             let totalPrice = parseInt($("#totalPrice").val())-freight;
-//             totalPrice += parseInt($(this).val());
-    
-//             $("#totalPrice").val(totalPrice)
-//         }
-//     });   
-// });
-
-$("#modelType").keypress(function (e) {
-    if(e.which == 13){
-        $.ajax({
-            url: `${baseURL}/procurement/meuble`,
-            method: 'post',
-            data: {
-                model: $("#modelType").val(),
-                _token: $("#ajaxInput").children()[0].getAttribute("value")},
-            dataType: "json",
-            success: (data) => {
-                if(data){
-                    $("#vendor").val(data.vendor);
-                    $("#meubleName").val(data.name);
-                    $("#category").val(data.category);
-                    $("#size").val(data.size);
-                    $("#color").val(data.color);
-                    $("#description").val(data.description);
-                    $("#warranty").val(data.warrantyPeriodeMonth);
-                    $("#price").val(data.price);
-                }
-            }
-        });
-    }
-});
 
 $("#addItem").on("click", function (){
     if(validateFormHeaderLine()){
-        //ambil data yang ada di bagian field Line Header
-        const modelType = $("#modelType").val();
-        const meubleName = $("#meubleName").val();
-        const category = $("#category").val();
-        const size = $("#size").val();
-        const color = $("#color").val();
-        const description = $("#description").val();
-        const warranty = parseInt($("#warranty").val());
-        const price = parseInt($("#price").val());
-        const quantity = parseInt($("#quantity").val());
-        
-        //ambil data awal dari total item dan total price yang ada di header
-        let totalItem =  parseInt($("#totalItem").val());
-        let totalPrice = parseInt($("#totalPrice").val());
-        
-        //ubah tampilan data awal sesuaikan dengan kalkulasi
-        totalItem += quantity;
-        totalPrice += quantity*price;
+        $.ajax({
+            url: `/procurement/meuble`,
+            data: {
+                model: $("#modelType").val(),
+                _token: $("#ajaxCoba").children()[0].getAttribute("value")},
+            dataType: "json",
+            success: (data) => {
+                if(data){
+                    let quantity = $('#quantity').val();
+                    //ambil data awal dari total item dan total price yang ada di header
+                    let totalItem =  parseInt($("#totalItem").val());
+                    let totalPrice = parseInt($("#totalPrice").val());
+                    
+                    //ubah tampilan data awal sesuaikan dengan kalkulasi
+                    totalItem += quantity;
+                    totalPrice += quantity*data.price;
 
-        $("#totalItem").val(totalItem);
-        $("#totalPrice").val(totalPrice);
-        $("#totalPayment").val(totalPrice-parseInt($("#totalDisc").val()));
-        
-        //Buat tag template HTML
-        const tag_html = `
-            <div id="${modelType}"
-                data-model="${modelType}"
-                data-meubleName="${meubleName}" 
-                data-price="${price}" 
-                data-quantity="${quantity}" 
-                data-category="${category}" 
-                data-warranty="${warranty}"
-                data-color="${color}" 
-                data-size="${size}" 
-                data-description="${description}">
-                <div class="row pt-3" >
-                    <div class="col-12 col-md-3">
-                        <img id="${modelType}-img" class="card-img-top" src="" alt="Card image cap">
-                    </div>
-                    <div class="col-12 col-md-9 pt-4">
-                        <h3 class="font-weight-bold">${modelType}</h3>Rp ${price},00
-                        <p class="font-weight-bold">Ammount: ${quantity}</p>
-                        <p class="font-weight-bold">Color: ${color}</p>
-                        <p class="font-weight-bold">Size: ${size}</p>
-                        <p class="font-weight-bold">Description: ${description}.</p>
-                        <div class="col-sm-8">
-                            <input type="file" class="form-control" id="${modelType}-img-input" name="${modelType}-img" onchange="previewImg('${modelType}-img-input','${modelType}-img');">
+                    $("#totalItem").val(totalItem);
+                    $("#totalPrice").val(totalPrice);
+                    $("#totalPayment").val(totalPrice-parseInt($("#totalDisc").val()));
+                    console.log(data);
+                    //Buat tag template HTML
+                    const tag_html = `
+                        <div id="${data.modelType}"
+                            data-model="${data.modelType}"
+                            data-meubleName="${data.name}" 
+                            data-price="${data.price}" 
+                            data-quantity="${quantity}" 
+                            data-category="${data.category}" 
+                            data-warranty="${data.warrantyPeriodeMonth}"
+                            data-color="${data.color}" 
+                            data-size="${data.size}" 
+                            data-description="${data.description}">
+                            <div class="row pt-3" >
+                                <div class="col-12 col-md-3">
+                                    <img id="${data.modelType}-img" class="card-img-top" src="${baseURL}${data.image}" alt="Card image cap">
+                                </div>
+                                <div class="col-12 col-md-9 pt-4">
+                                    <h3 class="font-weight-bold">${data.modelType}</h3>Rp ${data.price},00
+                                    <p class="font-weight-bold">Ammount: ${quantity}</p>
+                                    <p class="font-weight-bold">Color: ${data.color}</p>
+                                    <p class="font-weight-bold">Size: ${data.size}</p>
+                                    <p class="font-weight-bold">Description: ${data.description}.</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        `;
+                    `;
 
-        //tambahkan item ke daftar purchase order
-        $("#lineItem").append(tag_html);
-        //setelah klik add, bersihkan field input
-        $("#lineHeader input,textarea").val(null);
-        parseInt($("#warranty").val(0));
-        parseInt($("#price").val(0));
-        parseInt($("#quantity").val(0));
+                    //tambahkan item ke daftar purchase order
+                    $("#lineItem").append(tag_html);
+                    //setelah klik add, bersihkan field input
+                    $("#lineHeader input").val(null);
+                    $("#price").val(0);
+                }else{
+                    alert("The data is not exist!");
+                }
+            }
+        });
+        console.log("Oke");
     }else{
         alert("Line Item form must be filled");
     }
@@ -152,7 +112,7 @@ $("#createPO").on("click",function(){
         
         //ajax query ke database purchase_order
         $.ajax({
-            url: `${baseURL}/procurement/create/header/${employee}`,
+            url: `/procurement/create/header/${employeeName}`,
             method: "post",
             data: {numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
             // success: (data) => {
@@ -176,13 +136,12 @@ $("#createPO").on("click",function(){
                     const quantity = parseInt(child.getAttribute("data-quantity"));
             
                     $.ajax({
-                        url: `${baseURL}/procurement/create/${employee}`,
+                        url: `/procurement/create/${employee}`,
                         method: "post",
-                        data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor,_token: $("#ajaxInput").children()[0].getAttribute("value")},
-                        success: (data) => {
-                            console.log(data);
+                        data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        success: (response) => {
+                            window.location.href = "/procurement/menu/"+1;
                         }
-
                     });
                 }
             }
@@ -192,3 +151,43 @@ $("#createPO").on("click",function(){
     }
 })
 // INSERT INTO t(dob) VALUES(TO_DATE('17/12/2015', 'DD/MM/YYYY'));
+
+// $('#freightIn').on("click", function(){
+//     let freight = parseInt($('#freightIn').val());
+//     console.log(freight);
+//     $('#freightIn').keypress(function (e) {
+//         let key = e.which;
+//         if(key == 13)  // the enter key code
+//         {
+//             let totalPrice = parseInt($("#totalPrice").val())-freight;
+//             totalPrice += parseInt($(this).val());
+    
+//             $("#totalPrice").val(totalPrice)
+//         }
+//     });   
+// });
+
+// $("#modelType").keypress(function (e) {
+//     if(e.which == 13){
+//         $.ajax({
+//             url: `/procurement/meuble`,
+//             data: {
+//                 model: $("#modelType").val(),
+//                 _token: $("#ajaxCoba").children()[0].getAttribute("value")},
+//             dataType: "json",
+//             success: (data) => {
+//                 if(data){
+//                     $("#vendor").val(data.vendor);
+//                     $("#meubleName").val(data.name);
+//                     $("#category").val(data.category);
+//                     $("#size").val(data.size);
+//                     $("#color").val(data.color);
+//                     $("#description").val(data.description);
+//                     $("#warranty").val(data.warrantyPeriodeMonth);
+//                     $("#price").val(data.price);
+//                 }
+//             }
+//         });
+//         console.log("Oke");
+//     }
+// });
