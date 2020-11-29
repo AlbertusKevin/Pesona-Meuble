@@ -20,9 +20,15 @@ class ProcurementDB
     }
 
     //ambil detail dari PO berdasarkan nomor PO
-    public function showDetail($num)
+    public function showDetailPO($num)
     {
         return PurchaseOrder::where('numPO', $num)->first();
+    }
+    //ambil data line PO berdasarkan nomor PO
+    public function showDetailPOLine($num)
+    {
+        return PurchaseOrderLine::where('numPO', $num)
+            ->join('meuble', 'purchase_order_line.modelType', '=', 'meuble.modelType')->get();
     }
 
     //insert data header dari PO ke tabel purchase_order

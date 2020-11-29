@@ -45,9 +45,14 @@ class ProcurementService extends Controller
     //menampilkan detail line item dari salah satu procurement
     public function detail($id, $numPO)
     {
-        $detailProcurement = $this->procurement->showDetail($numPO);
+        $detailProcurement = $this->procurement->showDetailPO($numPO);
+        $detailProcurementLine = $this->procurement->showDetailPOLine($numPO);
         $employee = $this->employee->findById($id);
-        return view('procurement.updateviewPurchaseOrder', ["po" => $detailProcurement, "employee" => $employee]);
+        return view('procurement.updateviewPurchaseOrder', [
+            "po" => $detailProcurement,
+            "line" => $detailProcurementLine,
+            "employee" => $employee
+        ]);
     }
 
     //==================================================================================================================================================
