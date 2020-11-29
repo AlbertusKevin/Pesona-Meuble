@@ -33,44 +33,17 @@ Route::get('/admin/{id}', 'App\Domain\Employee\Service\Login@homeAdmin');
 //=============================================================================================================
 
 Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView');
-
-Route::get('/salesorder/history', 'App\Domain\Sales\Service\SalesOrderService@historyView');
-
-Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@createView');
-
-
-Route::post('/salesorder', function (Request $request) {
-
-    $validator = Validator::make($request->all(), [
-        'numSO' => 'required|min:4|unique:numSO',
-        'customer' => 'required',
-        'employee' => 'required',
-        'date' => 'required',
-        'validTo' => 'required',
-        'totalItem' => 'required',
-        'totalPrice' => 'required',
-        'totalDiscount' => 'required',
-        'totalPayment' => 'required',
-    ]);
-
-    if ($validator->fails()) {
-        return redirect('/salesorder/create')
-            ->withInput()
-            ->withErrors($validator);
-    }
-
-    SalesOrderDao::createSalesOrder($request);
-    return redirect('/salesorder')->with(['success' => 'Sales Order Created !']);
-});
+Route::get('/salesorder/history/', 'App\Domain\Sales\Service\SalesOrderService@historyView');
+Route::get('/salesorder/create/{id}', 'App\Domain\Sales\Service\SalesOrderService@createView');
+Route::get('/salesorder/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView');
+Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine');
+Route::post('/salesorder/create/header', 'App\Domain\Sales\Service\SalesOrderService@createHeader');
 
 Route::get('/salesorder/update', function () {
     return view('sales.sales_order.updateViewSalesOrder');
 });
 
-Route::get('/salesorder/{numSO}', function ($numSO) {
-    $salesorder = SalesOrderDao::findSalesOrderByNumSO($numSO);
-    return view('sales.sales_order.salesOrderDetail')->with('salesorder', $salesorder);
-});
+Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder');
 
 //=============================================================================================================
 // Domain Procurement

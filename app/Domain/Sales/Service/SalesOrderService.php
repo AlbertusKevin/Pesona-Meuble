@@ -32,6 +32,8 @@ class SalesOrderService extends Controller
 
     }
 
+    
+
     public function listView() { 
         $salesorders = $this->salesorders->findAllSalesOrders();
         return view('sales.sales_order.listSalesOrder', [
@@ -48,28 +50,38 @@ class SalesOrderService extends Controller
 
     }
 
-    public function createView() { 
+    public function salesOrderDetailView($numSO) { 
+        $salesorder = SalesOrderDao::findSalesOrderByNumSO($numSO);
+        return view('sales.sales_order.salesOrderDetail')->with('salesorder', $salesorder);
+    }
+
+    public function createView($id) { 
         $meubles =$this->meubles->findAllMeubles(); 
-        $employees = $this->employees->showAll(); 
+        $employee = $this->employees->findById($id);
         $discounts = $this->discounts->showAll();
+        $numSO = $this->salesorders->findLastNumSO();
+        
+        if (count($numSO) != 0) {
+            $numSO = $numSO[0]->numSO;
+            $numSO = ((int)$numSO) + 1;
+            $numSO = (string)$numSO;
+        } else {
+            $numSO = "20000001";
+        }
+
         return view('sales.sales_order.createSalesOrder', [
             'meubles' => $meubles,
-            'employees' => $employees,
+            'employee' => $employee,
             'discounts' => $discounts,
+            'numSO' => $numSO
         ]);
 
     }
 
-
-
-    public function validateCreate(Request $request)
+    public function createHeader()
     {
-        
-    }
-
-    public function validateUpdate(Request $request)
-    {
-        
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->salesorders->createSalesOrder($_POST);
     }
 
     
