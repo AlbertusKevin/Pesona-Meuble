@@ -1,15 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
-<div id="employee" data-id="{{$employee->id}}"></div>
 <div class="container">
-    <div class="row justify-content-center">
-        @if (session('success_new_meuble'))
-        <div class="alert alert-success">
-            {{ session('success_new_meuble') }}
-        </div>
-        @endif
-    </div>
+    @include('message')
     <h1 class="text-center pt-5 pb-5">Create of Purchase Order</h1>
     <div class="row">
         <div class="col-12 col-md-6 pb-5">
@@ -37,7 +29,7 @@
                     <div class="form-group row">
                         <label for="employeeName" class="col-sm-4 col-form-label">Employee Name:</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$employee->id}}: {{$employee->name}}" name="employeeName" id="employeeName">
+                            <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$employee->id}}:{{$employee->name}}" name="employeeName" id="employeeName">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -127,11 +119,11 @@
             <div class="card" style="width: 100%;" id="lineItem">
 
             </div>
-            <div class=" row w-100 mh-100 justify-content-end pl-3">
-                <button type="button" class="btn btn-secondary updatePost btn-lg" id="createPO">Add</button>
-            </div>
-        </form>
     </div>
+    <div class=" row w-100 mh-100 justify-content-end pl-3">
+        <button type="button" class="btn btn-secondary updatePost btn-lg" id="createPO">Add</button>
+    </div>
+    </form>
 </div>
 
 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">

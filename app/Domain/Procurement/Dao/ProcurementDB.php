@@ -31,7 +31,7 @@ class ProcurementDB
         PurchaseOrder::create([
             'numPO' => $header["numPo"],
             'vendor' => $header["vendor"],
-            'responsibleEmployee' => (int)$header["employeeName"],
+            'responsibleEmployee' => (int)$header["id"],
             'date' => date("Y M D", strtotime($header["date"])),
             'validTo' => date("Y M D", strtotime($header["validTo"])),
             'transactionStatus' => 0,

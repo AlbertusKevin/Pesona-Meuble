@@ -21,7 +21,7 @@ class MeubleService extends Controller
     public function homeView()
     {
         $meubles = $this->meubles->findAllMeubles();
-        return view('home', [
+        return view('homecust', [
             'meubles' => $meubles,
         ]);
     }
@@ -60,6 +60,6 @@ class MeubleService extends Controller
         if (isset($meuble)) {
             return $meuble;
         }
-        return false;
+        return json_encode($meuble);
     }
 }

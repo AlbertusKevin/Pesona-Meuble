@@ -5,13 +5,7 @@
   <div class="row justify-content-center">
     <h1 class="text-center mt-5 mb-5 font-weight-bold">Pesona.</h1>
   </div>
-  <div class="row justify-content-center">
-    @if (session('failed_login'))
-    <div class="alert alert-danger">
-      {{ session('failed_login') }}
-    </div>
-    @endif
-  </div>
+  @include('message')
   <div class="row justify-content-center">
     <div class="card w-75">
       <div class="card-body pt-4">

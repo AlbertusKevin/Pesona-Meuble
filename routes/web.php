@@ -27,7 +27,8 @@ Route::get('/', 'App\Domain\Procurement\Service\MeubleService@homeView');
 //=============================================================================================================
 Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
 Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
-Route::get('/admin/{id}', 'App\Domain\Employee\Service\Login@homeAdmin');
+Route::get('/logout', 'App\Domain\Employee\Service\Login@logout')->middleware('login_check');
+Route::get('/admin/{id}', 'App\Domain\Employee\Service\Login@homeAdmin')->middleware('login_check');
 //=============================================================================================================
 // Domain Sales
 //=============================================================================================================
@@ -75,14 +76,14 @@ Route::get('/salesorder/{numSO}', function ($numSO) {
 //=============================================================================================================
 // Domain Procurement
 //=============================================================================================================
-Route::get('/procurement/menu/{id}', 'App\Domain\Procurement\Service\ProcurementService@show');
-Route::get('/procurement/detail/{id}/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@detail');
-Route::get('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@viewCreate');
-Route::post('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@create');
-Route::post('/procurement/create/header/{id}', 'App\Domain\Procurement\Service\ProcurementService@createHeader');
+Route::get('/procurement/menu/{id}', 'App\Domain\Procurement\Service\ProcurementService@show')->middleware('login_check');
+Route::get('/procurement/detail/{id}/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@detail')->middleware('login_check');
+Route::get('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@viewCreate')->middleware('login_check');
+Route::post('/procurement/create/{id}', 'App\Domain\Procurement\Service\ProcurementService@create')->middleware('login_check');
+Route::post('/procurement/create/header/{id}', 'App\Domain\Procurement\Service\ProcurementService@createHeader')->middleware('login_check');
 
-Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@insert');
-Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForProcurement');
+Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@insert')->middleware('login_check');
+Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForProcurement')->middleware('login_check');
 //=============================================================================================================
 // Domain Financial
 //=============================================================================================================

@@ -30,17 +30,38 @@ function previewImg(idInput, idImage) {
     }
 }
 
+$('#modelType').keypress(function (e) {
+    if(e.which == 13)  // the enter key code
+    {
+        $.ajax({
+            url: `/procurement/meuble`,
+            data: {
+                model: $("#modelType").val(),
+                _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
+            dataType: "json",
+            success: (data) => {
+                if(data){
+                    $("#price").val(data.price);
+                }else{
+                    alert(`Data model ${$("#modelType").val()} doesn't exist!`);
+                    $("#price").val(0);
+                }
+            }
+        });
+    }
+});
+
 $("#addItem").on("click", function (){
     if(validateFormHeaderLine()){
         $.ajax({
             url: `/procurement/meuble`,
             data: {
                 model: $("#modelType").val(),
-                _token: $("#ajaxCoba").children()[0].getAttribute("value")},
+                _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
             dataType: "json",
             success: (data) => {
                 if(data){
-                    let quantity = $('#quantity').val();
+                    let quantity = parseInt($('#quantity').val());
                     //ambil data awal dari total item dan total price yang ada di header
                     let totalItem =  parseInt($("#totalItem").val());
                     let totalPrice = parseInt($("#totalPrice").val());
@@ -52,7 +73,7 @@ $("#addItem").on("click", function (){
                     $("#totalItem").val(totalItem);
                     $("#totalPrice").val(totalPrice);
                     $("#totalPayment").val(totalPrice-parseInt($("#totalDisc").val()));
-                    console.log(data);
+
                     //Buat tag template HTML
                     const tag_html = `
                         <div id="${data.modelType}"
@@ -86,7 +107,8 @@ $("#addItem").on("click", function (){
                     $("#lineHeader input").val(null);
                     $("#price").val(0);
                 }else{
-                    alert("The data is not exist!");
+                    alert(`Data model ${$("#modelType").val()} doesn't exist!`);
+                    $("#price").val(0);
                 }
             }
         });
@@ -108,16 +130,14 @@ $("#createPO").on("click",function(){
         const totalPrice = $("#totalPrice").val();
         const totalDisc = $("#totalDisc").val();
         const totalPayment = $("#totalPayment").val();
-        const employeeName = $("#employee").data("id");
+        let employee = $("#employeeName").val();
+        let id = parseInt(employee.split(":")[0]);
         
         //ajax query ke database purchase_order
         $.ajax({
-            url: `/procurement/create/header/${employeeName}`,
+            url: `/procurement/create/header/${id}`,
             method: "post",
-            data: {numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-            // success: (data) => {
-            //     console.log(data);
-            // }
+            data: {numPo, vendor, id, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
             success: () => {
                 // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
                 const item = $("#lineItem").children();
@@ -140,7 +160,7 @@ $("#createPO").on("click",function(){
                         method: "post",
                         data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                         success: (response) => {
-                            window.location.href = "/procurement/menu/"+1;
+                            window.location.href = "/procurement/menu/"+id;
                         }
                     });
                 }
@@ -150,6 +170,8 @@ $("#createPO").on("click",function(){
         alert(validateFormHeader());
     }
 })
+
+
 // INSERT INTO t(dob) VALUES(TO_DATE('17/12/2015', 'DD/MM/YYYY'));
 
 // $('#freightIn').on("click", function(){

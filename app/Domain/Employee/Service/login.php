@@ -36,13 +36,26 @@ class Login extends Controller
         ]);
 
         $employee = $this->emp->findByEmail($request);
-        if (isset($employee)) {
-            if (Hash::check($request->password, $employee->password)) {
-                return redirect("/admin/" . $employee->id);
-            }
-        }
 
-        return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
+        if (isset($employee)) {
+            $check = Hash::check($request->password, $employee->password);
+            if ($check) {
+                // Session::put('username', $employee->name);
+                // Session::put('id', $employee->id);
+                session(['login' => true, 'id' => $employee->id]);
+                return redirect('/admin/' . $employee->id);
+            } else {
+                return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
+            }
+        } else {
+            return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect('/');
     }
 
     public function homeAdmin($id)
