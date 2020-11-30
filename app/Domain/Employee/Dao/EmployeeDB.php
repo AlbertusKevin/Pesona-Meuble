@@ -20,4 +20,9 @@ class EmployeeDB
     {
         return Employee::where('id', $id)->first();
     }
+
+    public function findByName($request)
+    {
+        return Employee::where('name',$request->name)->first();
+    }
 }

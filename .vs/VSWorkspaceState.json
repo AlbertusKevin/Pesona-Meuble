@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\Domain\\CustomerManagement\\Dao",
+    "\\app\\Domain\\Procurement\\Service",
+    "\\app\\Domain\\Sales\\Dao",
+    "\\app\\Domain\\Sales\\Service",
+    "\\app\\Domain\\Vendor\\Service",
+    "\\app\\Http",
+    "\\database",
+    "\\database\\migrations"
+  ],
+  "SelectedNode": "\\database\\migrations\\2020_10_31_103450_create_delivery_table.php",
+  "PreviewInSolutionExplorer": false
+}

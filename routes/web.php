@@ -70,6 +70,10 @@ Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@
 //=============================================================================================================
 // Domain Vendor
 //=============================================================================================================
+Route::get('/vendor/menu/{id}', 'App\Domain\Vendor\Service\VendorService@show')->middleware('login_check');
+Route::get('/vendor/detail/{id}','App\Domain\Vendor\Service\VendorService@detail')->middleware('login_check');
+Route::post('/vendor/create/{id}', 'App\Domain\Vendor\Service\VendorService@create')->middleware('login_check');
+Route::get('/vendor/edit/{id}', 'App\Domain\Vendor\Service\VendorService@edit')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Customer
