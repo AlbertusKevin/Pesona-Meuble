@@ -21,9 +21,9 @@ class CustomerDB extends Controller
         return $customers; 
     }
 
-    public function fincCustomerByName($name)
+    public function findCustomerByID($id)
     {
-        $customer = Customer::where('name', '=', $name)->first();
+        $customer = Customer::find($id)->first();
         return $customer; 
     }
 

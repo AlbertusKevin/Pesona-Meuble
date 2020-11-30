@@ -45,6 +45,7 @@ Route::get('/salesorder/update', function () {
 })->middleware('login_check');
 
 Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder')->middleware('login_check');
+Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Procurement

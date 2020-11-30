@@ -19,9 +19,15 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customer" class="col-sm-4 col-form-label">Customer Name</label>
+                            <label for="customer" class="col-sm-4 col-form-label">Customer ID</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="customer" name="customer" placeholder="Customer Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customerName" class="col-sm-4 col-form-label">Customer Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Customer Name" disabled value="">
                             </div>
                         </div>
                         <div class="form-group row">

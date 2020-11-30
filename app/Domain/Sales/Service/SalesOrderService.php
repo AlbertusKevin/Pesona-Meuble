@@ -51,7 +51,7 @@ class SalesOrderService extends Controller
     }
 
     public function salesOrderDetailView($numSO) { 
-        $salesorder = SalesOrderDao::findSalesOrderByNumSO($numSO);
+        $salesorder = $this->salesorders->findSalesOrderByNumSO($numSO);
         return view('sales.sales_order.salesOrderDetail')->with('salesorder', $salesorder);
     }
 
