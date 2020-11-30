@@ -19,12 +19,25 @@ class CustomerService extends Controller
         $this->customers = new CustomerDB();
     }
 
-    public function generateCustomerFoSalesOrder()
+    public function generateCustomerForSalesOrder()
     {
         $customer = $this->customers->findCustomerByID($_GET['model']);
         if (isset($customer)) {
             return $customer;
         }
         return json_encode($customer);
+    }
+
+    public function createNewCustomer(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required'
+        ]);
+
+        $this->customers->create($request);
+        return redirect()->back()->with('success_new_customer', 'Customer ' . $request->customerName . 'successfully created !');
     }
 }

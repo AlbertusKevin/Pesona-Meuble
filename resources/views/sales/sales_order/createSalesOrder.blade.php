@@ -10,8 +10,8 @@
             <div class="card" style="width: 100%;">
                 <div class="card-body pt-4">
                     <h4>Header</h4>
-                    {{-- <form action="/salesorder" method="POST">
-                        {{ csrf_field() }} --}}
+                    <form id="ajaxCoba">
+                        @csrf
                         <div class="form-group row">
                             <label for="numSO" class="col-sm-4 col-form-label">Sales Order Number</label>
                             <div class="col-sm-8">
@@ -21,7 +21,7 @@
                         <div class="form-group row">
                             <label for="customer" class="col-sm-4 col-form-label">Customer ID</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="customer" name="customer" placeholder="Customer Name">
+                                <input type="text" class="form-control" id="customer" name="customer" placeholder="Customer ID">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -90,7 +90,7 @@
                                 <input type="number" class="form-control header-field-form" id="totalPayment" name="totalPayment" disabled value="0">
                             </div>
                         </div>
-                    {{-- </form> --}}
+                    </form>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
                             <label for="meubleName" class="col-sm-4 col-form-label">Meuble Name</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control header-line-field-form" class="form-control" id="name" name="name" 
-                                    disabled value="Meuble Name">
+                                    disabled value="" placeholder="Meuble Name">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -134,7 +134,7 @@
                         <div class="form-group row">
                             <label for="modelType" class="col-sm-4 col-form-label">Price</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0" ;>
+                                <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0";>
                             </div>
                         </div>
                         <div class="row w-100 justify-content-end">
@@ -172,7 +172,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/procurement/meuble" method="post" enctype="multipart/form-data">
+                <form action="/customer/create" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card" style="width: 100%;">
                         <div class="card-body pt-4">
@@ -196,28 +196,22 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="address" class="col-sm-4 col-form-label">Address</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="address" id="address">
+                                </div>
+                            </div>
+                            {{-- <div class="form-group row">
                                 <label for="memberId" class="col-sm-4 col-form-label">Member ID</label>
                                 <div class="col-sm-8">
                                     <input type="number" class="form-control" id="memberId" name="memberId">
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="vendor" class="col-sm-4 col-form-label">Vendor:</label>
-                                <div class="col-sm-8">
-                                    <select id="vendor" name="vendor" class="form-control header-field-form">
-                                        {{-- @foreach ($vendor as $vend)
-                                        <option value="{{$vend->companyCode}}">
-                                            {{$vend->name}}
-                                        </option>
-                                        @endforeach --}}
-                                    </select>
-                                </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="addItem">New Meuble</button>
+                        <button type="submit" class="btn btn-primary" id="createCustomer">Create New Customer</button>
                     </div>
                 </form>
             </div>

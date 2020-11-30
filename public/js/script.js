@@ -44,8 +44,10 @@ $('#modelType').keypress(function (e) {
                     $("#price").val(data.price);
                     $('#name').val(data.name);
                 }else{
+                    $('#modelType').val("");
+                    $('#name').val("");
+                    $('#price').val(0);
                     alert(`Data model ${$("#modelType").val()} doesn't exist!`);
-                    $("#price").val(0);
                 }
             }
         });
@@ -58,16 +60,16 @@ $('#customer').keypress(function (e) {
         $.ajax({
             url: `/salesorder/customer`,
             data: {
-                model: $("#modelType").val(),
+                model: $("#customer").val(),
                 _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
             dataType: "json",
             success: (data) => {
                 if(data){
-                    $("#price").val(data.price);
-                    $('#name').val(data.name);
+                    $("#customerName").val(data.name);
                 }else{
-                    alert(`Data model ${$("#modelType").val()} doesn't exist!`);
-                    $("#price").val(0);
+                    $("#customer").val("");
+                    $("#customerName").val("Customer");
+                    alert(`Customer doesn't exist, please Add New Customer.`);
                 }
             }
         });
@@ -234,14 +236,14 @@ $("#createSO").on("click",function(){
                     const price = parseInt(child.getAttribute("data-price"));
                     const quantity = parseInt(child.getAttribute("data-quantity"));
             
-                    // $.ajax({
-                    //     url: `/salesorder/create/salesorderline`,
-                    //     method: "post",
-                    //     data: {numSO ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                    //     success: (response) => {
-                    //         window.location.href = "/salesorder";
-                    //     }
-                    // });
+                    $.ajax({
+                        url: `/salesorder/create/salesorderline`,
+                        method: "post",
+                        data: {numSO ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        success: (response) => {
+                            window.location.href = "/salesorder";
+                        }
+                    });
                 }
             }
         });

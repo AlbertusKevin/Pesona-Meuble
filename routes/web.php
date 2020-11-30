@@ -36,6 +36,7 @@ Route::get('/admin/{id}', 'App\Domain\Employee\Service\Login@homeAdmin')->middle
 Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView')->middleware('login_check');
 Route::get('/salesorder/history/', 'App\Domain\Sales\Service\SalesOrderService@historyView')->middleware('login_check');
 Route::get('/salesorder/create/{id}', 'App\Domain\Sales\Service\SalesOrderService@createView')->middleware('login_check');
+Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
 Route::get('/salesorder/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');
 Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine')->middleware('login_check');
 Route::post('/salesorder/create/header', 'App\Domain\Sales\Service\SalesOrderService@createHeader')->middleware('login_check');
@@ -45,7 +46,6 @@ Route::get('/salesorder/update', function () {
 })->middleware('login_check');
 
 Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder')->middleware('login_check');
-Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Procurement
@@ -74,6 +74,8 @@ Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@
 //=============================================================================================================
 // Domain Customer
 //=============================================================================================================
+
+Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
 Route::get('/meuble/{typeModel}', function ($typeModel) {
     $meuble = MeubleDao::findMeubleByModelType($typeModel);

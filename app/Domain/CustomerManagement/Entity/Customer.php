@@ -8,6 +8,14 @@ class Customer extends Model
 {
     protected $table = 'customer';
     public $timestamps = false;
+    protected $fillable = [
+        'id',
+        'name',
+        'email',
+        'phone',
+        'address', 
+        'memberId'
+    ];
 
     public function salesorders()
     {
