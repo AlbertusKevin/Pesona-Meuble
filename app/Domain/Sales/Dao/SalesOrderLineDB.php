@@ -21,8 +21,23 @@ class SalesOrderLineDB extends Controller
             'numSO' => $line["numSO"],
             'modelType' => $line["modelType"],
             'price' => $line["price"],
+            'discountMeuble' => null,
             'quantity' => $line["quantity"]
         ]);
     }
+
+    public function findSalesOrderLineByNumSO($numSO)
+    {
+        $salesorderline = SalesOrderLine::where('numSO', $numSO)->get();
+        return $salesorderline; 
+    }
+
+    public function findSalesOrderLineDetail($numSO)
+    {
+        return SalesOrderLine::where('numSO', $numSO)
+            ->join('meuble', 'sales_order_line.modelType', '=', 'meuble.modelType')->get();
+    }
+
+
     
 }

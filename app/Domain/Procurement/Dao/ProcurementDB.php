@@ -40,7 +40,6 @@ class ProcurementDB
     //insert data header dari PO ke tabel purchase_order
     public function insertHeader($header)
     {
-        dd($header);
         PurchaseOrder::create([
             'numPO' => $header["numPo"],
             'vendor' => $header["vendor"],
@@ -73,5 +72,45 @@ class ProcurementDB
     public function cancelPO($num)
     {
         PurchaseOrder::where('numPO', $num)->update(['transactionStatus' => 2]);;
+    }
+
+    public function updateHeader($header)
+    {
+        PurchaseOrder::where('numPO', $header['numPo'])->update([
+            'numPO' => $header["numPo"],
+            'vendor' => $header["vendor"],
+            'responsibleEmployee' => (int)$header["id"],
+            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
+            'validTo' =>  Carbon::parse($header["validTo"])->format('Y-m-d'),
+            'transactionStatus' => 0,
+            'totalItem' => (int)$header["totalItem"],
+            'freightIn' => (int)$header["freightIn"],
+            'totalPrice' => (int)$header["totalPrice"],
+            'totalDiscount' => (int)$header["totalDisc"],
+            'totalPayment' => (int)$header["totalPayment"]
+        ]);
+    }
+
+    public function updateHeaderLine($header)
+    {
+        PurchaseOrder::where('numPO', $header['numPo'])->update([
+            'numPO' => $header["numPo"],
+            'vendor' => $header["vendor"],
+            'responsibleEmployee' => (int)$header["id"],
+            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
+            'validTo' =>  Carbon::parse($header["validTo"])->format('Y-m-d'),
+            'transactionStatus' => 0,
+            'totalItem' => (int)$header["totalItem"],
+            'freightIn' => (int)$header["freightIn"],
+            'totalPrice' => (int)$header["totalPrice"],
+            'totalDiscount' => (int)$header["totalDisc"],
+            'totalPayment' => (int)$header["totalPayment"]
+        ]);
+    }
+    public function updateLine($line)
+    {
+        PurchaseOrderLine::where('numPO', $line["numPo"])->where('modelType', $line["modelType"])->update([
+            'quantity' => $line["quantity"]
+        ]);
     }
 }

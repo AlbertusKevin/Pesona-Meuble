@@ -1,15 +1,15 @@
 const baseURL = 'http://localhost:8000/';
 
-function validateFormHeader() {
-    let isValidHeader = true;
-    $('.header-field-form').each(function() {
-        if ( $(this).val() === '' )
-        isValidHeader = false;
-    });
-    return isValidHeader;
-}
+function validateForm(type) {
+    if(type == 'header'){
+        let isValidHeader = true;
+        $('.header-field-form').each(function() {
+            if ( $(this).val() === '' )
+            isValidHeader = false;
+        });
+        return isValidHeader;
+    }
 
-function validateFormHeaderLine(){
     let isValidLine = true;
     $('.header-line-field-form').each(function() {
         if ( $(this).val() === '' )
@@ -18,64 +18,48 @@ function validateFormHeaderLine(){
     return isValidLine;
 }
 
-function previewImg(idInput, idImage) {
-    const file = new FileReader();
-    const img = document.querySelector(`#${idInput}`);
-    file.readAsDataURL(img.files[0]);
-
-    const contoh = document.querySelector(`#${idImage}`);
-    // console.log(contoh);
-    file.onload = function(e){
-        contoh.src = (e.target.result);
-    }
-}
-
-$('#modelType').keypress(function (e) {
-    if(e.which == 13)  // the enter key code
-    {
-        $.ajax({
-            url: `/procurement/meuble`,
-            data: {
-                model: $("#modelType").val(),
-                _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
-            dataType: "json",
-            success: (data) => {
-                if(data){
-                    $("#price").val(data.price);
-                    $('#name').val(data.name);
-                }else{
-                    alert(`Data model ${$("#modelType").val()} doesn't exist!`);
-                    $("#price").val(0);
-                }
+$('#modelType').on("change", function () {
+    $.ajax({
+        url: `/procurement/meuble`,
+        data: {
+            model: $("#modelType").val(),
+            _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
+        dataType: "json",
+        success: (data) => {
+            if(data){
+                $("#price").val(data.price);
+                $('#name').val(data.name);
+            }else{
+                $('#modelType').val("");
+                $('#name').val("");
+                $('#price').val(0);
+                alert(`Data model ${$("#modelType").val()} doesn't exist!`);
             }
-        });
-    }
+        }
+    });
 });
 
-$('#customer').keypress(function (e) {
-    if(e.which == 13)  // the enter key code
-    {
-        $.ajax({
-            url: `/salesorder/customer`,
-            data: {
-                model: $("#modelType").val(),
-                _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
-            dataType: "json",
-            success: (data) => {
-                if(data){
-                    $("#price").val(data.price);
-                    $('#name').val(data.name);
-                }else{
-                    alert(`Data model ${$("#modelType").val()} doesn't exist!`);
-                    $("#price").val(0);
-                }
+$('#customer').on("change", function () {
+    $.ajax({
+        url: `/salesorder/customer`,
+        data: {
+            model: $("#customer").val(),
+            _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
+        dataType: "json",
+        success: (data) => {
+            if(data){
+                $("#customerName").val(data.name);
+            }else{
+                $("#customer").val("");
+                $("#customerName").val("Customer");
+                alert(`Customer doesn't exist, please Add New Customer.`);
             }
-        });
-    }
+        }
+    });
 });
 
 $("#addItem").on("click", function (){
-    if(validateFormHeaderLine()){
+    if(validateForm('line')){
         $.ajax({
             url: `/procurement/meuble`,
             data: {
@@ -88,7 +72,6 @@ $("#addItem").on("click", function (){
                     //ambil data awal dari total item dan total price yang ada di header
                     let totalItem =  parseInt($("#totalItem").val());
                     let totalPrice = parseInt($("#totalPrice").val());
-                    
                     //ubah tampilan data awal sesuaikan dengan kalkulasi
                     totalItem += quantity;
                     totalPrice += quantity*data.price;
@@ -142,7 +125,7 @@ $("#addItem").on("click", function (){
 });
 
 $("#createPO").on("click",function(){
-    if(validateFormHeader()){
+    if(validateForm('header')){
         //ambil semua data di header
         const numPo = $("#numPO").val();
         const vendor = $("#vendor").val();
@@ -196,7 +179,7 @@ $("#createPO").on("click",function(){
 })
 
 $("#createSO").on("click",function(){
-    if(validateFormHeader()){
+    if(validateForm('header')){
         //ambil semua data di header
         const numSO = $("#numSO").val();
         const customer = $("#customer").val();
@@ -234,31 +217,35 @@ $("#createSO").on("click",function(){
                     const warranty = parseInt(child.getAttribute("data-warranty"));
                     const price = parseInt(child.getAttribute("data-price"));
                     const quantity = parseInt(child.getAttribute("data-quantity"));
+                    const discountMeuble = 0;
             
-                    // $.ajax({
-                    //     url: `/salesorder/create/salesorderline`,
-                    //     method: "post",
-                    //     data: {numSO ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                    //     success: (response) => {
-                    //         window.location.href = "/salesorder";
-                    //     }
-                    // });
+                    $.ajax({
+                        url: `/salesorder/create/salesorderline`,
+                        method: "post",
+                        data: {numSO ,modelType, price, quantity, discountMeuble, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        success: () => {
+                            window.location.href = "/salesorder";
+                        }
+                    });
                 }
             }
         });
     }else{
-        alert(validateFormHeader());
+        alert(validateForm('header'));
     }
 })
 
-function getHeaderData(){
-    
-}
+$('#editItem').on("click", function(){
+    //ambil data dari tombol ini yang di klik
+    //masukkan value ke field line item
+    //disabled si model type
+    //ubah tombol add jadi update
+    //ketika di klik, ubah data-quantity dari si this
+})
 
-function updateData(){
+$('#updatePO').on("click",function (){
     //Ambil data header, lalu update header di tabel purchase_order
-    if(validateFormHeader()){
-        //ambil semua data di header
+    if(validateForm('header')){
         const numPo = $("#numPO").val();
         const vendor = $("#vendor").val();
         const date = $("#date").val();
@@ -271,10 +258,10 @@ function updateData(){
         let employee = $("#employeeName").val();
         let id = parseInt(employee.split(":")[0]);
         
-        //ajax query ke database purchase_order
+        //ajax query ke database purchase_order untuk update
         $.ajax({
-            url: `/procurement/create/header`,
-            method: "post",
+            url: `/procurement/update/header`,
+            method: "put",
             data: {numPo, vendor, id, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
             success: () => {
                 // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
@@ -294,11 +281,11 @@ function updateData(){
                     const quantity = parseInt(child.getAttribute("data-quantity"));
             
                     $.ajax({
-                        url: `/procurement/create`,
-                        method: "post",
+                        url: `/procurement/update`,
+                        method: "put",
                         data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                        success: (response) => {
-                            alert("Data successfully inserted");
+                        success: () => {
+                            alert("Purchase Order "+numPo+" successfully updated!");
                             window.location.href = "/procurement/list";
                         }
                     });
@@ -309,9 +296,7 @@ function updateData(){
         alert("All field header must be filled!");
     }
     //Ambil data line item, lalu update tabel purchase_order_line
-}
-
-$('#updatePO').on("click",updateData());
+});
 
 $('#proceedPO').on("click", function(){
     //updateData();
@@ -359,3 +344,15 @@ $('#proceedPO').on("click", function(){
 //         console.log("Oke");
 //     }
 // });
+
+// function previewImg(idInput, idImage) {
+//     const file = new FileReader();
+//     const img = document.querySelector(`#${idInput}`);
+//     file.readAsDataURL(img.files[0]);
+
+//     const contoh = document.querySelector(`#${idImage}`);
+//     // console.log(contoh);
+//     file.onload = function(e){
+//         contoh.src = (e.target.result);
+//     }
+// }

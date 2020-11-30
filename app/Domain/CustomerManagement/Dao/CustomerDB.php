@@ -23,13 +23,19 @@ class CustomerDB extends Controller
 
     public function findCustomerByID($id)
     {
-        $customer = Customer::find($id)->first();
+        $customer = Customer::where('id', '=', $id)->first();
         return $customer; 
     }
 
-    public function createCustomer($header)
+    public function create($line)
     {
-
+        Customer::create([
+            'name' => $line["name"],
+            'email' => $line["email"],
+            'phone' => (int)$line["phone"],
+            'address' => $line["address"],
+            'memberId' => 0
+        ]);
     }
 
     

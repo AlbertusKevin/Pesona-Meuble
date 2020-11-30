@@ -5,6 +5,7 @@ namespace App\Domain\Sales\Service;
 use App\Http\Controllers\Controller;
 use App\Domain\Sales\Entity\SalesOrder;
 use App\Domain\Sales\Dao\SalesOrderDao;
+use App\Domain\Sales\Dao\SalesOrderLineDB;
 use App\Domain\Employee\Dao\EmployeeDB;
 use App\Domain\Procurement\Dao\MeubleDao;
 use App\Domain\Finance\Dao\DiscountDB;
@@ -19,6 +20,7 @@ class SalesOrderService extends Controller
      */
 
     private $salesorders; 
+    private $salesorderlines; 
     private $employees;
     private $meubles;
     private $discounts;
@@ -26,6 +28,7 @@ class SalesOrderService extends Controller
     public function __construct()
     {
         $this->salesorders = new SalesOrderDao();
+        $this->salesorderlines = new SalesOrderLineDB(); 
         $this->employees = new EmployeeDB();
         $this->meubles = new MeubleDao();
         $this->discounts = new DiscountDB();
@@ -43,7 +46,7 @@ class SalesOrderService extends Controller
     }
 
     public function historyView() { 
-        $salesorders = $this->salesorders->findAllSalesOrders();
+        $salesorders = $this->salesorders->findSalesOrderHistory();
         return view('sales.sales_order.historySalesOrder', [
             'salesorders' => $salesorders,
         ]);
@@ -51,8 +54,12 @@ class SalesOrderService extends Controller
     }
 
     public function salesOrderDetailView($numSO) { 
-        $salesorder = $this->salesorders->findSalesOrderByNumSO($numSO);
-        return view('sales.sales_order.salesOrderDetail')->with('salesorder', $salesorder);
+        $salesorder = $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
+        $salesorderlines = $this->salesorderlines->findSalesOrderLineDetail($numSO);
+        return view('sales.sales_order.updateSalesOrderView', [
+            'salesorder' => $salesorder,
+            'salesorderlines' => $salesorderlines,
+        ]);
     }
 
     public function createView($id) { 

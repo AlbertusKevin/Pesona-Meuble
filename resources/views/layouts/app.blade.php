@@ -30,7 +30,7 @@
                         <a class="nav-link" href="/admin">Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/sales">Sales Order</a>
+                        <a class="nav-link" href="/salesorder/">Sales Order</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>

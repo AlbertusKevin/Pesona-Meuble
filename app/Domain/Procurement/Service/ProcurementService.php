@@ -100,10 +100,10 @@ class ProcurementService extends Controller
     }
 
     // Insert Header dari PO
-    public function createHeader()
+    public function createHeader(Request $request)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurement->insertHeader($_POST);
+        $this->procurement->insertHeader($request);
     }
 
     // Insert Line Item PO
@@ -131,5 +131,16 @@ class ProcurementService extends Controller
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->cancelPO($num);
         return redirect('/procurement/menu')->with('cancel_po', 'Purchase Order with number ' . $num . ' canceled!');
+    }
+
+    public function updateHeader(Request $request)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->procurement->updateHeader($request);
+    }
+    public function updateLine(Request $request)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->procurement->updateLine($request);
     }
 }
