@@ -181,7 +181,7 @@ $("#createSO").on("click",function(){
         const totalItem = $("#totalItem").val();
         // const freightIn = $("#freightIn").val();
         const totalPrice = $("#totalPrice").val();
-        const paymentDiscount = $("#paymentDiscount").val();
+        const paymentDiscount = null;
         const totalDisc = $("#totalDisc").val();
         const totalPayment = $("#totalPayment").val();
         const employeeID = $("#employee").data("id");

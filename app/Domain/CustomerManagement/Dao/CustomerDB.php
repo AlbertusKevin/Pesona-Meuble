@@ -7,7 +7,7 @@ use App\Domain\CustomerManagement\Entity\Customer;
 use Illuminate\Http\Request;
 
 
-class SalesOrderDao extends Controller
+class CustomerDB extends Controller
 {
     /**
      * Show the profile for the given user.

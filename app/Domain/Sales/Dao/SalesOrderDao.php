@@ -41,17 +41,18 @@ class SalesOrderDao extends Controller
         
         SalesOrder::create([
             'numSO' => $header["numSO"],
-            'customer' => $this->$customerDB->findCustomerByName($header["customer"]),
-            'responsibleEmployee' => (int)$header["employeeName"],
-            'date' => date("Y M D", strtotime($header["date"])),
-            'validTo' => date("Y M D", strtotime($header["validTo"])),
+            'customer' => (int)$header["customer"],
+            'responsibleEmployee' => (int)$header["employeeID"],
+            'date' =>null,
+            'validTo' => null,
             'transactionStatus' => 0,
             'totalItem' => (int)$header["totalItem"],
             //   'freightIn' => (int)$header["freightIn"],
             'totalPrice' => (int)$header["totalPrice"],
-            'paymentDiscount' => (int)$header["paymentDiscount"],
+            'paymentDiscount' => null,
             'totalDiscount' => (int)$header["totalDisc"],
-            'totalPayment' => (int)$header["totalPayment"]
+            'totalPayment' => (int)$header["totalPayment"],
+            'totalMeubleDiscount' => 0
         ]);
     }
 

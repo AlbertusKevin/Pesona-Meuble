@@ -9,6 +9,20 @@ class SalesOrder extends Model
     protected $table = 'sales_order';
     public $timestamps = false;
     protected $keyType = 'string';
+    protected $fillable = [
+        'numSO',
+        'responsibleEmployee',
+        'customer',
+        'date',
+        'validTo',
+        'transactionStatus',
+        'totalItem',
+        'totalMeubleDiscount',
+        'totalPrice', 
+        'paymentDiscount', 
+        'totalDiscount', 
+        'totalPayment'
+    ];
 
     public function customer()
     {
