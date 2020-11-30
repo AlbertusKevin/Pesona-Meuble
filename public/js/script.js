@@ -30,9 +30,9 @@ function previewImg(idInput, idImage) {
     }
 }
 
-$('#modelType').keypress(function (e) {
-    if(e.which == 13)  // the enter key code
-    {
+$('#modelType').on("change", function (e) {
+    // if(e.which == 13)  // the enter key code
+    // {
         $.ajax({
             url: `/procurement/meuble`,
             data: {
@@ -51,12 +51,11 @@ $('#modelType').keypress(function (e) {
                 }
             }
         });
-    }
-});
+    });
 
-$('#customer').keypress(function (e) {
-    if(e.which == 13)  // the enter key code
-    {
+$('#customer').on("change", function (e) {
+    // if(e.which == 13)  // the enter key code
+    // {
         $.ajax({
             url: `/salesorder/customer`,
             data: {
@@ -73,8 +72,7 @@ $('#customer').keypress(function (e) {
                 }
             }
         });
-    }
-});
+    });
 
 $("#addItem").on("click", function (){
     if(validateFormHeaderLine()){
@@ -235,11 +233,12 @@ $("#createSO").on("click",function(){
                     const warranty = parseInt(child.getAttribute("data-warranty"));
                     const price = parseInt(child.getAttribute("data-price"));
                     const quantity = parseInt(child.getAttribute("data-quantity"));
+                    const discountMeuble = 0;
             
                     $.ajax({
                         url: `/salesorder/create/salesorderline`,
                         method: "post",
-                        data: {numSO ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        data: {numSO ,modelType, price, quantity, discountMeuble, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                         success: (response) => {
                             window.location.href = "/salesorder";
                         }

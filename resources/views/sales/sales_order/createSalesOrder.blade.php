@@ -4,6 +4,7 @@
 
 <div id="employee" data-id="{{$employee->id}}"></div>
 <div class="container">
+    @include('message')
     <h1 class="text-center pt-5 pb-5">Create Sales Order</h1>
     <div class="row">
         <div class="col-12 col-md-6 pb-5">

@@ -37,9 +37,9 @@ Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView')
 Route::get('/salesorder/history/', 'App\Domain\Sales\Service\SalesOrderService@historyView')->middleware('login_check');
 Route::get('/salesorder/create/{id}', 'App\Domain\Sales\Service\SalesOrderService@createView')->middleware('login_check');
 Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
-Route::get('/salesorder/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');
 Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine')->middleware('login_check');
 Route::post('/salesorder/create/header', 'App\Domain\Sales\Service\SalesOrderService@createHeader')->middleware('login_check');
+Route::get('/salesorder/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');
 
 Route::get('/salesorder/update', function () {
     return view('sales.sales_order.updateViewSalesOrder');

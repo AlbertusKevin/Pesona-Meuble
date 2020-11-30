@@ -26,7 +26,6 @@ class SalesOrderLineService extends Controller
     public function createSalesOrderLine(Request $request)
     {
         $this->salesorderlines->insertHeaderLine($request);
-        return redirect()->back()->with('success_so_0', 'Sales Order with number ' . $request->numSO . ' succesfully created!');
     }
 
     

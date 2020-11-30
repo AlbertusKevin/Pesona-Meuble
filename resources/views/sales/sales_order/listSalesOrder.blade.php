@@ -3,7 +3,12 @@
 @section('content')
 
 <div class="container">
+    @include('message')
     <h1 class="text-center pt-5 pb-5">List of Sales Order</h1>
+    <div class="row w-100 justify-content-center">
+        <a href="/salesorder/create/1" type="button" class="btn btn-secondary">Create</a>
+        <a href="/salesorder/history" type="button" class="btn btn-secondary">History</a>
+    </div>
     @if(count($salesorders) > 0)
         <div class="row">
             @foreach($salesorders as $salesorder)
@@ -59,7 +64,7 @@
             @endforeach
         </div>
         <div class="row w-100 justify-content-center">
-            {{$salesorders->links()}}
+            {{-- {{$salesorders->links()}} --}}
         </div>
     @else 
         <div class="row w-100 justify-content-center">

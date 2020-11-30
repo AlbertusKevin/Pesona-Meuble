@@ -38,6 +38,6 @@ class CustomerService extends Controller
         ]);
 
         $this->customers->create($request);
-        return redirect()->back()->with('success_new_customer', 'Customer ' . $request->customerName . 'successfully created !');
+        return redirect()->back()->with(['success' => 'Customer ' . $request->customerName . 'successfully created !']);
     }
 }
