@@ -32,23 +32,41 @@ class ProcurementService extends Controller
     // Ambil data Pembelian Barang
     //==================================================================================================================================================
     // menampilkan semua procurement bagian header
-    public function show($id)
+    public function showOpen()
     {
-        $procurement = $this->procurement->showAll();
-        $employee = $this->employee->findById($id);
+        $procurement = $this->procurement->showAllOpen();
         return view('procurement.listOfProcurement', [
-            "procurement" => $procurement,
-            "employee" => $employee
+            "procurement" => $procurement
+        ]);
+    }
+
+    public function showHistory()
+    {
+        $procurement = $this->procurement->showAllHistory();
+        return view('procurement.historyOfProcurement', [
+            "procurement" => $procurement
         ]);
     }
 
     //menampilkan detail line item dari salah satu procurement
-    public function detail($id, $numPO)
+    public function detail(Request $request, $numPO)
     {
         $detailProcurement = $this->procurement->showDetailPO($numPO);
         $detailProcurementLine = $this->procurement->showDetailPOLine($numPO);
-        $employee = $this->employee->findById($id);
+        $employee = $this->employee->findById($request->session()->get('id_employee'));
         return view('procurement.updateviewPurchaseOrder', [
+            "po" => $detailProcurement,
+            "line" => $detailProcurementLine,
+            "employee" => $employee
+        ]);
+    }
+    //menampilkan detail line item dari salah satu procurement
+    public function detailHistory(Request $request, $numPO)
+    {
+        $detailProcurement = $this->procurement->showDetailPO($numPO);
+        $detailProcurementLine = $this->procurement->showDetailPOLine($numPO);
+        $employee = $this->employee->findById($request->session()->get('id_employee'));
+        return view('procurement.detailPurchaseOrder', [
             "po" => $detailProcurement,
             "line" => $detailProcurementLine,
             "employee" => $employee
@@ -59,10 +77,10 @@ class ProcurementService extends Controller
     // Insert data Pembelian Barang
     //==================================================================================================================================================
     //mengambil view create pembelian barang
-    public function viewCreate($id)
+    public function viewCreate(Request $request)
     {
         $vendor = $this->vendor->showAll();
-        $employee = $this->employee->findById($id);
+        $employee = $this->employee->findById($request->session()->get('id_employee'));
         $meuble = $this->meuble->showCategory();
         $numPO = $this->procurement->getLastNumPO();
         if (count($numPO) != 0) {
@@ -82,14 +100,14 @@ class ProcurementService extends Controller
     }
 
     // Insert Header dari PO
-    public function createHeader($id)
+    public function createHeader()
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->insertHeader($_POST);
     }
 
     // Insert Line Item PO
-    public function create(Request $request, $id)
+    public function create(Request $request)
     {
         // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
         // if (isset($available)) {
@@ -99,7 +117,19 @@ class ProcurementService extends Controller
         //     $this->meuble->update($_POST, $stock);
         // }
 
-        $this->procurement->insertHeaderLine($request, $id);
-        return redirect()->back()->with('success_po_0', 'Purchase Order with number ' . $request->numPo . ' succesfully created!');
+        $this->procurement->insertHeaderLine($request);
+        // return redirect()->back()->with('success_po_0', 'Purchase Order with number ' . $request->numPo . ' succesfully created!');
+    }
+    public function proceedPO($num)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->procurement->proceedPO($num);
+        $this->redirect('/procurement/menu');
+    }
+    public function cancelPO($num)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->procurement->cancelPO($num);
+        return redirect('/procurement/menu')->with('cancel_po', 'Purchase Order with number ' . $num . ' canceled!');
     }
 }

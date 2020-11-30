@@ -20,20 +20,25 @@
 <body class="antialiased">
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <a class="navbar-brand" href="/admin/">Pesona.</a>
+            <a class="navbar-brand" href="/admin">Pesona.</a>
             <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/admin/">Product</a>
+                        <a class="nav-link" href="/admin">Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/sales/">Sales Order</a>
+                        <a class="nav-link" href="/sales">Sales Order</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/procurement/menu">Procurement</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
+                            <a class="dropdown-item" href="/procurement/list">List of Purchase Order</a>
+                            <a class="dropdown-item" href="/procurement/history">History of Purchase Order</a>
+                            <a class="dropdown-item" href="/procurement/create">New Purchase Order</a>
+                        </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>

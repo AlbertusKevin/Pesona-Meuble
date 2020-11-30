@@ -119,6 +119,7 @@ $("#addItem").on("click", function (){
                                     <p class="font-weight-bold">Color: ${data.color}</p>
                                     <p class="font-weight-bold">Size: ${data.size}</p>
                                     <p class="font-weight-bold">Description: ${data.description}.</p>
+                                    <button type="button" class="btn btn-danger" id="remove">remove</button>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +158,7 @@ $("#createPO").on("click",function(){
         
         //ajax query ke database purchase_order
         $.ajax({
-            url: `/procurement/create/header/${id}`,
+            url: `/procurement/create/header`,
             method: "post",
             data: {numPo, vendor, id, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
             success: () => {
@@ -178,19 +179,19 @@ $("#createPO").on("click",function(){
                     const quantity = parseInt(child.getAttribute("data-quantity"));
             
                     $.ajax({
-                        url: `/procurement/create/${id}`,
+                        url: `/procurement/create`,
                         method: "post",
                         data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                         success: (response) => {
                             alert("Data successfully inserted");
-                            window.location.href = "/procurement/menu/"+id;
+                            window.location.href = "/procurement/list";
                         }
                     });
                 }
             }
         });
     }else{
-        alert(validateFormHeader());
+        alert("All field header must be filled!");
     }
 })
 
@@ -250,6 +251,73 @@ $("#createSO").on("click",function(){
     }
 })
 
+function getHeaderData(){
+    
+}
+
+function updateData(){
+    //Ambil data header, lalu update header di tabel purchase_order
+    if(validateFormHeader()){
+        //ambil semua data di header
+        const numPo = $("#numPO").val();
+        const vendor = $("#vendor").val();
+        const date = $("#date").val();
+        const validTo = $("#validTo").val();
+        const totalItem = $("#totalItem").val();
+        const freightIn = $("#freightIn").val();
+        const totalPrice = $("#totalPrice").val();
+        const totalDisc = $("#totalDisc").val();
+        const totalPayment = $("#totalPayment").val();
+        let employee = $("#employeeName").val();
+        let id = parseInt(employee.split(":")[0]);
+        
+        //ajax query ke database purchase_order
+        $.ajax({
+            url: `/procurement/create/header`,
+            method: "post",
+            data: {numPo, vendor, id, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+            success: () => {
+                // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
+                const item = $("#lineItem").children();
+                //ambil per baris yang ada
+                for(let i = 0; i < item.length; i++){
+                    const child = item[i];
+                    
+                    const modelType = child.getAttribute("data-model");
+                    const meubleName = child.getAttribute("data-meubleName");
+                    const category = child.getAttribute("data-category");
+                    const size = child.getAttribute("data-size");
+                    const color = child.getAttribute("data-color");
+                    const description = child.getAttribute("data-description");
+                    const warranty = parseInt(child.getAttribute("data-warranty"));
+                    const price = parseInt(child.getAttribute("data-price"));
+                    const quantity = parseInt(child.getAttribute("data-quantity"));
+            
+                    $.ajax({
+                        url: `/procurement/create`,
+                        method: "post",
+                        data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        success: (response) => {
+                            alert("Data successfully inserted");
+                            window.location.href = "/procurement/list";
+                        }
+                    });
+                }
+            }
+        });
+    }else{
+        alert("All field header must be filled!");
+    }
+    //Ambil data line item, lalu update tabel purchase_order_line
+}
+
+$('#updatePO').on("click",updateData());
+
+$('#proceedPO').on("click", function(){
+    //updateData();
+    //Data line item yang diambil, update quantity di tabel mebel berdasarkan type model
+    //Ubah transaction status menjadi 1
+});
 // INSERT INTO t(dob) VALUES(TO_DATE('17/12/2015', 'DD/MM/YYYY'));
 
 // $('#freightIn').on("click", function(){

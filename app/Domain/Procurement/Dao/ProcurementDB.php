@@ -4,13 +4,19 @@ namespace App\Domain\Procurement\Dao;
 
 use App\Domain\Procurement\Entity\PurchaseOrder;
 use App\Domain\Procurement\Entity\PurchaseOrderLine;
+use Carbon\Carbon;
 
 class ProcurementDB
 {
     //ambil semua data PO
-    public function showAll()
+    public function showAllOpen()
     {
-        return PurchaseOrder::all();
+        return PurchaseOrder::where('transactionStatus', 0)->get();
+    }
+
+    public function showAllHistory()
+    {
+        return PurchaseOrder::where('transactionStatus', "!=", 0)->get();
     }
 
     //ambil nomor terakhir dari PO yang terakhir kali diinput
@@ -34,12 +40,13 @@ class ProcurementDB
     //insert data header dari PO ke tabel purchase_order
     public function insertHeader($header)
     {
+        dd($header);
         PurchaseOrder::create([
             'numPO' => $header["numPo"],
             'vendor' => $header["vendor"],
             'responsibleEmployee' => (int)$header["id"],
-            'date' => date("Y M D", strtotime($header["date"])),
-            'validTo' => date("Y M D", strtotime($header["validTo"])),
+            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
+            'validTo' =>  Carbon::parse($header["validTo"])->format('Y-m-d'),
             'transactionStatus' => 0,
             'totalItem' => (int)$header["totalItem"],
             'freightIn' => (int)$header["freightIn"],
@@ -58,5 +65,13 @@ class ProcurementDB
             'price' => $line["price"],
             'quantity' => $line["quantity"]
         ]);
+    }
+    public function proceedPO($num)
+    {
+        PurchaseOrder::where('numPO', $num)->update(['transactionStatus' => 1]);;
+    }
+    public function cancelPO($num)
+    {
+        PurchaseOrder::where('numPO', $num)->update(['transactionStatus' => 2]);;
     }
 }

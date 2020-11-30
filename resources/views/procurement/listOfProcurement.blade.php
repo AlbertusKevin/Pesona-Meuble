@@ -5,9 +5,6 @@
 <div class="container">
     @include('message')
     <h1 class="text-center pt-5 pb-5">List of Purchase Order</h1>
-    <div class="row w-100 justify-content-center">
-        <a href="/procurement/create/{{$employee->id}}" type="button" class="btn btn-secondary">Create</a>
-    </div>
     <div class="row">
         @if(count($procurement) == 0)
         <div class="col-12 col-md-4 pb-5">
@@ -32,7 +29,7 @@
                     </div>
                     <div class="row pb-3">
                         <p>Vendor: {{$po->vendor}}<br>
-                            Person in Charge: {{$employee->name}}<br>
+                            Person in Charge: {{$po->responsibleEmployee}}<br>
                             Total Item: {{$po->totalItem}}<br>
                             Amount Total: {{$po->totalPrice}}<br>
                             Amount Diskon: {{$po->totalDiscount}}<br>
@@ -41,7 +38,7 @@
                         </p>
                     </div>
                     <div class="row card-text">
-                        <a href="/procurement/detail/{{$employee->id}}/{{$po->numPO}}" class="more">More...</a>
+                        <a href="/procurement/detail/{{$po->numPO}}" class="more">More Detail...</a>
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 namespace App\Domain\Procurement\Entity;
 
 use Illuminate\Database\Eloquent\Model;
+// use App\Domain\Employee\Entity\Employee;
 
 class PurchaseOrder extends Model
 {
@@ -30,10 +31,10 @@ class PurchaseOrder extends Model
         return $this->hasMany(PurchaseOrderLine::class);
     }
 
-    public function employee()
-    {
-        return $this->belongsTo(Employee::class);
-    }
+    // public function employee()
+    // {
+    //     return $this->belongsTo(Employee::class);
+    // }
 
     // public function invoicepurchases()
     // {

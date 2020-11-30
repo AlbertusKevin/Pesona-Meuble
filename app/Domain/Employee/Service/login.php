@@ -42,8 +42,8 @@ class Login extends Controller
             if ($check) {
                 // Session::put('username', $employee->name);
                 // Session::put('id', $employee->id);
-                session(['login' => true, 'id' => $employee->id]);
-                return redirect('/admin/' . $employee->id);
+                session(['login' => true, 'id_employee' => $employee->id]);
+                return redirect('/admin');
             } else {
                 return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
             }
@@ -58,9 +58,8 @@ class Login extends Controller
         return redirect('/');
     }
 
-    public function homeAdmin($id)
+    public function homeAdmin()
     {
-        $employee = $this->emp->findById($id);
-        return view('employee_service.home', compact('employee'));
+        return view('employee_service.home');
     }
 }

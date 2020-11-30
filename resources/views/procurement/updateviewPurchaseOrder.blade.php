@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     @include('message')
-    <h1 class="text-center pt-5 pb-5">Detail of Purchase Order</h1>
+    <h1 class="text-center pt-5 pb-5">Update of Purchase Order</h1>
     <div class="row">
         <div class="col-12 col-md-6 pb-5">
             <div class="card" style="width: 100%;">
@@ -73,6 +73,17 @@
                             <input type="number" class="form-control header-field-form" disabled value="{{$po->totalPayment}}" id="totalPayment" name="totalPayment">
                         </div>
                     </div>
+                    <form action="/procurement/cancel/{{$po->numPO}}" method="Post">
+                        @method('PUT')
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <button type="button" class="btn btn-success" id="proceedPO">Proceed</button>
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -125,13 +136,15 @@
                             <p class="font-weight-bold">Color: {{$item->color}}</p>
                             <p class="font-weight-bold">Size: {{$item->size}}</p>
                             <p class="font-weight-bold">Description: {{$item->description}}.</p>
+                            <button type="button" class="btn btn-primary" id="editItem">edit</button>
+                            <button type="button" class="btn btn-danger" id="remove">remove</button>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
             <div class=" row w-100 mh-100 justify-content-end pl-3">
-                <button type="button" class="btn btn-secondary updatePost btn-lg" id="createPO">Add</button>
+                <button type="button" class="btn btn-secondary updatePost btn-lg" id="updatePO">Update</button>
             </div>
         </form>
     </div>
