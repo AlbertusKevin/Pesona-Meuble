@@ -102,7 +102,7 @@ $("#addItem").on("click", function (){
                                     <p class="font-weight-bold">Color: ${data.color}</p>
                                     <p class="font-weight-bold">Size: ${data.size}</p>
                                     <p class="font-weight-bold">Description: ${data.description}.</p>
-                                    <button type="button" class="btn btn-danger" id="remove">remove</button>
+                                    <button type="button" class="btn btn-danger removeItem">remove</button>
                                 </div>
                             </div>
                         </div>
@@ -236,10 +236,23 @@ $("#createSO").on("click",function(){
     }
 })
 
-$('#editItem').on("click", function(){
+$('#lineItem').on('click','.removeItem',function(){
+    $(this).parent().parent().parent().remove();
+});
+
+$('.editItem').on("click", function(){
     //ambil data dari tombol ini yang di klik
+    const modelType = $(this).parent().parent().parent().data("model");
+    const price = parseInt($(this).parent().parent().parent().data("price"));
+    const quantity = parseInt($(this).parent().parent().parent().data("quantity"));
+
     //masukkan value ke field line item
+    $("#modelType").val(modelType);
+    $("#quantity").val(quantity);
+    $("#price").val(price);
+
     //disabled si model type
+    $("#modelType").attr('disabled');
     //ubah tombol add jadi update
     //ketika di klik, ubah data-quantity dari si this
 })

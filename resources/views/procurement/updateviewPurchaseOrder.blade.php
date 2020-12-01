@@ -136,8 +136,8 @@
                             <p class="font-weight-bold">Color: {{$item->color}}</p>
                             <p class="font-weight-bold">Size: {{$item->size}}</p>
                             <p class="font-weight-bold">Description: {{$item->description}}.</p>
-                            <button type="button" class="btn btn-primary" id="editItem">edit</button>
-                            <button type="button" class="btn btn-danger" id="remove">remove</button>
+                            <button type="button" class="btn btn-primary editItem">edit</button>
+                            <button type="button" class="btn btn-danger removeItem">remove</button>
                         </div>
                     </div>
                 </div>
