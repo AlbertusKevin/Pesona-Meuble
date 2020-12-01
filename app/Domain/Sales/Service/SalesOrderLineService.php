@@ -28,5 +28,11 @@ class SalesOrderLineService extends Controller
         $this->salesorderlines->insertHeaderLine($request);
     }
 
+    public function updateSalesOrderLine(Request $request)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->salesorderlines->updateSalesOrderLine($request);
+    }
+
     
 }

@@ -62,9 +62,9 @@ class SalesOrderService extends Controller
         ]);
     }
 
-    public function createView($id) { 
+    public function createView(Request $request) { 
         $meubles =$this->meubles->findAllMeubles(); 
-        $employee = $this->employees->findById($id);
+        $employee = $this->employees->findById($request->session()->get('id_employee'));
         $discounts = $this->discounts->showAll();
         $numSO = $this->salesorders->findLastNumSO();
         
@@ -89,6 +89,32 @@ class SalesOrderService extends Controller
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->createSalesOrder($_POST);
+    }
+
+    public function updateHeader(Request $request)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->salesorders->updateSalesOrder($request);
+    }
+
+    public function proceedSO($numSO)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->salesorders->updateProceed($numSO);
+        $this->redirect('/salesorder')->with(['success' => 'Sales Order '. $numSO .'is on Proceed !']);
+    }
+    public function cancelSO($numSO)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->salesorders->updateCancel($numSO);
+        return redirect('/salesorder')->with(['success' =>'Sales Order  ' . $numSO . ' canceled !']);
+    }
+
+    public function finishSO($numSO)
+    {
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->salesorders->updateFinish($numSO);
+        return redirect('/salesorder')->with('success', 'Sales Order  ' . $numSO . ' finished successfully !');
     }
 
     

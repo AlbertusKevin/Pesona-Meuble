@@ -29,8 +29,13 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/admin">Product</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/salesorder/">Sales Order</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sales Order</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
+                            <a class="dropdown-item" href="/salesorder">List</a>
+                            <a class="dropdown-item" href="/salesorder/history">History</a>
+                            <a class="dropdown-item" href="/salesorder/create">Create</a>
+                        </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>

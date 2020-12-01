@@ -38,6 +38,24 @@ class SalesOrderLineDB extends Controller
             ->join('meuble', 'sales_order_line.modelType', '=', 'meuble.modelType')->get();
     }
 
+    public function updateSalesOrderLine($line)
+    {
+        SalesOrderLine::where('numSO', $line["numSO"])->where('modelType', $line["modelType"])->update([
+            'quantity' => $line["quantity"]
+        ]);
+    }
+
+    public function updateLine($line)
+    {
+        SalesOrderLine::where('numSO', $line["numSO"])->where('modelType', $line["modelType"])->update([
+            'quantity' => $line["quantity"]
+        ]);
+    }
+
+
+
+    
+
 
     
 }

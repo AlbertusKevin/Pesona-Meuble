@@ -47,7 +47,6 @@ class SalesOrderDao extends Controller
     //insert data header dari PO ke tabel purchase_order
     public function createSalesOrder($header)
     {
-        $customerDB = new CustomerDB(); 
         
         SalesOrder::create([
             'numSO' => $header["numSO"],
@@ -66,26 +65,41 @@ class SalesOrderDao extends Controller
         ]);
     }
 
-    public function updateSalesOrder(Request $request)
+    public function updateSalesOrder($header)
     {
-        $salesorder = SalesOrder::find($request->numSO);
         
-        $salesorder->numSO = $request->numSO; 
-        $salesorder->responsibleEmployee = $request->responsibleEmployee; 
-        $salesorder->customer = $request->customer;
-        $salesorder->date = $request->date; 
-        $salesorder->validTo = $request->validTo; 
-        $salesorder->transactionSatus = $request->transactionStatus; 
-        $salesorder->totalItem = $request->totalItem; 
-        $salesorder->totalMeubleDiscount = $request->totalMeubleDiscount; 
-        $salesorder->totalPrice = $request->totalPrice; 
-        $salesorder->paymentDiscount = $request->paymentDiscount; 
-        $salesorder->totalDiscount = $request->totalDiscount; 
-        $salesorder->totalPayment = $request->totalPayment; 
-        
-        $salesorder->save(); 
+        SalesOrder::where('numSO', $header['numSO'])->update([
+            'numSO' => $header["numSO"],
+            'customer' => (int)$header["customer"],
+            'responsibleEmployee' => (int)$header["employeeID"],
+            'date' =>Carbon::parse($header["date"])->format('Y-m-d'),
+            'validTo' => Carbon::parse($header["validTo"])->format('Y-m-d'),
+            'totalItem' => (int)$header["totalItem"],
+            //   'freightIn' => (int)$header["freightIn"],
+            'totalPrice' => (int)$header["totalPrice"],
+            'paymentDiscount' => null,
+            'totalDiscount' => (int)$header["totalDisc"],
+            'totalPayment' => (int)$header["totalPayment"],
+            'totalMeubleDiscount' => 0
+        ]);
     }
 
+
+    public function updateProceed($numSO)
+    {
+        SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 1]);;
+    }
+    public function updateCancel($numSO)
+    {
+        SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 2]);;
+    }
+
+    public function updateFinish($numSO)
+    {
+        SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 3]);;
+    }
+
+    
 
     
 }

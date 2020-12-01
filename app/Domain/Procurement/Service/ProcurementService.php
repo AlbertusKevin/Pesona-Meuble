@@ -130,7 +130,7 @@ class ProcurementService extends Controller
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->cancelPO($num);
-        return redirect('/procurement/menu')->with('cancel_po', 'Purchase Order with number ' . $num . ' canceled!');
+        return redirect('/procurement/list')->with('cancel_po', 'Purchase Order with number ' . $num . ' canceled!');
     }
 
     public function updateHeader(Request $request)

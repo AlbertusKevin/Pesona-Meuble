@@ -224,6 +224,7 @@ $("#createSO").on("click",function(){
                         method: "post",
                         data: {numSO ,modelType, price, quantity, discountMeuble, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                         success: () => {
+                            alert("Sales Order "+numSO+" successfully created!");
                             window.location.href = "/salesorder";
                         }
                     });
@@ -297,6 +298,65 @@ $('#updatePO').on("click",function (){
     }
     //Ambil data line item, lalu update tabel purchase_order_line
 });
+
+$("#updateSO").on("click",function(){
+    if(validateForm('header')){
+        //ambil semua data di header
+        const numSO = $("#numSO").val();
+        const customer = $("#customer").val();
+        const date = $("#date").val();
+        const validTo = $("#validTo").val();
+        const totalItem = $("#totalItem").val();
+        // const freightIn = $("#freightIn").val();
+        const totalPrice = $("#totalPrice").val();
+        const paymentDiscount = null;
+        const totalDisc = $("#totalDisc").val();
+        const totalPayment = $("#totalPayment").val();
+        const employeeID = $("#employeeName").val();
+        
+        //ajax query ke database purchase_order
+        $.ajax({
+            url: `/salesorder/update/header`,
+            method: "put",
+            data: {numSO, customer, employeeID, date, validTo, totalItem, totalPrice, paymentDiscount, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+            // success: (data) => {
+            //     console.log(data);
+            // }
+            success: () => {
+                // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
+                const item = $("#lineItem").children();
+                //ambil per baris yang ada
+                for(let i = 0; i < item.length; i++){
+                    const child = item[i];
+                    
+                    const modelType = child.getAttribute("data-model");
+                    const meubleName = child.getAttribute("data-meubleName");
+                    const category = child.getAttribute("data-category");
+                    const size = child.getAttribute("data-size");
+                    const color = child.getAttribute("data-color");
+                    const description = child.getAttribute("data-description");
+                    const warranty = parseInt(child.getAttribute("data-warranty"));
+                    const price = parseInt(child.getAttribute("data-price"));
+                    const quantity = parseInt(child.getAttribute("data-quantity"));
+                    const discountMeuble = 0;
+            
+                    $.ajax({
+                        url: `/salesorder/update/salesorderline`,
+                        method: "put",
+                        data: {numSO ,modelType, price, quantity, discountMeuble, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        success: () => {
+                            alert("Sales Order "+numSO+" successfully updated!");
+                            window.location.href = "/salesorder";
+                        }
+                    });
+                }
+            }
+        });
+    }else{
+        alert(validateForm('header'));
+    }
+})
+
 
 $('#proceedPO').on("click", function(){
     //updateData();
