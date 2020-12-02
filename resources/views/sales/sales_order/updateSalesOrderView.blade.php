@@ -95,27 +95,35 @@
                         </div>
                     </div>
                     @if($salesorder->transactionStatus === 0)
-                        <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
-                            @method('PUT')
-                            @csrf
-                            <div class="form-group row">
-                                <div class="col-sm-8">
-                                    <button type="button" class="btn btn-success" id="proceedPO">Proceed</button>
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <form action="/salesorder/proceed/{{$salesorder->numSO}}" method="Post">
+                                    @method('PUT')
+                                    @csrf
+                                    <button type="submit" class="btn btn-success" id="proceedPO">Proceed</button>
+                                </form>
+                                <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
+                                    @method('PUT')
+                                    @csrf
                                     <button type="submit" class="btn btn-danger">Cancel</button>
-                                </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     @elseif($salesorder->transactionStatus === 1)
-                        <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="POST">
-                            @method('PUT')
-                            @csrf
-                            <div class="form-group row">
-                                <div class="col-sm-8">
-                                    <button type="button" class="btn btn-success" id="finishedPO">Finished</button>
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <form action="/salesorder/finish/{{$salesorder->numSO}}" method="Post">
+                                @method('PUT')
+                                @csrf
+                                <button type="submit" class="btn btn-success" id="proceedPO">Finish</button>
+                            </form>
+                            <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
+                                @method('PUT')
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
                     @endif
                 </div>
             </div>
@@ -189,8 +197,8 @@
                                     <p class="font-weight-bold">Color: {{$item->color}}</p>
                                     <p class="font-weight-bold">Size: {{$item->size}}</p>
                                     <p class="font-weight-bold">Description: {{$item->description}}.</p>
-                                    <button type="button" class="btn btn-primary" id="editItem">edit</button>
-                                    <button type="button" class="btn btn-danger" id="remove">remove</button>
+                                    <button type="button" class="btn btn-primary editItem" id="editItem">edit</button>
+                                    <button type="button" class="btn btn-danger removeItem" id="removeItem">remove</button>
                                 </div>
                             </div>
                         </div>

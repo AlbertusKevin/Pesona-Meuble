@@ -101,7 +101,7 @@ class SalesOrderService extends Controller
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->updateProceed($numSO);
-        $this->redirect('/salesorder')->with(['success' => 'Sales Order '. $numSO .'is on Proceed !']);
+        return redirect('/salesorder')->with(['success' => 'Sales Order '. $numSO .' is on Proceed !']);
     }
     public function cancelSO($numSO)
     {
