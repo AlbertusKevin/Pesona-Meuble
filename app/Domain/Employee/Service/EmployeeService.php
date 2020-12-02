@@ -4,86 +4,112 @@ namespace App\Domain\Employee\Service;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domain\Vendor\Dao\EmployeeDB;
+use App\Domain\Employee\Dao\EmployeeDB;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeService extends Controller
 {
-    // Deklarasi kelas global, untuk pemanggilan model ORM
-    private $vendor;
-    private $name;
-    private $email;
-    private $telephone;
-    private $address;
-    private $ComCode;
+    private $employees;
 
-    //==================================================================================================================================================
-    // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
-    //==================================================================================================================================================
     public function __construct()
     {
-        $this->vendor = new VendorDB();
+        $this->employees = new EmployeeDB();
     }
 
-    //==================================================================================================================================================
-    // Ambil data Vendor (View)
-    //==================================================================================================================================================
-    // menampilkan semua vendor bagian header
-    public function show($id)
+    public function listView()
     {
-        $vendor = $this->vendor->findByCC($id);
-        return view('vendor.listVendor', [
-            "name" => $name,
-            "email"=> $email;
+        $employees = $this->employees->showAll();
+        return view('employee.employee_data.employeeList', [
+            'employees' => $employees,
         ]);
     }
 
-    //menampilkan detail line item dari salah satu procurement
-    public function detail($id)
+    public function detailView($id)
     {
-        $vendor = $this->vendor->findByCC($id);
-        return view('vendor.detailVendor', [
-            "companyCode" => $id,
-            "name" => $name,
-            "email" => $email,
-            "telephone" => $telephone,
-            "address" => $address;
+        $employee = $this->employees->findById($id);
+        $currentSalary = ($employee->raiseIteration * 500000) + 5000000;
+        return view('employee.employee_data.employeeDetail', [
+            'employee' => $employee,
+            'currentSalary' => $currentSalary,
         ]);
     }
 
-    //==================================================================================================================================================
-    // Insert data Vendor
-    //==================================================================================================================================================
-    //mengambil view create pembelian barang
-    public function viewCreate($id)
+    public function updateView($id)
     {
-
-        $ComCode = $this->vendor->findByCC($id);
-        if ($ComCode != $id) {
-            return view('vendor.newVendor', [
-           "companyCode" => $id,
-            "name" => $name,
-            "email" => $email,
-            "telephone" => $telephone,
-            "address" => $address;
+        $employee = $this->employees->findById($id);
+        return view('employee.employee_data.employeeUpdate', [
+            'employee' => $employee,
         ]);
-        } else {
-            return view('vendor.editVendor', [
-            "name" => $name,
-            "email" => $email,
-            "telephone" => $telephone,
-            "address" => $address;
-        ]);
-        }
-
-        
     }
 
-    // Insert Header dari PO
-    public function createHeader($id)
+    public function raiseSalaryView($id)
     {
-        // companyCode, name, email, telno, address
-        $this->vendor->insertHeader($_POST);
+        $employee = $this->employees->findById($id);
+        return view('employee.employee_data.employeeRaiseSalary', [
+            'employee' => $employee,
+        ]);
     }
 
+    public function newEmployeeView()
+    {
+        return view('employee.employee_data.newEmployee');
+    }
+
+    //mengambil data mebel yang sudah ada untuk field create PO
+    public function addNewEmployee(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:4',
+            'password' => 'required|min:6',
+            'confirmPassword' => 'required|same:password',
+            'role' => 'required', 
+            'email' => 'required', 
+            'phone' => 'required', 
+            'address' => 'required', 
+        ]);
     
+        if ($validator->fails()) {
+            return redirect('/employee/create')
+                ->withInput()
+                ->withErrors($validator);
+        }
+        $employee = $this->employees->createEmployee($request);
+        return redirect('/employee/list')->with(['success' => 'New Employee Addedd Successfully !']);
+
+    }
+
+    public function updateEmployee(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:4',
+            'role' => 'required', 
+            'email' => 'required', 
+            'phone' => 'required', 
+            'address' => 'required', 
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect('/employee/update/'. $id)
+                ->withInput()
+                ->withErrors($validator);
+        }
+        $employee = $this->employees->updateEmployee($request, $id);
+        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' Updated Successfully !']);
+    }
+
+    public function resignEmployee($id)
+    {
+        $employee = $this->employees->updateResign($id);
+        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' has been resigned !']);
+    }
+
+    public function raiseSalary(Request $request, $id)
+    {
+        $salary= $request->salary + $request->raise;
+        $raiseIteration = $request->raiseIteration+1;
+        $employee = $this->employees->updateSalary($id, $salary, $raiseIteration);
+        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' salary has been raised successfully!']);
+    }
+
+
 }

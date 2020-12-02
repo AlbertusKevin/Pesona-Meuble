@@ -40,3 +40,15 @@
     {{$message}}
 </div>
 @endif
+
+@if (count($errors) > 0)
+<div class="alert alert-danger">
+	<strong>Sorry, there is an error of the input. </strong>
+	<br><br>
+	<ul>
+		@foreach ($errors->all() as $err)
+		<li>{{ $err }}</li>
+		@endforeach
+	</ul>
+</div>
+@endif

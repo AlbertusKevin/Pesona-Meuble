@@ -10,6 +10,18 @@ class Employee extends Model
     use HasFactory;
     protected $table = 'employee';
     public $timestamps = false;
+    protected $fillable = [
+        'id',
+        'name',
+        'email',
+        'phone',
+        'address', 
+        'password', 
+        'raiseIteration', 
+        'role', 
+        'status', 
+        'salary'
+    ];
 
     public function salesorders()
     {

@@ -22,6 +22,8 @@ class CreateEmployeesTable extends Migration
             $table->string('password', 255);
             $table->tinyInteger('raiseIteration');
             $table->string('role', 10);
+            $table->tinyInteger('status');
+            $table->bigInteger('salary');
         });
     }
 

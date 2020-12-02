@@ -5,32 +5,32 @@ namespace App\Domain\Vendor\Dao;
 use App\Http\Controllers\Controller;
 use App\Domain\Vendor\Entity\Vendor;
 
-class VendorDB extends Controller
+class VendorDB 
 {
     /**
      * Show the profile for the given user.
      *
      * @return Response
      */
-     public static function findByCC($id){
+     public static function findVendorByCompanyCode($id){
           return Vendor::where('companyCode', $id)->first();
      }
 
     public static function showAll()
     {
-        $vend = Vendor::all();
-        return $vend;
+        $vendor = Vendor::all();
+        return $vendor;
     }
 
     //insert data header dari Vendorservice ke tabel vendor
-    public function insertHeader($header)
+    public function createVendor($request)
     {
-        PurchaseOrder::create([
-            'companyCode' => $header["companyCode"],
-            'name' => $header["name"],
-            'address' => $header["address"],
-            'email' => ($header["email"]),
-            'telephone' => ($header["telephone"]),
+        Vendor::create([
+            'companyCode' => $request->companyCode,
+            'name' => $request->name,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'address' => $request->address,
         ]);
     }
 }

@@ -1,8 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+      @include('message')
       <div class="row justify-content-center">
-        <h1 class="text-center mt-5 mb-5 font-weight-bold">Employee List</h1>
+        <h1 class="text-center mt-5 mb-5 font-weight-bold">Vendor List</h1>
       </div>
       <div class="row justify-content-between">
           <div class="col-12 col-md-4">
@@ -12,7 +13,7 @@
           </div>
           <div class="col-12 col-md-5 text-right">
             <div class="row text-right justify-content-end">
-                <button type="button" name="" id="" class="defaultbtn btn btn-primary mr-2" > New</button>
+                <a class="defaultbtn btn btn-primary mr-2" href='/vendor/create'>New</a>
                 <div class="dropdown">
                     <button class="btn btn-secondary defaultbtn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Sort
@@ -30,35 +31,22 @@
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">Employee Id</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Role</th>
+                <th scope="col">Company Code</th>
+                <th scope="col">Name</th>
                 <th scope="col" class="text-center">Email</th>
+                <th scope="col" class="text-center">Telephone</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="trcard">
-                <th scope="row">EM-001</th>
-                <td >Joko Nugraha</td>
-                <td >Sales</td>
-                <td class="text-center">Joko24@gmail.com</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">EM-002</th>
-                <td >Devi Ningsih</td>
-                <td >Sales</td>
-                <td class="text-center">DeviSyantik@rocketmail.com</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">EM-003</th>
-                <td >Lukas Setiawan</td>
-                <td >Storage</td>
-                <td class="text-center">Lukas89@gmail.com</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-            </tbody>
+              @foreach($vendors as $vendor)
+                <tr class="separator" ><th scope="row"></th></tr>
+                <tr class="trcard">
+                  <th scope="row">{{$vendor->companyCode}}</th>
+                  <td><a href='/vendor/detail/{{$vendor->companyCode}}'>{{$vendor->name}}</a></td>
+                  <td class="text-center">{{$vendor->email}}</td>
+                  <td class="text-center">{{$vendor->telephone}}</td>
+                </tr>
+              @endforeach
           </table>
       </div>
     </div>

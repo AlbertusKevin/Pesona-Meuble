@@ -77,14 +77,25 @@ Route::put('/procurement/update', 'App\Domain\Procurement\Service\ProcurementSer
 //=============================================================================================================
 // Domain Employee
 //=============================================================================================================
+Route::get('/employee/list', 'App\Domain\Employee\Service\EmployeeService@listView')->middleware('login_check');
+Route::get('/employee/detail/{id}', 'App\Domain\Employee\Service\EmployeeService@detailView')->middleware('login_check');
+Route::get('/employee/create', 'App\Domain\Employee\Service\EmployeeService@newEmployeeView')->middleware('login_check');
+Route::get('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService@updateView')->middleware('login_check');
+Route::get('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalaryView')->middleware('login_check');
+
+Route::post('/employee/create', 'App\Domain\Employee\Service\EmployeeService@addNewEmployee')->middleware('login_check');
+Route::put('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService@updateEmployee')->middleware('login_check');
+Route::put('/employee/resign/{id}', 'App\Domain\Employee\Service\EmployeeService@resignEmployee')->middleware('login_check');
+Route::put('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalary')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Vendor
 //=============================================================================================================
-Route::get('/vendor/menu/{id}', 'App\Domain\Vendor\Service\VendorService@show')->middleware('login_check');
-Route::get('/vendor/detail/{id}', 'App\Domain\Vendor\Service\VendorService@detail')->middleware('login_check');
-Route::post('/vendor/create/{id}', 'App\Domain\Vendor\Service\VendorService@create')->middleware('login_check');
-Route::get('/vendor/edit/{id}', 'App\Domain\Vendor\Service\VendorService@edit')->middleware('login_check');
+Route::get('/vendor/list/', 'App\Domain\Vendor\Service\VendorService@listView')->middleware('login_check');
+Route::get('/vendor/detail/{companyCode}', 'App\Domain\Vendor\Service\VendorService@detailView')->middleware('login_check');
+Route::get('/vendor/create', 'App\Domain\Vendor\Service\VendorService@createView')->middleware('login_check');
+
+Route::post('/vendor/create', 'App\Domain\Vendor\Service\VendorService@addNewVendor')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Customer

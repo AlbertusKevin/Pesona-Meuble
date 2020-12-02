@@ -25,7 +25,7 @@ class Login extends Controller
 
     public function login_view()
     {
-        return view('employee_service.login.login');
+        return view('employee.login.login');
     }
 
     public function login_process(Request $request)
@@ -60,6 +60,6 @@ class Login extends Controller
 
     public function homeAdmin()
     {
-        return view('employee_service.home');
+        return view('employee.home');
     }
 }

@@ -49,8 +49,8 @@
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownId">
                             <a class="dropdown-item" href="#">Customer Management</a>
-                            <a class="dropdown-item" href="#">Vendor Management</a>
-                            <a class="dropdown-item" href="#">Employee Management</a>
+                            <a class="dropdown-item" href="/vendor/list">Vendor Management</a>
+                            <a class="dropdown-item" href="/employee/list">Employee Management</a>
                             <a class="dropdown-item" href="#">Finance</a>
                         </div>
                     </li>
