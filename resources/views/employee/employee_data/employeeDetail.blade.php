@@ -66,13 +66,15 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <a href="/employee/update/{{$employee->id}}" type="button" class="btn btn-secondary updatePost">Update Data</a>
-            <a href="/employee/raise/{{$employee->id}}" type="button" class="btn btn-secondary updatePost">Raise Salary</a>
-            <form action="/employee/resign/{{$employee->id}}" method="POST">
-                @method('PUT')
-                @csrf
-                <button type="submit" class="btn btn-danger">Resign</button>
-            </form>
+            @if($employee->status === 1)
+                <a href="/employee/update/{{$employee->id}}" type="button" class="btn btn-secondary updatePost">Update Data</a>
+                <a href="/employee/raise/{{$employee->id}}" type="button" class="btn btn-secondary updatePost">Raise Salary</a>
+                <form action="/employee/resign/{{$employee->id}}" method="POST">
+                    @method('PUT')
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Resign</button>
+                </form>
+            @endif
         </div>
 </div>
 
