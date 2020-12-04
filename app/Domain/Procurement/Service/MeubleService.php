@@ -56,7 +56,7 @@ class MeubleService extends Controller
     //mengambil data mebel yang sudah ada untuk field create PO
     public function generateMeubleForProcurement()
     {
-        $meuble = $this->meubles->findMeubleByModelType($_GET['model']);
+        $meuble = $this->meubles->findMeubleByModelTypeAndVendor($_GET);
         if (isset($meuble)) {
             return $meuble;
         }

@@ -18,11 +18,33 @@ function validateForm(type) {
     return isValidLine;
 }
 
+//freight in untuk PO (fix)
+$('#freightIn').keypress(function (e) {
+    if(e.which == 13)  // the enter key code
+    {
+        let totalPayment = parseInt($("#totalPayment").val()) + parseInt($('#freightIn').val());
+        $(this).attr('disabled',true);
+        $("#totalPayment").val(totalPayment)
+    }
+});
+
+//Discount ketika PO dari Vendor (fix)
+$('#totalDisc').keypress(function (e) {
+    if(e.which == 13)  // the enter key code
+    {
+        let totalPayment = parseInt($("#totalPayment").val()) - parseInt($(this).val());
+        $(this).attr('disabled',true);
+        $("#totalPayment").val(totalPayment)
+    }
+});
+
+//generate data jika ada (fix)
 $('#modelType').on("change", function () {
     $.ajax({
         url: `/procurement/meuble`,
         data: {
             model: $("#modelType").val(),
+            vendor: $('#vendor').val(),
             _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
         dataType: "json",
         success: (data) => {
@@ -30,15 +52,15 @@ $('#modelType').on("change", function () {
                 $("#price").val(data.price);
                 $('#name').val(data.name);
             }else{
-                $('#modelType').val("");
-                $('#name').val("");
+                alert(`Model ${$("#modelType").val()} from vendor ${$("#vendor").val()} doesn't exist!`);
+                $('#modelType').val(null);
                 $('#price').val(0);
-                alert(`Data model ${$("#modelType").val()} doesn't exist!`);
             }
         }
     });
 });
 
+//generate data customer jika ada ()
 $('#customer').on("change", function () {
     $.ajax({
         url: `/salesorder/customer`,
@@ -58,12 +80,14 @@ $('#customer').on("change", function () {
     });
 });
 
-$("#addItem").on("click", function (){
+//menambahkan item ketika PO dan SO (fix)
+$("#lineHeader").on("click", '#addItem', function (){
     if(validateForm('line')){
         $.ajax({
             url: `/procurement/meuble`,
             data: {
                 model: $("#modelType").val(),
+                vendor: $('#vendor').val(),
                 _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
             dataType: "json",
             success: (data) => {
@@ -72,37 +96,39 @@ $("#addItem").on("click", function (){
                     //ambil data awal dari total item dan total price yang ada di header
                     let totalItem =  parseInt($("#totalItem").val());
                     let totalPrice = parseInt($("#totalPrice").val());
+                    let totalPayment = parseInt($("#totalPayment").val());
                     //ubah tampilan data awal sesuaikan dengan kalkulasi
                     totalItem += quantity;
                     totalPrice += quantity*data.price;
-
+                    totalPayment += quantity*data.price;
                     $("#totalItem").val(totalItem);
                     $("#totalPrice").val(totalPrice);
-                    $("#totalPayment").val(totalPrice-parseInt($("#totalDisc").val()));
+                    $("#totalPayment").val(totalPayment);
 
                     //Buat tag template HTML
                     const tag_html = `
-                        <div id="${data.modelType}"
-                            data-model="${data.modelType}"
-                            data-meubleName="${data.name}" 
-                            data-price="${data.price}" 
-                            data-quantity="${quantity}" 
-                            data-category="${data.category}" 
-                            data-warranty="${data.warrantyPeriodeMonth}"
-                            data-color="${data.color}" 
-                            data-size="${data.size}" 
-                            data-description="${data.description}">
+                        <div id="${data.modelType}">
+                            <input type="hidden" id="model-${data.modelType}" value="${data.modelType}">
+                            <input type="hidden" id="name-${data.modelType}" value="${data.name}">
+                            <input type="hidden" id="price-${data.modelType}" value="${data.price}"> 
+                            <input type="hidden" id="quantity-${data.modelType}" value="${quantity}"> 
+                            <input type="hidden" id="category-${data.modelType}" value="${data.category}"> 
+                            <input type="hidden" id="warranty-${data.modelType}" value="${data.warrantyPeriodeMonth}">
+                            <input type="hidden" id="color-${data.modelType}" value="${data.color}"> 
+                            <input type="hidden" id="size-${data.modelType}" value="${data.size}">
+                            <input type="hidden" id="desc-${data.modelType}" value="${data.description}">
                             <div class="row pt-3" >
                                 <div class="col-12 col-md-3">
                                     <img id="${data.modelType}-img" class="card-img-top" src="${baseURL}${data.image}" alt="Card image cap">
                                 </div>
                                 <div class="col-12 col-md-9 pt-4">
                                     <h3 class="font-weight-bold">${data.modelType}</h3>Rp ${data.price},00
-                                    <p class="font-weight-bold">Ammount: ${quantity}</p>
+                                    <p class="font-weight-bold" id="dataQuantity">Ammount: ${quantity}</p>
                                     <p class="font-weight-bold">Color: ${data.color}</p>
                                     <p class="font-weight-bold">Size: ${data.size}</p>
                                     <p class="font-weight-bold">Description: ${data.description}.</p>
                                     <button type="button" class="btn btn-danger removeItem">remove</button>
+                                    <button type="button" class="btn btn-primary editItem">edit</button>
                                 </div>
                             </div>
                         </div>
@@ -113,9 +139,12 @@ $("#addItem").on("click", function (){
                     //setelah klik add, bersihkan field input
                     $("#lineHeader input").val(null);
                     $("#price").val(0);
+                    $("#quantity").val(0);
+                    $("#vendor").attr("disabled", true);
                 }else{
-                    alert(`Data model ${$("#modelType").val()} doesn't exist!`);
-                    $("#price").val(0);
+                    alert(`Model ${$("#modelType").val()} from vendor ${$("#vendor").val()} doesn't exist!`);
+                    $('#modelType').val(null);
+                    $('#price').val(0);
                 }
             }
         });
@@ -150,22 +179,22 @@ $("#createPO").on("click",function(){
                 //ambil per baris yang ada
                 for(let i = 0; i < item.length; i++){
                     const child = item[i];
-                    
-                    const modelType = child.getAttribute("data-model");
-                    const meubleName = child.getAttribute("data-meubleName");
-                    const category = child.getAttribute("data-category");
-                    const size = child.getAttribute("data-size");
-                    const color = child.getAttribute("data-color");
-                    const description = child.getAttribute("data-description");
-                    const warranty = parseInt(child.getAttribute("data-warranty"));
-                    const price = parseInt(child.getAttribute("data-price"));
-                    const quantity = parseInt(child.getAttribute("data-quantity"));
+                    const modelType = child.getAttribute("id");
+
+                    const meubleName = $(`#name-${modelType}`).val();
+                    const category = $(`#category-${modelType}`).val();
+                    const size = $(`#size-${modelType}`).val();
+                    const color = $(`#color-${modelType}`).val();
+                    const description = $(`#desc-${modelType}`).val();
+                    const warranty = parseInt($(`#warranty-${modelType}`).val());
+                    const price = parseInt($(`#price-${modelType}`).val());
+                    const quantity = parseInt($(`#quantity-${modelType}`).val());
             
                     $.ajax({
                         url: `/procurement/create`,
                         method: "post",
                         data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                        success: (response) => {
+                        success: () => {
                             alert("Data successfully inserted");
                             window.location.href = "/procurement/list";
                         }
@@ -236,26 +265,96 @@ $("#createSO").on("click",function(){
     }
 })
 
+//remove item ketika create PO (fix)
 $('#lineItem').on('click','.removeItem',function(){
-    $(this).parent().parent().parent().remove();
+    //simpan element yang akan di remove
+    const element = $(this).parent().parent().parent();
+
+    //ambil data yang dibutuhkan
+    const model = element.attr('id');
+    const quantity = parseInt($(`#quantity-${model}`).val());
+    const price = parseInt($(`#price-${model}`).val());
+
+    //ambil data awal dari total item, total payment, dan total price yang ada di header
+    const totalPayment = parseInt($("#totalPayment").val());
+    const totalItem =  parseInt($("#totalItem").val());
+    const totalPrice = parseInt($("#totalPrice").val());
+
+    //kalkulasi hasil perubahan berdasarkan update
+    const newTotalItem = totalItem - quantity;
+    const newTotalPrice = totalPrice - quantity*price;
+    const newTotalPayment = totalPayment - quantity*price;
+
+    console.log("Old Value Item: "+model+" "+quantity+" "+price);
+    console.log("Old Value Header: item-"+totalItem+" payment-"+totalPayment+" price-"+totalPrice);
+    console.log("New Value Header: item-"+newTotalItem+" payment-"+newTotalPayment+" price-"+newTotalPrice);
+
+    // ubah tampilan data
+    $("#totalItem").val(newTotalItem);
+    $("#totalPrice").val(newTotalPrice);
+    $("#totalPayment").val(newTotalPayment);
+
+    //hapus item dari list item
+    element.remove();
 });
 
-$('.editItem').on("click", function(){
+//ketika edit di list item diklik saat create PO (fix)
+$('#lineItem').on("click", '.editItem', function(){
     //ambil data dari tombol ini yang di klik
-    const modelType = $(this).parent().parent().parent().data("model");
-    const price = parseInt($(this).parent().parent().parent().data("price"));
-    const quantity = parseInt($(this).parent().parent().parent().data("quantity"));
-
-    //masukkan value ke field line item
-    $("#modelType").val(modelType);
+    const model = $(this).parent().parent().parent().attr("id");
+    const quantity = parseInt($(`#quantity-${model}`).val());
+    const price = parseInt($(`#price-${model}`).val());
+    alert(model+" "+price+" "+quantity);
+    
+    //pasang value lama ke field edit
+    $("#modelType").val(model);
     $("#quantity").val(quantity);
     $("#price").val(price);
 
     //disabled si model type
-    $("#modelType").attr('disabled');
+    $("#modelType").attr('disabled',true);
     //ubah tombol add jadi update
-    //ketika di klik, ubah data-quantity dari si this
+    $("#addItem").attr('id','changeItem').html("Change");
 })
+
+//update list item ketika create PO (fix) 
+$("#lineHeader").on("click", '#changeItem', function (){
+    //ambil value baru dari field
+    const model = $("#modelType").val();
+    const quantity = parseInt($("#quantity").val());
+    const price = parseInt($("#price").val());
+
+    //ambil data awal dari total item, total payment, dan total price yang ada di header
+    const totalPayment = parseInt($("#totalPayment").val());
+    const totalItem =  parseInt($("#totalItem").val());
+    const totalPrice = parseInt($("#totalPrice").val());
+
+    //ambil data lama sebelum perubahan
+    const old_quantity = parseInt($(`#quantity-${model}`).val());
+
+    //kalkulasi hasil perubahan berdasarkan update
+    const newTotalItem = (totalItem - old_quantity) + quantity;
+    const newTotalPrice = (totalPrice - (old_quantity*price)) + (quantity*price);
+    const newTotalPayment = (totalPayment - totalPrice) + newTotalPrice;
+
+    //ubah tampilan data
+    $("#totalItem").val(newTotalItem);
+    $("#totalPrice").val(newTotalPrice);
+    $("#totalPayment").val(newTotalPayment);
+    
+    //ubah data yang ada di list item dengan hasil update
+    $(`#quantity-${model}`).val(quantity);
+    $("#dataQuantity").html("Amount: "+quantity);
+    
+    //kembalikan tombol change ke tombol add
+    $("#changeItem").attr('id','addItem').html("Add");
+    $("#modelType").attr('disabled',false);
+    
+    //bersihkan kembali field input
+    $("#lineHeader input").val(null);
+    $("#price").val(0);
+    $("#quantity").val(0);
+});
 
 $('#updatePO').on("click",function (){
     //Ambil data header, lalu update header di tabel purchase_order
@@ -370,62 +469,31 @@ $("#updateSO").on("click",function(){
     }
 })
 
-
 $('#proceedPO').on("click", function(){
     //updateData();
     //Data line item yang diambil, update quantity di tabel mebel berdasarkan type model
     //Ubah transaction status menjadi 1
 });
-// INSERT INTO t(dob) VALUES(TO_DATE('17/12/2015', 'DD/MM/YYYY'));
 
-// $('#freightIn').on("click", function(){
-//     let freight = parseInt($('#freightIn').val());
-//     console.log(freight);
-//     $('#freightIn').keypress(function (e) {
-//         let key = e.which;
-//         if(key == 13)  // the enter key code
-//         {
-//             let totalPrice = parseInt($("#totalPrice").val())-freight;
-//             totalPrice += parseInt($(this).val());
-    
-//             $("#totalPrice").val(totalPrice)
-//         }
-//     });   
-// });
+function coba(){
+    // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
+    const item = $("#lineItem").children();
+    //ambil per baris yang ada
+    for(let i = 0; i < item.length; i++){
+        const child = item[i];
+        const modelType = child.getAttribute("id");
 
-// $("#modelType").keypress(function (e) {
-//     if(e.which == 13){
-//         $.ajax({
-//             url: `/procurement/meuble`,
-//             data: {
-//                 model: $("#modelType").val(),
-//                 _token: $("#ajaxCoba").children()[0].getAttribute("value")},
-//             dataType: "json",
-//             success: (data) => {
-//                 if(data){
-//                     $("#vendor").val(data.vendor);
-//                     $("#meubleName").val(data.name);
-//                     $("#category").val(data.category);
-//                     $("#size").val(data.size);
-//                     $("#color").val(data.color);
-//                     $("#description").val(data.description);
-//                     $("#warranty").val(data.warrantyPeriodeMonth);
-//                     $("#price").val(data.price);
-//                 }
-//             }
-//         });
-//         console.log("Oke");
-//     }
-// });
+        const meubleName = $(`#name-${modelType}`).val();
+        const category = $(`#category-${modelType}`).val();
+        const size = $(`#size-${modelType}`).val();
+        const color = $(`#color-${modelType}`).val();
+        const description = $(`#desc-${modelType}`).val();
+        const warranty = parseInt($(`#warranty-${modelType}`).val());
+        const price = parseInt($(`#price-${modelType}`).val());
+        const quantity = parseInt($(`#quantity-${modelType}`).val());
 
-// function previewImg(idInput, idImage) {
-//     const file = new FileReader();
-//     const img = document.querySelector(`#${idInput}`);
-//     file.readAsDataURL(img.files[0]);
+        console.log(modelType+" "+meubleName+" "+price+" "+quantity+" "+category+" "+warranty+" "+color+" "+size+" "+description)
+    }
+}
 
-//     const contoh = document.querySelector(`#${idImage}`);
-//     // console.log(contoh);
-//     file.onload = function(e){
-//         contoh.src = (e.target.result);
-//     }
-// }
+//windows.location.href

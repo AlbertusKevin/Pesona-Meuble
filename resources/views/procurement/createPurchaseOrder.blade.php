@@ -53,7 +53,7 @@
                     <div class="form-group row">
                         <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control header-field-form" value="0" id="freightIn" name="freightIn">
+                            <input type="number" class="form-control header-field-form" value="0" id="freightIn" name="freightIn" placeholder="Press enter when the data is right">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -65,7 +65,7 @@
                     <div class="form-group row">
                         <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control header-field-form" disabled value="0" id="totalDisc" name="totalDisc">
+                            <input type="number" class="form-control header-field-form" value="0" id="totalDisc" name="totalDisc" placeholder="Press enter when the data is right">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -86,7 +86,7 @@
                         <div class="form-group row">
                             <label for="modelType" class="col-sm-4 col-form-label">Model Type:</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control header-line-field-form" name="modelType" id="modelType" placeholder="Enter to generate data if exist">
+                                <input type="text" class="form-control header-line-field-form" name="modelType" id="modelType" placeholder="Generate Data If Exist">
                             </div>
                         </div>
                         <div class="form-group row">
