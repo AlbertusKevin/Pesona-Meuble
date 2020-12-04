@@ -52,7 +52,6 @@ class EmployeeDB
             'phone' => $request->phone,
             'address' => $request->address,
             'role' => $request->role,
-            'salary' => 5000000,
         ]);
     }
 

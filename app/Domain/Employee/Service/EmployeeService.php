@@ -97,7 +97,7 @@ class EmployeeService extends Controller
         return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' Updated Successfully !']);
     }
 
-    public function resignEmployee($id)
+    public function resignEmployee(Request $request, $id)
     {
         $employee = $this->employees->updateResign($id);
         return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' has been resigned !']);
