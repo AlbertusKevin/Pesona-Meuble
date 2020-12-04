@@ -34,13 +34,13 @@
                     <div class="form-group row">
                         <label for="date" class="col-sm-4 col-form-label">Date</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control header-field-form" id="date" name="date">
+                            <input type="date" class="form-control header-field-form" id="date" name="date" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="validTo" class="col-sm-4 col-form-label">Valid To</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control header-field-form" id="validTo" name="validTo">
+                            <input type="date" class="form-control header-field-form" id="validTo" name="validTo" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -141,7 +141,7 @@
                         </div>
                         <div class="col-12 col-md-9 pt-4">
                             <h3 class="font-weight-bold">{{$item->modelType}}</h3>Rp {{$item->price}},00
-                            <p class="font-weight-bold">Ammount: {{$item->quantity}}</p>
+                            <p class="font-weight-bold dataQuantity">Ammount: {{$item->quantity}}</p>
                             <p class="font-weight-bold">Color: {{$item->color}}</p>
                             <p class="font-weight-bold">Size: {{$item->size}}</p>
                             <p class="font-weight-bold">Description: {{$item->description}}.</p>

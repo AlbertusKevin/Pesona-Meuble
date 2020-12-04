@@ -21,6 +21,11 @@ class MeubleDao extends Controller
         return $meubles;
     }
 
+    public static function findMeubleByModelType($data)
+    {
+        $meuble = Meuble::where('modelType', $data["model"])->first();
+        return $meuble;
+    }
     public static function findMeubleByModelTypeAndVendor($data)
     {
         $meuble = Meuble::where('modelType', $data["model"])->where('vendor', $data["vendor"])->first();

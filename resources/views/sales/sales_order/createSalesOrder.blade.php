@@ -16,7 +16,7 @@
                         <div class="form-group row">
                             <label for="numSO" class="col-sm-4 col-form-label">Sales Order Number</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-field-form" id="numSO" name="numSO"  disabled value="{{$numSO}}">
+                                <input type="number" class="form-control header-field-form" id="numSO" name="numSO" disabled value="{{$numSO}}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -40,7 +40,7 @@
                         <div class="form-group row">
                             <label for="date" class="col-sm-4 col-form-label">Date</label>
                             <div class="col-sm-8">
-                                <input type="date" class="form-control header-field-form" id="date" name="date" >
+                                <input type="date" class="form-control header-field-form" id="date" name="date">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -70,11 +70,11 @@
                         <div class="form-group row">
                             <label for="paymentDiscount" class="col-sm-4 col-form-label">Discount Payment</label>
                             <div class="col-sm-8">
-                                <select id="discount" name="paymentDiscount" id="paymentDiscount" class="form-control header-field-form" >
+                                <select id="discount" name="paymentDiscount" id="paymentDiscount" class="form-control header-field-form">
                                     @foreach ($discounts as $discount)
-                                        <option value="{{$discount->code}}">
-                                            {{$discount->code}}
-                                        </option>
+                                    <option value="{{$discount->code}}">
+                                        {{$discount->percentDisc}}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -110,8 +110,7 @@
                         <div class="form-group row">
                             <label for="meubleName" class="col-sm-4 col-form-label">Meuble Name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control header-line-field-form" class="form-control" id="name" name="name" 
-                                    disabled value="" placeholder="Meuble Name">
+                                <input type="text" class="form-control header-line-field-form" class="form-control" id="name" name="name" disabled value="" placeholder="Meuble Name">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -120,22 +119,20 @@
                                 <input type="number" class="form-control header-line-field-form" id="quantity" name="quantity" placeholder="Quantity">
                             </div>
                         </div>
-                        {{-- <div class="form-group row">
+                        <div class="form-group row">
                             <label for="price" class="col-sm-4 col-form-label">Discount Meuble</label>
                             <div class="col-sm-8">
                                 <select id="discountMeuble" name="discountMeuble" class="form-control">
                                     @foreach ($discounts as $discount)
-                                        <option value="{{$discount->code}}">
-                                            {{$discount->code}}
-                                        </option>
+                                    <option value="{{$discount->code}}">{{$discount->percentDisc}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="form-group row">
                             <label for="modelType" class="col-sm-4 col-form-label">Price</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0";>
+                                <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0" ;>
                             </div>
                         </div>
                         <div class="row w-100 justify-content-end">
@@ -157,7 +154,7 @@
 
             </div>
             <div class=" row w-100 mh-100 justify-content-end pl-3">
-                <button type="button" class="btn btn-secondary updatePost btn-lg" id="createSO">Create Sales Order</button>
+                <button type="button" class="btn btn-secondary updatePost btn-lg" id="createTransaction">Add</button>
             </div>
         </form>
     </div>
@@ -193,7 +190,7 @@
                             <div class="form-group row">
                                 <label for="phone" class="col-sm-4 col-form-label">Phone</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="phone" name="phone">
+                                    <input type="text" class="form-control" id="phone" name="phone">
                                 </div>
                             </div>
                             <div class="form-group row">

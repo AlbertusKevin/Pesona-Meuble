@@ -34,7 +34,7 @@ Route::get('/admin', 'App\Domain\Employee\Service\Login@homeAdmin')->middleware(
 // Domain Sales
 //=============================================================================================================
 Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView')->middleware('login_check');
-Route::get('/salesorder/history/', 'App\Domain\Sales\Service\SalesOrderService@historyView')->middleware('login_check');
+Route::get('/salesorder/history', 'App\Domain\Sales\Service\SalesOrderService@historyView')->middleware('login_check');
 Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@createView')->middleware('login_check');
 Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
 Route::get('/salesorder/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');

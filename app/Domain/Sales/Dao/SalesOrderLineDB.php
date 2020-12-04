@@ -21,7 +21,7 @@ class SalesOrderLineDB extends Controller
             'numSO' => $line["numSO"],
             'modelType' => $line["modelType"],
             'price' => $line["price"],
-            'discountMeuble' => null,
+            'discountMeuble' => $line["discountMeuble"],
             'quantity' => $line["quantity"]
         ]);
     }
@@ -29,7 +29,7 @@ class SalesOrderLineDB extends Controller
     public function findSalesOrderLineByNumSO($numSO)
     {
         $salesorderline = SalesOrderLine::where('numSO', $numSO)->get();
-        return $salesorderline; 
+        return $salesorderline;
     }
 
     public function findSalesOrderLineDetail($numSO)
@@ -51,11 +51,4 @@ class SalesOrderLineDB extends Controller
             'quantity' => $line["quantity"]
         ]);
     }
-
-
-
-    
-
-
-    
 }

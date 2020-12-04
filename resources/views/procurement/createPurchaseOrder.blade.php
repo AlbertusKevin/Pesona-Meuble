@@ -121,7 +121,7 @@
             </div>
     </div>
     <div class=" row w-100 mh-100 justify-content-end pl-3">
-        <button type="button" class="btn btn-secondary updatePost btn-lg" id="createPO">Add</button>
+        <button type="button" class="btn btn-secondary updatePost btn-lg" id="createTransaction">Add</button>
     </div>
     </form>
 </div>
