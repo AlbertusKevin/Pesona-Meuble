@@ -1,6 +1,14 @@
+{{-- 
+    Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+    Unauthorized copying of this file, via any medium is strictly prohibited
+    Proprietary and confidential
+    Code's Author by Mikhael Adriel, December 2020 
+--}}
+
 @extends('layouts.app')
 @section('content')
     <div class="container">
+      @include('message')
       <div class="row justify-content-center">
         <h1 class="text-center mt-5 mb-5 font-weight-bold">Customer List</h1>
       </div>
@@ -12,7 +20,7 @@
           </div>
           <div class="col-12 col-md-5 text-right">
             <div class="row text-right justify-content-end">
-                <button type="button" name="" id="" class="defaultbtn btn btn-primary mr-2" > New</button>
+                <a href="/customer/create" type="button" name="" id="" class="defaultbtn btn btn-primary mr-2" > New</a>
                 <div class="dropdown">
                     <button class="btn btn-secondary defaultbtn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Sort

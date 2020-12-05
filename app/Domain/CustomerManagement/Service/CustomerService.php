@@ -40,24 +40,34 @@ class CustomerService extends Controller
 
     public function createNewCustomer(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:4',
+            'email' => 'required', 
+            'phone' => 'required', 
             'address' => 'required'
         ]);
 
+        if ($validator->fails()) {
+            return redirect('/customer/create/')
+                ->withInput()
+                ->withErrors($validator);
+        }
+
         $this->customers->create($request);
-        return redirect()->back()->with(['success' => 'Customer ' . $request->customerName . 'successfully created !']);
+        return redirect('/customer/list')->with(['success' => 'Customer ' . $request->customerName . 'successfully created !']);
     }
 
-    public function showCustomers($id) {
+    public function showCustomers() {
         $customers = $this->customers->showAll();
-        $employee = $this->employee->findById($id);
+        // $employee = $this->employee->findById($request->session()->get('id_employee'));
         return view('customer_service.customer_data.customerlist', [
             "customers" => $customers, 
-            "employee" => $employee
+            // "employee" => $employee
         ]);
+    }
+
+    public function createViewCustomers() {
+        return view('customer_service.customer_data.createCustomer');
     }
 
     public function updateViewCustomers($id)

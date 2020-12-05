@@ -1,3 +1,10 @@
+{{-- 
+    Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+    Unauthorized copying of this file, via any medium is strictly prohibited
+    Proprietary and confidential
+    Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020 
+--}}
+
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -48,7 +55,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownId">
-                            <a class="dropdown-item" href="{{ url('/customer/$customers->id') }}">Customer Management</a>
+                            <a class="dropdown-item" href="/customer/list">Customer Management</a>
                             <a class="dropdown-item" href="/vendor/list">Vendor Management</a>
                             <a class="dropdown-item" href="/employee/list">Employee Management</a>
                             <a class="dropdown-item" href="#">Finance</a>

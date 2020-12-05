@@ -111,9 +111,11 @@ Route::post('/vendor/create', 'App\Domain\Vendor\Service\VendorService@addNewVen
 // Domain Customer
 //=============================================================================================================
 
-Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
-Route::get('/customer/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers');
+Route::get('/customer/list', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers');
+Route::get('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createViewCustomers');
 Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers');
+
+Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
 Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers');
