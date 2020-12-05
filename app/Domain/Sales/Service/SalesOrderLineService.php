@@ -15,12 +15,11 @@ class SalesOrderLineService extends Controller
      * @return Response
      */
 
-    private $salesorderlines; 
+    private $salesorderlines;
 
     public function __construct()
     {
         $this->salesorderlines = new SalesOrderLineDB();
-
     }
 
     public function createSalesOrderLine(Request $request)
@@ -34,5 +33,13 @@ class SalesOrderLineService extends Controller
         $this->salesorderlines->updateSalesOrderLine($request);
     }
 
-    
+    public function addNewLineItem($num)
+    {
+        $this->salesorderlines->addNewLineItem($num, $_POST);
+    }
+
+    public function deleteNewLineItem($num, $model)
+    {
+        $this->salesorderlines->deleteNewLineItem($num, $model);
+    }
 }

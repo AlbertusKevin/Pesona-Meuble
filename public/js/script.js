@@ -156,7 +156,6 @@ $("#lineHeader").on("click", '#addItem', function (){
                                 <div class="col-12 col-md-9 pt-4">
                                     <h3 class="font-weight-bold">${data.modelType}</h3>Rp ${data.price},00
                                     <p class="font-weight-bold dataQuantity">Ammount: ${quantity}</p>
-                                    ${url == 'salesorder' ? `<p class="font-weight-bold meubleDiscount">Discount: Rp ${data.price*$("#discountMeuble").val()},00</p>` : ''}
                                     <p class="font-weight-bold">Color: ${data.color}</p>
                                     <p class="font-weight-bold">Size: ${data.size}</p>
                                     <p class="font-weight-bold">Description: ${data.description}.</p>
@@ -177,7 +176,7 @@ $("#lineHeader").on("click", '#addItem', function (){
                                     quantity, 
                                     model: data.modelType, 
                                     price: data.price, 
-                                    discMeuble: parseInt($(`#discMeuble-${data.modelType}`).val()), 
+                                    discMeuble: $(`#discountMeuble`).val(), 
                                     _token: $("#ajaxCoba").children()[0].getAttribute("value")
                                 }
                             });
@@ -211,6 +210,13 @@ $("#lineHeader").on("click", '#addItem', function (){
 
 //remove item ketika create PO (fix)
 $('#lineItem').on('click','.removeItem',function(){
+    //ambil asal url
+    let url = window.location.href;
+    url = url.split("/");
+
+    let process = url[4];
+    url = url[3];
+    
     //simpan element yang akan di remove
     const element = $(this).parent().parent().parent();
 
@@ -238,6 +244,22 @@ $('#lineItem').on('click','.removeItem',function(){
     $("#totalPrice").val(newTotalPrice);
     $("#totalPayment").val(newTotalPayment);
 
+    //Jika dari detail, maka lakukan delete pada tabel SO atau PO Line
+    if(process == 'detail'){
+        if(url == "salesorder"){
+            $.ajax({
+                url: `/salesorder/delete_line/${$("#numSO").val()}/${model}`,
+                method: 'delete',
+                data: {_token: $("#ajaxCoba").children()[0].getAttribute("value")}
+            });
+        }else{
+            $.ajax({
+                url: `/procurement/delete_line/${$("#numPO").val()}/${model}`,
+                method: 'delete',
+                data: {_token: $("#ajaxCoba").children()[0].getAttribute("value")}
+            });
+        }
+    }
     //hapus item dari list item
     element.remove();
 });

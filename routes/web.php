@@ -75,8 +75,10 @@ Route::put('/procurement/update', 'App\Domain\Procurement\Service\ProcurementSer
 //=============================================================================================================
 // Domain Financial
 //=============================================================================================================
-Route::post('/salesorder/new_line/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@addNewLineItem')->middleware('login_check');
+Route::post('/salesorder/new_line/{numSO}', 'App\Domain\Sales\Service\SalesOrderLineService@addNewLineItem')->middleware('login_check');
 Route::post('/procurement/new_line/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@addNewLineItem')->middleware('login_check');
+Route::delete('/salesorder/delete_line/{numSO}/{mode}', 'App\Domain\Sales\Service\SalesOrderLineService@deleteNewLineItem')->middleware('login_check');
+Route::delete('/procurement/delete_line/{numPO}/{mode}', 'App\Domain\Procurement\Service\ProcurementService@deleteNewLineItem')->middleware('login_check');
 //=============================================================================================================
 // Domain Employee
 //=============================================================================================================

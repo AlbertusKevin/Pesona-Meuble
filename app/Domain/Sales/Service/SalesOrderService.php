@@ -54,9 +54,12 @@ class SalesOrderService extends Controller
     {
         $salesorder = $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
         $salesorderlines = $this->salesorderlines->findSalesOrderLineDetail($numSO);
+        $discounts = $this->discounts->showAll();
+
         return view('sales.sales_order.updateSalesOrderView', [
             'salesorder' => $salesorder,
             'salesorderlines' => $salesorderlines,
+            'discounts' => $discounts
         ]);
     }
     public function salesOrderDetaiHistory($numSO)
@@ -122,10 +125,5 @@ class SalesOrderService extends Controller
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->updateFinish($numSO);
         return redirect('/salesorder')->with('success', 'Sales Order  ' . $numSO . ' finished successfully !');
-    }
-
-    public function addNewLineItem($num)
-    {
-        $this->salesorderlines->addNewLineItem($num, $_POST);
     }
 }

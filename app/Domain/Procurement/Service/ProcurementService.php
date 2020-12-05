@@ -140,6 +140,10 @@ class ProcurementService extends Controller
         $this->procurement->addNewLineItem($num, $_POST);
     }
 
+    public function deleteNewLineItem($num, $model)
+    {
+        $this->procurement->deleteNewLineItem($num, $model);
+    }
     // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
     // if (isset($available)) {
     //     $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);

@@ -52,13 +52,16 @@ class SalesOrderLineDB extends Controller
 
     public function addNewLineItem($num, $line)
     {
-        dd($num);
         SalesOrderLine::create([
-            'numPO' => $num,
+            'numSO' => $num,
             'modelType' => $line["model"],
             'price' => $line["price"],
             'quantity' => $line["quantity"],
             'discountMeuble' => $line["discMeuble"]
         ]);
+    }
+    public function deleteNewLineItem($num, $model)
+    {
+        SalesOrderLine::where('numSO', $num)->where('modelType', $model)->delete();
     }
 }

@@ -124,7 +124,7 @@
                             <div class="col-sm-8">
                                 <select id="discountMeuble" name="discountMeuble" class="form-control">
                                     @foreach ($discounts as $discount)
-                                    <option value="{{$discount->code}}">{{$discount->percentDisc}}</option>
+                                    <option value="{{$discount->code}}">{{$discount->code}}: {{$discount->percentDisc}}</option>
                                     @endforeach
                                 </select>
                             </div>

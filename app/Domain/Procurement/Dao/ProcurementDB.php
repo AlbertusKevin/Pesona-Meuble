@@ -74,6 +74,12 @@ class ProcurementDB
             'quantity' => $line["quantity"]
         ]);
     }
+
+    public function deleteNewLineItem($num, $model)
+    {
+        PurchaseOrderLine::where('numPO', $num)->where('modelType', $model)->delete();
+    }
+
     public function proceedPO($num)
     {
         PurchaseOrder::where('numPO', $num)->update(['transactionStatus' => 1]);;
