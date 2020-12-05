@@ -18,9 +18,10 @@ class SalesOrder extends Model
         'transactionStatus',
         'totalItem',
         'totalMeubleDiscount',
-        'totalPrice', 
-        'paymentDiscount', 
-        'totalDiscount', 
+        'freightIn',
+        'totalPrice',
+        'paymentDiscount',
+        'totalDiscount',
         'totalPayment'
     ];
 

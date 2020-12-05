@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     @include('message')
-    <h1 class="text-center pt-5 pb-5">Detail of Sales Order</h1>
+    <h1 class="text-center pt-5 pb-5">Detail of Open Sales Order</h1>
     <div class="row">
         <div class="col-12 col-md-6 pb-5">
             <div class="card" style="width: 100%;">
@@ -48,15 +48,15 @@
                     <div class="form-group row">
                         <label for="totalItem" class="col-sm-4 col-form-label">Total Item</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control header-field-form" disabled value="0" name="totalItem" id="totalItem" disabled value="{{$salesorder->totalItem}}">
+                            <input type="number" class="form-control header-field-form" disabled name="totalItem" id="totalItem" disabled value="{{$salesorder->totalItem}}">
                         </div>
                     </div>
-                    {{-- <div class="form-group row">
-                            <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control header-field-form" value="0" id="freightIn" name="freightIn">
-                            </div>
-                        </div> --}}
+                    <div class="form-group row">
+                        <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control header-field-form" disabled value="{{$salesorder->freightIn}}" id="freightIn" name="freightIn">
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label for="totalPrice" class="col-sm-4 col-form-label">Total Price</label>
                         <div class="col-sm-8">
@@ -88,37 +88,16 @@
                             <input type="number" class="form-control header-field-form" id="totalPayment" name="totalPayment" disabled value="{{$salesorder->totalPayment}}">
                         </div>
                     </div>
-                    @if($salesorder->transactionStatus === 0)
-                    <div class="form-group row">
-                        <div class="col-sm-8">
-                            <form action="/salesorder/proceed/{{$salesorder->numSO}}" method="Post">
-                                @method('PUT')
-                                @csrf
-                                <button type="submit" class="btn btn-success" id="proceedPO">Proceed</button>
-                            </form>
-                            <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
-                                @method('PUT')
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Cancel</button>
-                            </form>
+                    <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
+                        @method('PUT')
+                        @csrf
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <button type="button" class="btn btn-success" id="proceed">Proceed</button>
+                                <button type="submit" class="btn btn-danger" id="cancel">Cancel</button>
+                            </div>
                         </div>
-                    </div>
-                    @elseif($salesorder->transactionStatus === 1)
-                    <div class="form-group row">
-                        <div class="col-sm-8">
-                            <form action="/salesorder/finish/{{$salesorder->numSO}}" method="Post">
-                                @method('PUT')
-                                @csrf
-                                <button type="submit" class="btn btn-success" id="proceedPO">Finish</button>
-                            </form>
-                            <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
-                                @method('PUT')
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Cancel</button>
-                            </form>
-                        </div>
-                    </div>
-                    @endif
+                    </form>
                 </div>
             </div>
         </div>
@@ -208,7 +187,17 @@
 </div>
 <div class="card" style="width: 100%;">
     @foreach($salesorderlines as $item)
-    <div id="{{$item->modelType}}" data-model="{{$item->modelType}}" data-meubleName="{{$item->name}}" data-price="{{$item->price}}" data-quantity="{{$item->quantity}}" data-category="{{$item->category}}" data-warranty="{{$item->warrantyPeriodeMonth}}" data-color="{{$item->color}}" data-size="{{$item->size}}" data-description="{{$item->description}}">
+    <div id="{{$item->modelType}}">
+        <input type="hidden" id="model-{{$item->modelType}}" value="{{$item->modelType}}">
+        <input type="hidden" id="name-{{$item->modelType}}" value="{{$item->name}}">
+        <input type="hidden" id="price-{{$item->modelType}}" value="{{$item->price}}">
+        <input type="hidden" id="quantity-{{$item->modelType}}" value="{{$item->quantity}}">
+        <input type="hidden" id="category-{{$item->modelType}}" value="{{$item->category}}">
+        <input type="hidden" id="warranty-{{$item->modelType}}" value="{{$item->warrantyPeriodeMonth}}">
+        <input type="hidden" id="color-{{$item->modelType}}" value="{{$item->color}}">
+        <input type="hidden" id="size-{{$item->modelType}}" value="{{$item->size}}">
+        <input type="hidden" id="desc-{{$item->modelType}}" value="{{$item->description}}">
+        <input type="hidden" id="discMeuble-{{$item->modelType}}" value="${{$item->discountMeuble}}">
         <div class="row pt-3">
             <div class="col-12 col-md-3">
                 <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">

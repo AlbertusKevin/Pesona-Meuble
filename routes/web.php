@@ -38,6 +38,7 @@ Route::get('/salesorder/history', 'App\Domain\Sales\Service\SalesOrderService@hi
 Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@createView')->middleware('login_check');
 Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
 Route::get('/salesorder/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');
+Route::get('/salesorder/history/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetaiHistory')->middleware('login_check');
 Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder')->middleware('login_check');
 
 Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine')->middleware('login_check');
@@ -69,8 +70,8 @@ Route::put('/procurement/update', 'App\Domain\Procurement\Service\ProcurementSer
 //=============================================================================================================
 // Domain Financial
 //=============================================================================================================
-
-
+Route::post('/salesorder/new_line/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@addNewLineItem')->middleware('login_check');
+Route::post('/procurement/new_line/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@addNewLineItem')->middleware('login_check');
 //=============================================================================================================
 // Domain Employee
 //=============================================================================================================

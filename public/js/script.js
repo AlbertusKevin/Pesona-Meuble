@@ -17,33 +17,13 @@ function validateForm(type) {
       });
     return isValidLine;
 }
-
-//freight in untuk PO dan SO (fix)
-$('#freightIn').keypress(function (e) {
-    if(e.which == 13)  // the enter key code
-    {
-        let totalPayment = parseInt($("#totalPayment").val()) + parseInt($('#freightIn').val());
-        $(this).attr('disabled',true);
-        $("#totalPayment").val(totalPayment)
-    }
-});
-
-//Discount ketika PO dari Vendor (fix)
-$('#totalDisc').keypress(function (e) {
-    if(e.which == 13)  // the enter key code
-    {
-        let totalPayment = parseInt($("#totalPayment").val()) - parseInt($(this).val());
-        $(this).attr('disabled',true);
-        $("#totalPayment").val(totalPayment)
-    }
-});
-
+// =========================================================== Generate Data Customer dan Meuble ====================================================================
 //generate data jika ada untuk PO dan SO (fix)
 $('#modelType').on("change", function () {
     //ambil asal url terlebih dahulu
     let url = window.location.href;
     url = url.split("/");
-    url = `${url[(url.length)-2]}`;
+    url = url[3];
 
     $.ajax({
         url: `/procurement/meuble`,
@@ -86,13 +66,52 @@ $('#customer').on("change", function () {
     });
 });
 
+// ============================================= Perhitungan Freight In, Discount, total payment, total item, price dsb ====================================================================
+
+//freight in untuk PO dan SO (fix)
+$('#freightIn').keypress(function (e) {
+    if(e.which == 13)  // the enter key code
+    {
+        let totalPayment = parseInt($("#totalPayment").val()) + parseInt($('#freightIn').val());
+        $(this).attr('disabled',true);
+        $("#totalPayment").val(totalPayment)
+    }
+});
+
+//Discount ketika PO dari Vendor (fix)
+$('#totalDisc').keypress(function (e) {
+    if(e.which == 13)  // the enter key code
+    {
+        let totalPayment = parseInt($("#totalPayment").val()) - parseInt($(this).val());
+        $(this).attr('disabled',true);
+        $("#totalPayment").val(totalPayment)
+    }
+});
+
+//mengambil nilai discount dari header SO (fix)
+$('#discount').on('click', function(){
+    let disc = $(this).val();
+    let totalPayment = $('#totalPayment').val();
+
+    disc = totalPayment*disc;
+    totalPayment = totalPayment - disc;
+    $(this).val(disc);
+    $('#totalPayment').val(totalPayment);
+
+    $(this).attr('disabled',true);
+});
+
+//===================================================== Menambah, Mengedit, Menghapus Line Item SO dan PO ===========================================================
+
 //menambahkan item ketika PO dan SO (fix)
 $("#lineHeader").on("click", '#addItem', function (){
     if(validateForm('line')){
         //ambil asal url terlebih dahulu
         let url = window.location.href;
         url = url.split("/");
-        url = `${url[(url.length)-2]}`;
+
+        let process = url[4];
+        url = url[3];
 
         $.ajax({
             url: `/procurement/meuble`,
@@ -148,6 +167,29 @@ $("#lineHeader").on("click", '#addItem', function (){
                         </div>
                     `;
 
+                    //jika menambah line item di detail SO atau PO
+                    if(process == 'detail'){
+                        if(url == "salesorder"){
+                            $.ajax({
+                                url: `/salesorder/new_line/${$("#numSO").val()}`,
+                                method: 'post',
+                                data: {
+                                    quantity, 
+                                    model: data.modelType, 
+                                    price: data.price, 
+                                    discMeuble: parseInt($(`#discMeuble-${data.modelType}`).val()), 
+                                    _token: $("#ajaxCoba").children()[0].getAttribute("value")
+                                }
+                            });
+                        }else{
+                            $.ajax({
+                                url: `/procurement/new_line/${$("#numPO").val()}`,
+                                method: 'post',
+                                data: {quantity, model: data.modelType, price: data.price, _token: $("#ajaxCoba").children()[0].getAttribute("value")}
+                            });
+                        }
+                    }
+
                     //tambahkan item ke daftar purchase order
                     $("#lineItem").append(tag_html);
                     //setelah klik add, bersihkan field input
@@ -167,19 +209,98 @@ $("#lineHeader").on("click", '#addItem', function (){
     }
 });
 
-//mengambil nilai discount dari header SO (fix)
-$('#discount').on('click', function(){
-    let disc = $(this).val();
-    let totalPayment = $('#totalPayment').val();
+//remove item ketika create PO (fix)
+$('#lineItem').on('click','.removeItem',function(){
+    //simpan element yang akan di remove
+    const element = $(this).parent().parent().parent();
 
-    disc = totalPayment*disc;
-    totalPayment = totalPayment - disc;
-    $(this).val(disc);
-    $('#totalPayment').val(totalPayment);
+    //ambil data yang dibutuhkan
+    const model = element.attr('id');
+    const quantity = parseInt($(`#quantity-${model}`).val());
+    const price = parseInt($(`#price-${model}`).val());
 
-    $(this).attr('disabled',true);
+    //ambil data awal dari total item, total payment, dan total price yang ada di header
+    const totalPayment = parseInt($("#totalPayment").val());
+    const totalItem =  parseInt($("#totalItem").val());
+    const totalPrice = parseInt($("#totalPrice").val());
+
+    //kalkulasi hasil perubahan berdasarkan update
+    const newTotalItem = totalItem - quantity;
+    const newTotalPrice = totalPrice - quantity*price;
+    const newTotalPayment = totalPayment - quantity*price;
+
+    console.log("Old Value Item: "+model+" "+quantity+" "+price);
+    console.log("Old Value Header: item-"+totalItem+" payment-"+totalPayment+" price-"+totalPrice);
+    console.log("New Value Header: item-"+newTotalItem+" payment-"+newTotalPayment+" price-"+newTotalPrice);
+
+    // ubah tampilan data
+    $("#totalItem").val(newTotalItem);
+    $("#totalPrice").val(newTotalPrice);
+    $("#totalPayment").val(newTotalPayment);
+
+    //hapus item dari list item
+    element.remove();
 });
 
+//ketika edit di list item diklik saat create PO (fix)
+$('#lineItem').on("click", '.editItem', function(){
+    //ambil data dari tombol ini yang di klik
+    const model = $(this).parent().parent().parent().attr("id");
+    const quantity = parseInt($(`#quantity-${model}`).val());
+    const price = parseInt($(`#price-${model}`).val());
+    alert(model+" "+price+" "+quantity);
+    
+    //pasang value lama ke field edit
+    $("#modelType").val(model);
+    $("#quantity").val(quantity);
+    $("#price").val(price);
+
+    //disabled si model type
+    $("#modelType").attr('disabled',true);
+    //ubah tombol add jadi update
+    $("#addItem").attr('id','changeItem').html("Change");
+})
+
+//update list item ketika create PO dan SO (fix) 
+$("#lineHeader").on("click", '#changeItem', function (){
+    //ambil value baru dari field
+    const model = $("#modelType").val();
+    const quantity = parseInt($("#quantity").val());
+    const price = parseInt($("#price").val());
+
+    //ambil data awal dari total item, total payment, dan total price yang ada di header
+    const totalPayment = parseInt($("#totalPayment").val());
+    const totalItem =  parseInt($("#totalItem").val());
+    const totalPrice = parseInt($("#totalPrice").val());
+
+    //ambil data lama sebelum perubahan
+    const old_quantity = parseInt($(`#quantity-${model}`).val());
+
+    //kalkulasi hasil perubahan berdasarkan update
+    const newTotalItem = (totalItem - old_quantity) + quantity;
+    const newTotalPrice = (totalPrice - (old_quantity*price)) + (quantity*price);
+    const newTotalPayment = (totalPayment - totalPrice) + newTotalPrice;
+
+    //ubah tampilan data
+    $("#totalItem").val(newTotalItem);
+    $("#totalPrice").val(newTotalPrice);
+    $("#totalPayment").val(newTotalPayment);
+    
+    //ubah data yang ada di list item dengan hasil update
+    $(`#quantity-${model}`).val(quantity);
+    $(`#${model} .dataQuantity`).html("Amount: "+quantity);
+    
+    //kembalikan tombol change ke tombol add
+    $("#changeItem").attr('id','addItem').html("Add");
+    $("#modelType").attr('disabled',false);
+    
+    //bersihkan kembali field input
+    $("#lineHeader input").val(null);
+    $("#price").val(0);
+    $("#quantity").val(0);
+});
+
+// ===================================================================== Memproses PO dan SO ==============================================================================
 //create new PO dan SO (fix)
 $("#createTransaction").on("click",function(){
     //ambil asal url terlebih dahulu
@@ -283,213 +404,35 @@ $("#createTransaction").on("click",function(){
     }
 })
 
-//remove item ketika create PO (fix)
-$('#lineItem').on('click','.removeItem',function(){
-    //simpan element yang akan di remove
-    const element = $(this).parent().parent().parent();
-
-    //ambil data yang dibutuhkan
-    const model = element.attr('id');
-    const quantity = parseInt($(`#quantity-${model}`).val());
-    const price = parseInt($(`#price-${model}`).val());
-
-    //ambil data awal dari total item, total payment, dan total price yang ada di header
-    const totalPayment = parseInt($("#totalPayment").val());
-    const totalItem =  parseInt($("#totalItem").val());
-    const totalPrice = parseInt($("#totalPrice").val());
-
-    //kalkulasi hasil perubahan berdasarkan update
-    const newTotalItem = totalItem - quantity;
-    const newTotalPrice = totalPrice - quantity*price;
-    const newTotalPayment = totalPayment - quantity*price;
-
-    console.log("Old Value Item: "+model+" "+quantity+" "+price);
-    console.log("Old Value Header: item-"+totalItem+" payment-"+totalPayment+" price-"+totalPrice);
-    console.log("New Value Header: item-"+newTotalItem+" payment-"+newTotalPayment+" price-"+newTotalPrice);
-
-    // ubah tampilan data
-    $("#totalItem").val(newTotalItem);
-    $("#totalPrice").val(newTotalPrice);
-    $("#totalPayment").val(newTotalPayment);
-
-    //hapus item dari list item
-    element.remove();
-});
-
-//ketika edit di list item diklik saat create PO (fix)
-$('#lineItem').on("click", '.editItem', function(){
-    //ambil data dari tombol ini yang di klik
-    const model = $(this).parent().parent().parent().attr("id");
-    const quantity = parseInt($(`#quantity-${model}`).val());
-    const price = parseInt($(`#price-${model}`).val());
-    alert(model+" "+price+" "+quantity);
-    
-    //pasang value lama ke field edit
-    $("#modelType").val(model);
-    $("#quantity").val(quantity);
-    $("#price").val(price);
-
-    //disabled si model type
-    $("#modelType").attr('disabled',true);
-    //ubah tombol add jadi update
-    $("#addItem").attr('id','changeItem').html("Change");
-})
-
-//update list item ketika create PO (fix) 
-$("#lineHeader").on("click", '#changeItem', function (){
-    //ambil value baru dari field
-    const model = $("#modelType").val();
-    const quantity = parseInt($("#quantity").val());
-    const price = parseInt($("#price").val());
-
-    //ambil data awal dari total item, total payment, dan total price yang ada di header
-    const totalPayment = parseInt($("#totalPayment").val());
-    const totalItem =  parseInt($("#totalItem").val());
-    const totalPrice = parseInt($("#totalPrice").val());
-
-    //ambil data lama sebelum perubahan
-    const old_quantity = parseInt($(`#quantity-${model}`).val());
-
-    //kalkulasi hasil perubahan berdasarkan update
-    const newTotalItem = (totalItem - old_quantity) + quantity;
-    const newTotalPrice = (totalPrice - (old_quantity*price)) + (quantity*price);
-    const newTotalPayment = (totalPayment - totalPrice) + newTotalPrice;
-
-    //ubah tampilan data
-    $("#totalItem").val(newTotalItem);
-    $("#totalPrice").val(newTotalPrice);
-    $("#totalPayment").val(newTotalPayment);
-    
-    //ubah data yang ada di list item dengan hasil update
-    $(`#quantity-${model}`).val(quantity);
-    $(`#${model} .dataQuantity`).html("Amount: "+quantity);
-    
-    //kembalikan tombol change ke tombol add
-    $("#changeItem").attr('id','addItem').html("Add");
-    $("#modelType").attr('disabled',false);
-    
-    //bersihkan kembali field input
-    $("#lineHeader input").val(null);
-    $("#price").val(0);
-    $("#quantity").val(0);
-});
-
-
-$('#updatePO').on("click",function (){
-    //Ambil data header, lalu update header di tabel purchase_order
-    if(validateForm('header')){
-        const numPo = $("#numPO").val();
-        const vendor = $("#vendor").val();
-        const date = $("#date").val();
-        const validTo = $("#validTo").val();
-        const totalItem = $("#totalItem").val();
-        const freightIn = $("#freightIn").val();
-        const totalPrice = $("#totalPrice").val();
-        const totalDisc = $("#totalDisc").val();
-        const totalPayment = $("#totalPayment").val();
-        let employee = $("#employeeName").val();
-        let id = parseInt(employee.split(":")[0]);
-        
-        //ajax query ke database purchase_order untuk update
-        $.ajax({
-            url: `/procurement/update/header`,
-            method: "put",
-            data: {numPo, vendor, id, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-            success: () => {
-                // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
-                const item = $("#lineItem").children();
-                //ambil per baris yang ada
-                for(let i = 0; i < item.length; i++){
-                    const child = item[i];
-                    
-                    const modelType = child.getAttribute("data-model");
-                    const meubleName = child.getAttribute("data-meubleName");
-                    const category = child.getAttribute("data-category");
-                    const size = child.getAttribute("data-size");
-                    const color = child.getAttribute("data-color");
-                    const description = child.getAttribute("data-description");
-                    const warranty = parseInt(child.getAttribute("data-warranty"));
-                    const price = parseInt(child.getAttribute("data-price"));
-                    const quantity = parseInt(child.getAttribute("data-quantity"));
-            
-                    $.ajax({
-                        url: `/procurement/update`,
-                        method: "put",
-                        data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                        success: () => {
-                            alert("Purchase Order "+numPo+" successfully updated!");
-                            window.location.href = "/procurement/list";
-                        }
-                    });
-                }
-            }
-        });
-    }else{
-        alert("All field header must be filled!");
-    }
-    //Ambil data line item, lalu update tabel purchase_order_line
-});
-
-$("#updateSO").on("click",function(){
-    if(validateForm('header')){
-        //ambil semua data di header
-        const numSO = $("#numSO").val();
-        const customer = $("#customer").val();
-        const date = $("#date").val();
-        const validTo = $("#validTo").val();
-        const totalItem = $("#totalItem").val();
-        // const freightIn = $("#freightIn").val();
-        const totalPrice = $("#totalPrice").val();
-        const paymentDiscount = null;
-        const totalDisc = $("#totalDisc").val();
-        const totalPayment = $("#totalPayment").val();
-        const employeeID = $("#employeeName").val();
-        
-        //ajax query ke database purchase_order
-        $.ajax({
-            url: `/salesorder/update/header`,
-            method: "put",
-            data: {numSO, customer, employeeID, date, validTo, totalItem, totalPrice, paymentDiscount, totalDisc, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-            // success: (data) => {
-            //     console.log(data);
-            // }
-            success: () => {
-                // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
-                const item = $("#lineItem").children();
-                //ambil per baris yang ada
-                for(let i = 0; i < item.length; i++){
-                    const child = item[i];
-                    
-                    const modelType = child.getAttribute("data-model");
-                    const meubleName = child.getAttribute("data-meubleName");
-                    const category = child.getAttribute("data-category");
-                    const size = child.getAttribute("data-size");
-                    const color = child.getAttribute("data-color");
-                    const description = child.getAttribute("data-description");
-                    const warranty = parseInt(child.getAttribute("data-warranty"));
-                    const price = parseInt(child.getAttribute("data-price"));
-                    const quantity = parseInt(child.getAttribute("data-quantity"));
-                    const discountMeuble = 0;
-            
-                    $.ajax({
-                        url: `/salesorder/update/salesorderline`,
-                        method: "put",
-                        data: {numSO ,modelType, price, quantity, discountMeuble, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                        success: () => {
-                            alert("Sales Order "+numSO+" successfully updated!");
-                            window.location.href = "/salesorder";
-                        }
-                    });
-                }
-            }
-        });
-    }else{
-        alert(validateForm('header'));
-    }
-})
-
+//cancel po dan so (fix)
 $('#cancel').on("click", function (){
+    //ambil asal url terlebih dahulu
+    let url_ajax, num, message, url_direct;
     
+    let url = window.location.href;
+    url = url.split("/");
+    url = `${url[(url.length)-2]}`;
+
+    if(url == 'salesorder'){
+        num = $("#numSO").val();
+        message = `Sales Order ${num} canceled`;
+        url_direct = "/salesorder";
+        url_ajax = `/salesorder/cancel/${num}`;
+    }else{
+        num = $("#numPO").val();
+        message = `Purchase Order ${num} canceled`;
+        url_direct = "/procurement/list";
+        url_ajax = `/procurement/cancel/${num}`;
+    }
+
+    $.ajax({
+        url: url_ajax,
+        method: "put",
+        success: () => {
+            alert(message);
+            window.location.href = url_direct;
+        }
+    });
 });
 
 $('#proceedPO').on("click", function(){
@@ -498,8 +441,8 @@ $('#proceedPO').on("click", function(){
     //Ubah transaction status menjadi 1
 });
 
-function coba(){
-    console.log(url);
+function coba (){
+    let url = window.location.href;
+    url = url.split("/");
+    console.log(url[3]);
 }
-
-//windows.location.href

@@ -4,8 +4,6 @@ namespace App\Domain\Sales\Dao;
 
 use App\Http\Controllers\Controller;
 use App\Domain\Sales\Entity\SalesOrderLine;
-use Illuminate\Http\Request;
-
 
 class SalesOrderLineDB extends Controller
 {
@@ -49,6 +47,18 @@ class SalesOrderLineDB extends Controller
     {
         SalesOrderLine::where('numSO', $line["numSO"])->where('modelType', $line["modelType"])->update([
             'quantity' => $line["quantity"]
+        ]);
+    }
+
+    public function addNewLineItem($num, $line)
+    {
+        dd($num);
+        SalesOrderLine::create([
+            'numPO' => $num,
+            'modelType' => $line["model"],
+            'price' => $line["price"],
+            'quantity' => $line["quantity"],
+            'discountMeuble' => $line["discMeuble"]
         ]);
     }
 }

@@ -109,16 +109,7 @@ class ProcurementService extends Controller
     // Insert Line Item PO
     public function create(Request $request)
     {
-        // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
-        // if (isset($available)) {
-        //     $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
-        //     $stock = $stock->stock;
-        //     $stock += $_POST['quantity'];
-        //     $this->meuble->update($_POST, $stock);
-        // }
-
         $this->procurement->insertHeaderLine($request);
-        // return redirect()->back()->with('success_po_0', 'Purchase Order with number ' . $request->numPo . ' succesfully created!');
     }
     public function proceedPO($num)
     {
@@ -130,7 +121,7 @@ class ProcurementService extends Controller
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->cancelPO($num);
-        return redirect('/procurement/list')->with('cancel_po', 'Purchase Order with number ' . $num . ' canceled!');
+        return redirect('/procurement/list')->with('cancel_po', 'Purchase Order ' . $num . ' canceled!');
     }
 
     public function updateHeader(Request $request)
@@ -143,4 +134,17 @@ class ProcurementService extends Controller
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->updateLine($request);
     }
+
+    public function addNewLineItem($num)
+    {
+        $this->procurement->addNewLineItem($num, $_POST);
+    }
+
+    // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
+    // if (isset($available)) {
+    //     $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
+    //     $stock = $stock->stock;
+    //     $stock += $_POST['quantity'];
+    //     $this->meuble->update($_POST, $stock);
+    // }
 }

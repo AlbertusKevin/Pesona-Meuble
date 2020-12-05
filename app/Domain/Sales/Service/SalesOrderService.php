@@ -59,6 +59,15 @@ class SalesOrderService extends Controller
             'salesorderlines' => $salesorderlines,
         ]);
     }
+    public function salesOrderDetaiHistory($numSO)
+    {
+        $salesorder = $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
+        $salesorderlines = $this->salesorderlines->findSalesOrderLineDetail($numSO);
+        return view('sales.sales_order.detailHistorySalesOrder', [
+            'salesorder' => $salesorder,
+            'salesorderlines' => $salesorderlines,
+        ]);
+    }
 
     public function createView(Request $request)
     {
@@ -104,7 +113,7 @@ class SalesOrderService extends Controller
     public function cancelSO($numSO)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorders->updateCancel($numSO);
+        $this->salesorders->cancelSO($numSO);
         return redirect('/salesorder')->with(['success' => 'Sales Order  ' . $numSO . ' canceled !']);
     }
 
@@ -113,5 +122,10 @@ class SalesOrderService extends Controller
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->updateFinish($numSO);
         return redirect('/salesorder')->with('success', 'Sales Order  ' . $numSO . ' finished successfully !');
+    }
+
+    public function addNewLineItem($num)
+    {
+        $this->salesorderlines->addNewLineItem($num, $_POST);
     }
 }

@@ -23,6 +23,7 @@ class CreateSalesOrderTable extends Migration
             $table->integer('totalItem');
             $table->integer('totalMeubleDiscount');
             $table->integer('totalPrice');
+            $table->integer('freightIn');
             $table->string('paymentDiscount', 20);
             $table->integer('totalDiscount');
             $table->integer('totalPayment');

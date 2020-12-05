@@ -65,6 +65,15 @@ class ProcurementDB
             'quantity' => $line["quantity"]
         ]);
     }
+    public function addNewLineItem($num, $line)
+    {
+        PurchaseOrderLine::create([
+            'numPO' => $num,
+            'modelType' => $line["model"],
+            'price' => $line["price"],
+            'quantity' => $line["quantity"]
+        ]);
+    }
     public function proceedPO($num)
     {
         PurchaseOrder::where('numPO', $num)->update(['transactionStatus' => 1]);;
@@ -107,6 +116,7 @@ class ProcurementDB
             'totalPayment' => (int)$header["totalPayment"]
         ]);
     }
+
     public function updateLine($line)
     {
         PurchaseOrderLine::where('numPO', $line["numPo"])->where('modelType', $line["modelType"])->update([

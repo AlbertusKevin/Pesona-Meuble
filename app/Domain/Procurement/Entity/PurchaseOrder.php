@@ -15,6 +15,8 @@ class PurchaseOrder extends Model
         'vendor',
         'responsibleEmployee',
         'transactionStatus',
+        'date',
+        'validTo',
         'totalItem',
         'freightIn',
         'totalPrice',

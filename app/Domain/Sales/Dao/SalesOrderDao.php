@@ -73,7 +73,7 @@ class SalesOrderDao extends Controller
             'date' => Carbon::parse($header["date"])->format('Y-m-d'),
             'validTo' => Carbon::parse($header["validTo"])->format('Y-m-d'),
             'totalItem' => (int)$header["totalItem"],
-            //   'freightIn' => (int)$header["freightIn"],
+            'freightIn' => (int)$header["freightIn"],
             'totalPrice' => (int)$header["totalPrice"],
             'paymentDiscount' => null,
             'totalDiscount' => (int)$header["totalDisc"],
@@ -87,7 +87,7 @@ class SalesOrderDao extends Controller
     {
         SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 1]);;
     }
-    public function updateCancel($numSO)
+    public function cancelSO($numSO)
     {
         SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 2]);;
     }
