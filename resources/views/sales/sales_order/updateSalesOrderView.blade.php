@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- 
-<div id="employee" data-id="{{$employee->id}}"></div> --}}
 <div class="container">
     @include('message')
     <h1 class="text-center pt-5 pb-5">Detail of Sales Order</h1>
@@ -14,7 +12,7 @@
                     <div class="form-group row">
                         <label for="numSO" class="col-sm-4 col-form-label">Sales Order Number</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control header-field-form" id="numSO" name="numSO"  disabled value="{{$salesorder->numSO}}">
+                            <input type="number" class="form-control header-field-form" id="numSO" name="numSO" disabled value="{{$salesorder->numSO}}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -53,7 +51,7 @@
                             <input type="number" class="form-control header-field-form" disabled value="0" name="totalItem" id="totalItem" disabled value="{{$salesorder->totalItem}}">
                         </div>
                     </div>
-                        {{-- <div class="form-group row">
+                    {{-- <div class="form-group row">
                             <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
                             <div class="col-sm-8">
                                 <input type="number" class="form-control header-field-form" value="0" id="freightIn" name="freightIn">
@@ -68,18 +66,14 @@
                     <div class="form-group row">
                         <label for="paymentDiscount" class="col-sm-4 col-form-label">Discount Payment</label>
                         <div class="col-sm-8">
-                            @if($salesorder->paymentDiscount === null)
-                                <input type="text" class="form-control header-field-form header-field-for" disabled value="No Discount" name="paymentDiscount" id="paymentDiscount">
-                            @else 
-                                <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$salesorder->paymentDiscount}}" name="paymentDiscount" id="paymentDiscount">
-                            @endif
-                                {{-- <select id="discount" name="paymentDiscount" id="paymentDiscount" class="form-control header-field-form" >
+                            <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$salesorder->paymentDiscount}}" name="paymentDiscount" id="paymentDiscount">
+                            {{-- <select id="discount" name="paymentDiscount" id="paymentDiscount" class="form-control header-field-form" >
                                     @foreach ($discounts as $discount)
                                         <option value="{{$discount->code}}">
-                                            {{$discount->code}}
-                                        </option>
-                                    @endforeach
-                                </select> --}}
+                            {{$discount->code}}
+                            </option>
+                            @endforeach
+                            </select> --}}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -95,20 +89,20 @@
                         </div>
                     </div>
                     @if($salesorder->transactionStatus === 0)
-                        <div class="form-group row">
-                            <div class="col-sm-8">
-                                <form action="/salesorder/proceed/{{$salesorder->numSO}}" method="Post">
-                                    @method('PUT')
-                                    @csrf
-                                    <button type="submit" class="btn btn-success" id="proceedPO">Proceed</button>
-                                </form>
-                                <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
-                                    @method('PUT')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
-                                </form>
-                            </div>
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <form action="/salesorder/proceed/{{$salesorder->numSO}}" method="Post">
+                                @method('PUT')
+                                @csrf
+                                <button type="submit" class="btn btn-success" id="proceedPO">Proceed</button>
+                            </form>
+                            <form action="/salesorder/cancel/{{$salesorder->numSO}}" method="Post">
+                                @method('PUT')
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </form>
                         </div>
+                    </div>
                     @elseif($salesorder->transactionStatus === 1)
                     <div class="form-group row">
                         <div class="col-sm-8">
@@ -128,120 +122,119 @@
                 </div>
             </div>
         </div>
-        @if($salesorder->transactionStatus === 0) 
-            <div class="col-12 col-md-6 pb-5" id="lineHeader">
-                <form id="ajaxCoba" action="" method="POST">
-                    @csrf
-                    <div class="card" style="width: 100%;">
-                        <div class="card-body pt-4">
-                            <h4>Line Item</h4>
-                            <div class="form-group row">
-                                <label for="modelType" class="col-sm-4 col-form-label">Model Type</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control header-line-field-form" name="modelType" id="modelType" placeholder="Model Type">
-                                </div>
+        @if($salesorder->transactionStatus === 0)
+        <div class="col-12 col-md-6 pb-5" id="lineHeader">
+            <form id="ajaxCoba" action="" method="POST">
+                @csrf
+                <div class="card" style="width: 100%;">
+                    <div class="card-body pt-4">
+                        <h4>Line Item</h4>
+                        <div class="form-group row">
+                            <label for="modelType" class="col-sm-4 col-form-label">Model Type</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control header-line-field-form" name="modelType" id="modelType" placeholder="Model Type">
                             </div>
-                            <div class="form-group row">
-                                <label for="meubleName" class="col-sm-4 col-form-label">Meuble Name</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control header-line-field-form" class="form-control" id="name" name="name" 
-                                        disabled value="" placeholder="Meuble Name">
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="meubleName" class="col-sm-4 col-form-label">Meuble Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control header-line-field-form" class="form-control" id="name" name="name" disabled value="" placeholder="Meuble Name">
                             </div>
-                            <div class="form-group row">
-                                <label for="quantity" class="col-sm-4 col-form-label">Quantity</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control header-line-field-form" id="quantity" name="quantity" placeholder="Quantity">
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="quantity" class="col-sm-4 col-form-label">Quantity</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control header-line-field-form" id="quantity" name="quantity" placeholder="Quantity">
                             </div>
-                            {{-- <div class="form-group row">
+                        </div>
+                        {{-- <div class="form-group row">
                                 <label for="price" class="col-sm-4 col-form-label">Discount Meuble</label>
                                 <div class="col-sm-8">
                                     <select id="discountMeuble" name="discountMeuble" class="form-control">
                                         @foreach ($discounts as $discount)
                                             <option value="{{$discount->code}}">
-                                                {{$discount->code}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div> --}}
-                            <div class="form-group row">
-                                <label for="modelType" class="col-sm-4 col-form-label">Price</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0";>
-                                </div>
-                            </div>
-                            <div class="row w-100 justify-content-end">
-                                <button type="button" class="btn btn-secondary" id="addItem">Add</button>
-                            </div>
-                        </div>
+                        {{$discount->code}}
+                        </option>
+                        @endforeach
+                        </select>
                     </div>
-                </form>
-            </div>
-            <div class="col-12 pt-4">
-                <h1 class="text-center">Product Lists</h1>
-            </div>
-            <form id="ajaxInput" action="" method="POST">
-                @csrf
-                <div class="card" style="width: 100%;" id="lineItem">
-                    @foreach($salesorderlines as $item)
-                        <div id="{{$item->modelType}}" data-model="{{$item->modelType}}" data-meubleName="{{$item->name}}" data-price="{{$item->price}}" data-quantity="{{$item->quantity}}" data-category="{{$item->category}}" data-warranty="{{$item->warrantyPeriodeMonth}}" data-color="{{$item->color}}" data-size="{{$item->size}}" data-description="{{$item->description}}">
-                            <div class="row pt-3">
-                                <div class="col-12 col-md-3">
-                                    <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">
-                                </div>
-                                <div class="col-12 col-md-9 pt-4">
-                                    <h3 class="font-weight-bold">{{$item->modelType}}</h3>Rp {{$item->price}},00
-                                    <p class="font-weight-bold">Ammount: {{$item->quantity}}</p>
-                                    <p class="font-weight-bold">Color: {{$item->color}}</p>
-                                    <p class="font-weight-bold">Size: {{$item->size}}</p>
-                                    <p class="font-weight-bold">Description: {{$item->description}}.</p>
-                                    <button type="button" class="btn btn-primary editItem" id="editItem">edit</button>
-                                    <button type="button" class="btn btn-danger removeItem" id="removeItem">remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class=" row w-100 mh-100 justify-content-end pl-3">
-                    <button type="button" class="btn btn-secondary updatePost btn-lg" id="updateSO">Update Sales Order</button>
-                </div>
-            </form>
-        @else 
-            @if(count($salesorderlines) > 0)
-            <div class="col-12 pt-4">
-                <h1 class="text-center">Product Lists</h1>
-            </div>
-            <div class="card" style="width: 100%;">
-                @foreach($salesorderlines as $item)
-                <div id="{{$item->modelType}}" data-model="{{$item->modelType}}" data-meubleName="{{$item->name}}" data-price="{{$item->price}}" data-quantity="{{$item->quantity}}" data-category="{{$item->category}}" data-warranty="{{$item->warrantyPeriodeMonth}}" data-color="{{$item->color}}" data-size="{{$item->size}}" data-description="{{$item->description}}">
-                    <div class="row pt-3">
-                        <div class="col-12 col-md-3">
-                            <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">
-                        </div>
-                        <div class="col-12 col-md-9 pt-4">
-                            <h3 class="font-weight-bold">{{$item->modelType}}</h3>Rp {{$item->price}},00
-                            <p class="font-weight-bold">Ammount: {{$item->quantity}}</p>
-                            <p class="font-weight-bold">Color: {{$item->color}}</p>
-                            <p class="font-weight-bold">Size: {{$item->size}}</p>
-                            <p class="font-weight-bold">Description: {{$item->description}}.</p>
-                        </div>
+                </div> --}}
+                <div class="form-group row">
+                    <label for="modelType" class="col-sm-4 col-form-label">Price</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0" ;>
                     </div>
                 </div>
-                @endforeach
-            </div>
-            @else
-                <div class="col-12 col-md-6 pb-5">
-                    <div class="card" style="width: 100%;">
-                        <div class="card-body pt-4">
-                            <h4>No Item Lines in This Sales Order.</h4>
-                        </div>
-                    </div>
+                <div class="row w-100 justify-content-end">
+                    <button type="button" class="btn btn-secondary" id="addItem">Add</button>
                 </div>
-            @endif
-        @endif
+        </div>
     </div>
+    </form>
+</div>
+<div class="col-12 pt-4">
+    <h1 class="text-center">Product Lists</h1>
+</div>
+<form id="ajaxInput" action="" method="POST">
+    @csrf
+    <div class="card" style="width: 100%;" id="lineItem">
+        @foreach($salesorderlines as $item)
+        <div id="{{$item->modelType}}" data-model="{{$item->modelType}}" data-meubleName="{{$item->name}}" data-price="{{$item->price}}" data-quantity="{{$item->quantity}}" data-category="{{$item->category}}" data-warranty="{{$item->warrantyPeriodeMonth}}" data-color="{{$item->color}}" data-size="{{$item->size}}" data-description="{{$item->description}}">
+            <div class="row pt-3">
+                <div class="col-12 col-md-3">
+                    <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">
+                </div>
+                <div class="col-12 col-md-9 pt-4">
+                    <h3 class="font-weight-bold">{{$item->modelType}}</h3>Rp {{$item->price}},00
+                    <p class="font-weight-bold">Ammount: {{$item->quantity}}</p>
+                    <p class="font-weight-bold">Color: {{$item->color}}</p>
+                    <p class="font-weight-bold">Size: {{$item->size}}</p>
+                    <p class="font-weight-bold">Description: {{$item->description}}.</p>
+                    <button type="button" class="btn btn-primary editItem" id="editItem">edit</button>
+                    <button type="button" class="btn btn-danger removeItem" id="removeItem">remove</button>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    <div class=" row w-100 mh-100 justify-content-end pl-3">
+        <button type="button" class="btn btn-secondary updatePost btn-lg" id="updateSO">Update Sales Order</button>
+    </div>
+</form>
+@else
+@if(count($salesorderlines) > 0)
+<div class="col-12 pt-4">
+    <h1 class="text-center">Product Lists</h1>
+</div>
+<div class="card" style="width: 100%;">
+    @foreach($salesorderlines as $item)
+    <div id="{{$item->modelType}}" data-model="{{$item->modelType}}" data-meubleName="{{$item->name}}" data-price="{{$item->price}}" data-quantity="{{$item->quantity}}" data-category="{{$item->category}}" data-warranty="{{$item->warrantyPeriodeMonth}}" data-color="{{$item->color}}" data-size="{{$item->size}}" data-description="{{$item->description}}">
+        <div class="row pt-3">
+            <div class="col-12 col-md-3">
+                <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">
+            </div>
+            <div class="col-12 col-md-9 pt-4">
+                <h3 class="font-weight-bold">{{$item->modelType}}</h3>Rp {{$item->price}},00
+                <p class="font-weight-bold">Ammount: {{$item->quantity}}</p>
+                <p class="font-weight-bold">Color: {{$item->color}}</p>
+                <p class="font-weight-bold">Size: {{$item->size}}</p>
+                <p class="font-weight-bold">Description: {{$item->description}}.</p>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+@else
+<div class="col-12 col-md-6 pb-5">
+    <div class="card" style="width: 100%;">
+        <div class="card-body pt-4">
+            <h4>No Item Lines in This Sales Order.</h4>
+        </div>
+    </div>
+</div>
+@endif
+@endif
+</div>
 </div>
 
 @endsection

@@ -34,13 +34,13 @@
                     <div class="form-group row">
                         <label for="date" class="col-sm-4 col-form-label">Date</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control header-field-form" id="date" name="date">
+                            <input type="date" class="form-control header-field-form" id="date" name="date" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="validTo" class="col-sm-4 col-form-label">Valid To</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control header-field-form" id="validTo" name="validTo">
+                            <input type="date" class="form-control header-field-form" id="validTo" name="validTo" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -52,7 +52,7 @@
                     <div class="form-group row">
                         <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control header-field-form" value="{{$po->freightIn}}" id="freightIn" name="freightIn">
+                            <input type="number" class="form-control header-field-form" disabled value="{{$po->freightIn}}" id="freightIn" name="freightIn">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -125,14 +125,23 @@
             @csrf
             <div class="card" style="width: 100%;" id="lineItem">
                 @foreach($line as $item)
-                <div id="{{$item->modelType}}" data-model="{{$item->modelType}}" data-meubleName="{{$item->name}}" data-price="{{$item->price}}" data-quantity="{{$item->quantity}}" data-category="{{$item->category}}" data-warranty="{{$item->warrantyPeriodeMonth}}" data-color="{{$item->color}}" data-size="{{$item->size}}" data-description="{{$item->description}}">
+                <div id="{{$item->modelType}}">
+                    <input type="hidden" id="model-{{$item->modelType}}" value="{{$item->modelType}}">
+                    <input type="hidden" id="name-{{$item->modelType}}" value="{{$item->name}}">
+                    <input type="hidden" id="price-{{$item->modelType}}" value="{{$item->price}}">
+                    <input type="hidden" id="quantity-{{$item->modelType}}" value="{{$item->quantity}}">
+                    <input type="hidden" id="category-{{$item->modelType}}" value="{{$item->category}}">
+                    <input type="hidden" id="warranty-{{$item->modelType}}" value="{{$item->warrantyPeriodeMonth}}">
+                    <input type="hidden" id="color-{{$item->modelType}}" value="{{$item->color}}">
+                    <input type="hidden" id="size-{{$item->modelType}}" value="{{$item->size}}">
+                    <input type="hidden" id="desc-{{$item->modelType}}" value="{{$item->description}}">
                     <div class="row pt-3">
                         <div class="col-12 col-md-3">
                             <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">
                         </div>
                         <div class="col-12 col-md-9 pt-4">
                             <h3 class="font-weight-bold">{{$item->modelType}}</h3>Rp {{$item->price}},00
-                            <p class="font-weight-bold">Ammount: {{$item->quantity}}</p>
+                            <p class="font-weight-bold dataQuantity">Ammount: {{$item->quantity}}</p>
                             <p class="font-weight-bold">Color: {{$item->color}}</p>
                             <p class="font-weight-bold">Size: {{$item->size}}</p>
                             <p class="font-weight-bold">Description: {{$item->description}}.</p>

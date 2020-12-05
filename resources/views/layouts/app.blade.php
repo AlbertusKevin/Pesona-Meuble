@@ -34,15 +34,15 @@
                         <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
                             <a class="dropdown-item" href="/salesorder">List</a>
                             <a class="dropdown-item" href="/salesorder/history">History</a>
-                            <a class="dropdown-item" href="/salesorder/create">Create</a>
+                            <a class="dropdown-item" href="/salesorder/create">New</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
-                            <a class="dropdown-item" href="/procurement/list">List of Purchase Order</a>
-                            <a class="dropdown-item" href="/procurement/history">History of Purchase Order</a>
-                            <a class="dropdown-item" href="/procurement/create">New Purchase Order</a>
+                            <a class="dropdown-item" href="/procurement/list">List</a>
+                            <a class="dropdown-item" href="/procurement/history">History</a>
+                            <a class="dropdown-item" href="/procurement/create">New</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

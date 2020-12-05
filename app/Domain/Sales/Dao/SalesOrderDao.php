@@ -4,8 +4,6 @@ namespace App\Domain\Sales\Dao;
 
 use App\Http\Controllers\Controller;
 use App\Domain\Sales\Entity\SalesOrder;
-use App\Domain\CustomerManagement\Dao\CustomerDB;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class SalesOrderDao extends Controller
@@ -19,15 +17,14 @@ class SalesOrderDao extends Controller
     public function findAllSalesOrders()
     {
         // $salesorders = SalesOrder::orderBy('numSO', 'asc')->paginate(9);
-        $salesorders = SalesOrder::all();
-        return $salesorders; 
+        return SalesOrder::where('transactionStatus', 0)->get();
     }
 
     public function findSalesOrderByNumSOWithCustomer($numSO)
     {
         $salesorder = SalesOrder::where('numSO', $numSO)
             ->join('customer', 'sales_order.customer', '=', 'customer.id')->first();
-        return $salesorder; 
+        return $salesorder;
     }
 
     public function findLastNumSO()
@@ -38,7 +35,8 @@ class SalesOrderDao extends Controller
 
     public function findSalesOrderHistory()
     {
-        $salesorders =  Salesorder::where('transactionStatus', '=', 2)
+        $salesorders =  Salesorder::where('transactionStatus', '=', 1)
+            ->orwhere('transactionStatus', '=', 2)
             ->orwhere('transactionStatus', '=', 3)
             ->get();
         return $salesorders;
@@ -47,32 +45,32 @@ class SalesOrderDao extends Controller
     //insert data header dari PO ke tabel purchase_order
     public function createSalesOrder($header)
     {
-        
+
         SalesOrder::create([
             'numSO' => $header["numSO"],
             'customer' => (int)$header["customer"],
-            'responsibleEmployee' => (int)$header["employeeID"],
-            'date' =>Carbon::parse($header["date"])->format('Y-m-d'),
+            'responsibleEmployee' => (int)$header["id"],
+            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
             'validTo' => Carbon::parse($header["validTo"])->format('Y-m-d'),
             'transactionStatus' => 0,
             'totalItem' => (int)$header["totalItem"],
-            //   'freightIn' => (int)$header["freightIn"],
+            'freightIn' => (int)$header["freightIn"],
             'totalPrice' => (int)$header["totalPrice"],
-            'paymentDiscount' => null,
+            'paymentDiscount' => (int)$header["paymentDiscount"],
             'totalDiscount' => (int)$header["totalDisc"],
             'totalPayment' => (int)$header["totalPayment"],
-            'totalMeubleDiscount' => 0
+            'totalMeubleDiscount' => (int)$header["totalMeubleDisc"]
         ]);
     }
 
     public function updateSalesOrder($header)
     {
-        
+
         SalesOrder::where('numSO', $header['numSO'])->update([
             'numSO' => $header["numSO"],
             'customer' => (int)$header["customer"],
             'responsibleEmployee' => (int)$header["employeeID"],
-            'date' =>Carbon::parse($header["date"])->format('Y-m-d'),
+            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
             'validTo' => Carbon::parse($header["validTo"])->format('Y-m-d'),
             'totalItem' => (int)$header["totalItem"],
             //   'freightIn' => (int)$header["freightIn"],
@@ -98,8 +96,4 @@ class SalesOrderDao extends Controller
     {
         SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 3]);;
     }
-
-    
-
-    
 }

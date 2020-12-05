@@ -11,7 +11,7 @@
             <div class="card" style="width: 100%;">
                 <div class="card-body pl-5 pt-4">
                     <div class="row card-text">
-                        <h3 class="font-weight-bold">Tidak Ada Pembelian yang harus diproses</h3>
+                        <h3 class="font-weight-bold">No Purchase Order Finished</h3>
                     </div>
                 </div>
             </div>

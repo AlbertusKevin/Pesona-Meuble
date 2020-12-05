@@ -19,8 +19,8 @@ class SalesOrderService extends Controller
      * @return Response
      */
 
-    private $salesorders; 
-    private $salesorderlines; 
+    private $salesorders;
+    private $salesorderlines;
     private $employees;
     private $meubles;
     private $discounts;
@@ -28,32 +28,30 @@ class SalesOrderService extends Controller
     public function __construct()
     {
         $this->salesorders = new SalesOrderDao();
-        $this->salesorderlines = new SalesOrderLineDB(); 
+        $this->salesorderlines = new SalesOrderLineDB();
         $this->employees = new EmployeeDB();
         $this->meubles = new MeubleDao();
         $this->discounts = new DiscountDB();
-
     }
 
-    
-
-    public function listView() { 
+    public function listView()
+    {
         $salesorders = $this->salesorders->findAllSalesOrders();
         return view('sales.sales_order.listSalesOrder', [
             'salesorders' => $salesorders,
         ]);
-
     }
 
-    public function historyView() { 
+    public function historyView()
+    {
         $salesorders = $this->salesorders->findSalesOrderHistory();
         return view('sales.sales_order.historySalesOrder', [
             'salesorders' => $salesorders,
         ]);
-
     }
 
-    public function salesOrderDetailView($numSO) { 
+    public function salesOrderDetailView($numSO)
+    {
         $salesorder = $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
         $salesorderlines = $this->salesorderlines->findSalesOrderLineDetail($numSO);
         return view('sales.sales_order.updateSalesOrderView', [
@@ -62,12 +60,13 @@ class SalesOrderService extends Controller
         ]);
     }
 
-    public function createView(Request $request) { 
-        $meubles =$this->meubles->findAllMeubles(); 
+    public function createView(Request $request)
+    {
+        $meubles = $this->meubles->findAllMeubles();
         $employee = $this->employees->findById($request->session()->get('id_employee'));
         $discounts = $this->discounts->showAll();
         $numSO = $this->salesorders->findLastNumSO();
-        
+
         if (count($numSO) != 0) {
             $numSO = $numSO[0]->numSO;
             $numSO = ((int)$numSO) + 1;
@@ -82,7 +81,6 @@ class SalesOrderService extends Controller
             'discounts' => $discounts,
             'numSO' => $numSO
         ]);
-
     }
 
     public function createHeader()
@@ -101,13 +99,13 @@ class SalesOrderService extends Controller
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->updateProceed($numSO);
-        return redirect('/salesorder')->with(['success' => 'Sales Order '. $numSO .' is on Proceed !']);
+        return redirect('/salesorder')->with(['success' => 'Sales Order ' . $numSO . ' is on Proceed !']);
     }
     public function cancelSO($numSO)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->updateCancel($numSO);
-        return redirect('/salesorder')->with(['success' =>'Sales Order  ' . $numSO . ' canceled !']);
+        return redirect('/salesorder')->with(['success' => 'Sales Order  ' . $numSO . ' canceled !']);
     }
 
     public function finishSO($numSO)
@@ -116,6 +114,4 @@ class SalesOrderService extends Controller
         $this->salesorders->updateFinish($numSO);
         return redirect('/salesorder')->with('success', 'Sales Order  ' . $numSO . ' finished successfully !');
     }
-
-    
 }
