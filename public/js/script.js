@@ -1,3 +1,9 @@
+/* Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Code's Author by Albertus Kevin, Chris Christian, December 2020
+ */
+
 const baseURL = 'http://localhost:8000/';
 
 function validateForm(type) {

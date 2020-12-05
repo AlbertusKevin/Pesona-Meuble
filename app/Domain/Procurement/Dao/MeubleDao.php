@@ -1,5 +1,11 @@
 <?php
 
+/* Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Code's Author by Albertus Kevin, Chris Christian, December 2020
+ */
+
 namespace App\Domain\Procurement\Dao;
 
 use App\Http\Controllers\Controller;
@@ -26,6 +32,13 @@ class MeubleDao extends Controller
         $meuble = Meuble::where('modelType', $data["model"])->first();
         return $meuble;
     }
+
+    public static function findMeuble($modelType)
+    {
+        $meuble = Meuble::where('modelType', $modelType)->first();
+        return $meuble;
+    }
+
     public static function findMeubleByModelTypeAndVendor($data)
     {
         $meuble = Meuble::where('modelType', $data["model"])->where('vendor', $data["vendor"])->first();

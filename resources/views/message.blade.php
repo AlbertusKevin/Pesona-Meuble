@@ -1,3 +1,10 @@
+{{-- 
+    Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+    Unauthorized copying of this file, via any medium is strictly prohibited
+    Proprietary and confidential
+    Code's Author by Albertus Kevin, Chris Christian, December 2020 
+--}}
+
 <div class="row justify-content-center">
     @if (session('failed_login'))
     <div class="alert alert-danger">
