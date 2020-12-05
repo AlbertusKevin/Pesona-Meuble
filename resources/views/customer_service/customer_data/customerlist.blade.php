@@ -31,33 +31,28 @@
             <thead>
               <tr>
                 <th scope="col">Customer Id</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Type</th>
-                <th scope="col" class="text-center">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Address</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="trcard">
-                <th scope="row">CM-001</th>
-                <td >Bambang Hermawan</td>
-                <td >Member</td>
-                <td class="text-center">B4mbang@gmail.com</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">CM-002</th>
-                <td >Devina Belinda</td>
-                <td >Non-member</td>
-                <td class="text-center">Devi123@rocketmail.com</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">CM-003</th>
-                <td >Vardina Nava</td>
-                <td >Non-member</td>
-                <td class="text-center">Dina777@gmail.com</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
+              <?php $i = 1; ?>
+                @foreach( $customers as $customer )
+                  <tr>
+                      <td>{{ $customer->id}}</td>
+                      <td>{{ $customer->name }}</td>
+                      <td>{{ $customer->email }}</td>
+                      <td>{{ $customer->phone }}</td>
+                      <td>{{ $customer->address }}</td>
+                      <td>{{ $customer->memberID }}</td>
+                      <td class="text-center">
+                          <a href="{{url('/customer/update/$customers->id')}}" class="btn btn-xs btn-primary">Edit</a> 
+                      </td>
+                  </tr>
+                @endforeach
             </tbody>
           </table>
       </div>

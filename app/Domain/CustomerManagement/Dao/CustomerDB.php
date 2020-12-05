@@ -38,5 +38,24 @@ class CustomerDB extends Controller
         ]);
     }
 
-    
+    public function showAll()
+    {
+        return Customer::all();
+    }
+
+    public function findById($id)
+    {
+        return Customer::where('id', $id)->first();
+    }
+
+    public function updateCustomers(Request $request, $id)
+    {
+        Customer::where('id', $id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address
+            // 'memberId' => $request->memberId,
+        ]);
+    }
 }

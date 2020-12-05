@@ -29,26 +29,29 @@ Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
 Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
 Route::get('/logout', 'App\Domain\Employee\Service\Login@logout')->middleware('login_check');
 Route::get('/admin', 'App\Domain\Employee\Service\Login@homeAdmin')->middleware('login_check');
-
 //=============================================================================================================
 // Domain Sales
 //=============================================================================================================
+
 Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView')->middleware('login_check');
-Route::get('/salesorder/history', 'App\Domain\Sales\Service\SalesOrderService@historyView')->middleware('login_check');
+Route::get('/salesorder/history/', 'App\Domain\Sales\Service\SalesOrderService@historyView')->middleware('login_check');
 Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@createView')->middleware('login_check');
 Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
 Route::get('/salesorder/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');
 Route::get('/salesorder/history/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetaiHistory')->middleware('login_check');
 Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder')->middleware('login_check');
 
-Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine')->middleware('login_check');
 Route::post('/salesorder/create/header', 'App\Domain\Sales\Service\SalesOrderService@createHeader')->middleware('login_check');
+Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine')->middleware('login_check');
 
 Route::put('/salesorder/proceed/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@proceedSO')->middleware('login_check');
 Route::put('/salesorder/cancel/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@cancelSO')->middleware('login_check');
 Route::put('/salesorder/finish/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@finishSO')->middleware('login_check');
 Route::put('/salesorder/update/header', 'App\Domain\Sales\Service\SalesOrderService@updateHeader')->middleware('login_check');
 Route::put('/salesorder/update/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@updateSalesOrderLine')->middleware('login_check');
+
+Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder')->middleware('login_check');
+
 //=============================================================================================================
 // Domain Procurement
 //=============================================================================================================
@@ -67,6 +70,8 @@ Route::put('/procurement/proceed/{num}', 'App\Domain\Procurement\Service\Procure
 Route::put('/procurement/cancel/{num}', 'App\Domain\Procurement\Service\ProcurementService@cancelPO')->middleware('login_check');
 Route::put('/procurement/update/header', 'App\Domain\Procurement\Service\ProcurementService@updateHeader')->middleware('login_check');
 Route::put('/procurement/update', 'App\Domain\Procurement\Service\ProcurementService@updateLine')->middleware('login_check');
+
+
 //=============================================================================================================
 // Domain Financial
 //=============================================================================================================
@@ -82,7 +87,6 @@ Route::get('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService
 Route::get('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalaryView')->middleware('login_check');
 
 Route::post('/employee/create', 'App\Domain\Employee\Service\EmployeeService@addNewEmployee')->middleware('login_check');
-
 Route::put('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService@updateEmployee')->middleware('login_check');
 Route::put('/employee/resign/{id}', 'App\Domain\Employee\Service\EmployeeService@resignEmployee')->middleware('login_check');
 Route::put('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalary')->middleware('login_check');
@@ -95,12 +99,19 @@ Route::get('/vendor/detail/{companyCode}', 'App\Domain\Vendor\Service\VendorServ
 Route::get('/vendor/create', 'App\Domain\Vendor\Service\VendorService@createView')->middleware('login_check');
 
 Route::post('/vendor/create', 'App\Domain\Vendor\Service\VendorService@addNewVendor')->middleware('login_check');
+
 //=============================================================================================================
 // Domain Customer
 //=============================================================================================================
+
 Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
 Route::get('/meuble/{typeModel}', function ($typeModel) {
     $meuble = MeubleDao::findMeubleByModelType($typeModel);
     return view('customer_service.customer_data.customer')->with('meuble', $meuble);
 });
+
+Route::get('/customer/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers');
+Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers');
+
+Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers');
