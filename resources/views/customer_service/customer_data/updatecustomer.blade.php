@@ -10,7 +10,7 @@
     <div class="row justify-content-center">
         <div class="card p-5" style="width: 75%;">
             <div class="card-body pt-4">
-                <form action="/customer/update/{{$customers->id}}" method="POST">
+                <form action='/customer/update/{{$customers->id}}' method="POST">
                     @method('PUT')
                     @csrf
                     <div class="form-group row">
@@ -37,12 +37,12 @@
                             <input type="text" class="form-control" id="address" name="address" value={{$customers->address}}>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{--  <div class="form-group row">
                         <label for="customerName" class="col-sm-3 col-form-label">Member ID:</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="memberid" name="memberid" value={{$customers->memberId}}>
                         </div>
-                    </div>
+                    </div>  --}}
                     <div class="row justify-content-center">
                         <button type="submit" class="btn btn-secondary buttonPurple">Update</button>
                     </div>

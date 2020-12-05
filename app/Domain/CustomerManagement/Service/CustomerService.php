@@ -70,8 +70,8 @@ class CustomerService extends Controller
             'name' => 'required',
             'email' => 'required', 
             'phone' => 'required', 
-            'address' => 'required',
-            'memberId' => 'required' 
+            'address' => 'required'
+            // 'memberId' => 'required' 
         ]);
     
         if ($validator->fails()) {

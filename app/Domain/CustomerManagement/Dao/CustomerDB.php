@@ -54,8 +54,8 @@ class CustomerDB extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'address' => $request->address,
-            'memberId' => $request->memberId,
+            'address' => $request->address
+            // 'memberId' => $request->memberId,
         ]);
     }
 }
