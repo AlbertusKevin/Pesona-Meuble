@@ -1,5 +1,11 @@
 <?php
 
+/* Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Code's Author by Chris Christian, December 2020
+ */
+
 namespace App\Domain\Employee\Service;
 
 use App\Http\Controllers\Controller;
@@ -55,7 +61,6 @@ class EmployeeService extends Controller
         return view('employee.employee_data.newEmployee');
     }
 
-    //mengambil data mebel yang sudah ada untuk field create PO
     public function addNewEmployee(Request $request)
     {
         $validator = Validator::make($request->all(), [

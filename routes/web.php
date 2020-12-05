@@ -1,5 +1,11 @@
 <?php
 
+/* Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
+ */
+
 use App\Domain\Employee\Entity\Employee;
 use App\Domain\Finance\Entity\Discount;
 use App\Domain\Procurement\Dao\MeubleDao;
@@ -21,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 // Home and Display Product
 //=============================================================================================================
 Route::get('/', 'App\Domain\Procurement\Service\MeubleService@homeView');
+Route::get('/meuble/{typeModel}', 'App\Domain\Procurement\Service\MeubleService@meubleDetailView');
 
 //=============================================================================================================
 // Domain Employee
@@ -106,14 +113,11 @@ Route::post('/vendor/create', 'App\Domain\Vendor\Service\VendorService@addNewVen
 // Domain Customer
 //=============================================================================================================
 
-Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
-Route::get('/meuble/{typeModel}', function ($typeModel) {
-    $meuble = MeubleDao::findMeubleByModelType($typeModel);
-    return view('customer_service.customer_data.customer')->with('meuble', $meuble);
-});
-
-Route::get('/customer/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers');
+Route::get('/customer/list', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers');
+Route::get('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createViewCustomers');
 Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers');
+
+Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
 Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers');
