@@ -20,7 +20,7 @@
 <body class="antialiased">
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <a class="navbar-brand" href="/admin">Pesona.</a>
+            <a class="navbar-brand" href="">Pesona.</a>
             <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -38,7 +38,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
                             <a class="dropdown-item" href="/procurement/list">List of Purchase Order</a>
                             <a class="dropdown-item" href="/procurement/history">History of Purchase Order</a>
@@ -48,7 +48,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownId">
-                            <a class="dropdown-item" href="#">Customer Management</a>
+                            <a class="dropdown-item" href="{{ url('/customer/$customers->id') }}">Customer Management</a>
                             <a class="dropdown-item" href="/vendor/list">Vendor Management</a>
                             <a class="dropdown-item" href="/employee/list">Employee Management</a>
                             <a class="dropdown-item" href="#">Finance</a>

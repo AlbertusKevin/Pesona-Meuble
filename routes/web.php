@@ -107,3 +107,8 @@ Route::get('/meuble/{typeModel}', function ($typeModel) {
     $meuble = MeubleDao::findMeubleByModelType($typeModel);
     return view('customer_service.customer_data.customer')->with('meuble', $meuble);
 });
+
+Route::get('/customer/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers');
+Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers');
+
+Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers');
