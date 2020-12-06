@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -163,7 +163,17 @@
             @csrf
             <div class="card" style="width: 100%;" id="lineItem">
                 @foreach($salesorderlines as $item)
-                <div id="{{$item->modelType}}" data-model="{{$item->modelType}}" data-meubleName="{{$item->name}}" data-price="{{$item->price}}" data-quantity="{{$item->quantity}}" data-category="{{$item->category}}" data-warranty="{{$item->warrantyPeriodeMonth}}" data-color="{{$item->color}}" data-size="{{$item->size}}" data-description="{{$item->description}}">
+                <div id="{{$item->modelType}}">
+                    <input type="hidden" id="model-{{$item->modelType}}" value="{{$item->modelType}}">
+                    <input type="hidden" id="name-{{$item->modelType}}" value="{{$item->name}}">
+                    <input type="hidden" id="price-{{$item->modelType}}" value="{{$item->price}}">
+                    <input type="hidden" id="quantity-{{$item->modelType}}" value="{{$item->quantity}}">
+                    <input type="hidden" id="category-{{$item->modelType}}" value="{{$item->category}}">
+                    <input type="hidden" id="warranty-{{$item->modelType}}" value="{{$item->warrantyPeriodeMonth}}">
+                    <input type="hidden" id="color-{{$item->modelType}}" value="{{$item->color}}">
+                    <input type="hidden" id="size-{{$item->modelType}}" value="{{$item->size}}">
+                    <input type="hidden" id="desc-{{$item->modelType}}" value="{{$item->description}}">
+                    <input type="hidden" id="discMeuble-{{$item->modelType}}" value="{{$item->discountMeuble}}">
                     <div class="row pt-3">
                         <div class="col-12 col-md-3">
                             <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">
@@ -175,7 +185,10 @@
                             <p class="font-weight-bold">Size: {{$item->size}}</p>
                             <p class="font-weight-bold">Description: {{$item->description}}.</p>
                             <button type="button" class="btn btn-primary editItem" id="editItem">edit</button>
-                            <button type="button" class="btn btn-danger removeItem" id="removeItem">remove</button>
+                            <form class="remove">
+                                @csrf
+                                <button type="button" class="btn btn-danger removeItem" id="removeItem">remove</button>
+                            </form>
                         </div>
                     </div>
                 </div>
