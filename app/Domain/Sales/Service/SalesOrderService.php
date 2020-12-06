@@ -113,11 +113,18 @@ class SalesOrderService extends Controller
         $this->salesorders->updateSalesOrder($request);
     }
 
+    public function updateStock(Request $request)
+    {
+        $stock = $this->meubles->findMeubleByModelType($request['modelType']);
+        $stock = $stock->stock;
+        $stock -= $request['quantity'];
+        $this->meubles->update($request, $stock);
+    }
+
     public function proceedSO($numSO)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->updateProceed($numSO);
-        return redirect('/salesorder')->with(['success' => 'Sales Order ' . $numSO . ' is on Proceed !']);
     }
     public function cancelSO($numSO)
     {

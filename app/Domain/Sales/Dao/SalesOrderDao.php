@@ -73,18 +73,11 @@ class SalesOrderDao extends Controller
     {
 
         SalesOrder::where('numSO', $header['numSO'])->update([
-            'numSO' => $header["numSO"],
-            'customer' => (int)$header["customer"],
-            'responsibleEmployee' => (int)$header["employeeID"],
-            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
-            'validTo' => Carbon::parse($header["validTo"])->format('Y-m-d'),
             'totalItem' => (int)$header["totalItem"],
-            'freightIn' => (int)$header["freightIn"],
             'totalPrice' => (int)$header["totalPrice"],
-            'paymentDiscount' => null,
             'totalDiscount' => (int)$header["totalDisc"],
             'totalPayment' => (int)$header["totalPayment"],
-            'totalMeubleDiscount' => 0
+            'totalMeubleDiscount' => (int)$header['totalMeubleDisc']
         ]);
     }
 

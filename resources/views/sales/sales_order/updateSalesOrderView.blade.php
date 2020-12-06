@@ -185,17 +185,14 @@
                             <p class="font-weight-bold">Size: {{$item->size}}</p>
                             <p class="font-weight-bold">Description: {{$item->description}}.</p>
                             <button type="button" class="btn btn-primary editItem" id="editItem">edit</button>
-                            <form class="remove">
-                                @csrf
-                                <button type="button" class="btn btn-danger removeItem" id="removeItem">remove</button>
-                            </form>
+                            <button type="button" class="btn btn-danger removeItem" id="removeItem">remove</button>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
             <div class=" row w-100 mh-100 justify-content-end pl-3">
-                <button type="button" class="btn btn-secondary updatePost btn-lg" id="updateSO">Update Sales Order</button>
+                <button type="button" class="btn btn-secondary updatePost btn-lg" id="updateTransaction">Update Sales Order</button>
             </div>
         </form>
         @else

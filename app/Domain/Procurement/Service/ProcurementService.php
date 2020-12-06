@@ -121,8 +121,16 @@ class ProcurementService extends Controller
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->proceedPO($num);
-        $this->redirect('/procurement/menu');
     }
+
+    public function updateStock(Request $request)
+    {
+        $stock = $this->meuble->findMeubleByModelType($request['modelType']);
+        $stock = $stock->stock;
+        $stock += $request['quantity'];
+        $this->meuble->update($request, $stock);
+    }
+
     public function cancelPO($num)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
@@ -135,21 +143,13 @@ class ProcurementService extends Controller
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->updateHeader($request);
     }
-    public function updateLine(Request $request)
+
+    public function deleteLine(Request $request)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurement->updateLine($request);
+        $this->procurement->deleteLine($request);
     }
 
-    public function addNewLineItem($num)
-    {
-        $this->procurement->addNewLineItem($num, $_POST);
-    }
-
-    public function deleteNewLineItem($num, $model)
-    {
-        $this->procurement->deleteNewLineItem($num, $model);
-    }
     // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
     // if (isset($available)) {
     //     $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
