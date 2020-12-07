@@ -42,17 +42,13 @@ class VendorDB
         ]);
     }
 
-    public function findByCompanyCode($companyCode)
+    public function updateVendors(Request $request, $id)
     {
-        return Vendor::where('companyCode', $companyCode)->first();
-    }
-
-    public function updateVendors(Request $request, $companyCode)
-    {
-        Vendor::where('companyCode', $companyCode)->update([
+        Vendor::where('companyCode', $id)->update([
             'name' => $request->name,
             'email' => $request->email,
-            'telephone' => $request->telephone
+            'telephone' => $request->telephone,
+            'address' => $request->address
         ]);
     }
 }

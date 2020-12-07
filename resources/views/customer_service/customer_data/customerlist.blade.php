@@ -43,7 +43,7 @@
                 <th scope="col">E-mail</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Address</th>
-                <th scope="col">Action</th>
+                <th scope="col" class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -55,7 +55,7 @@
                       <td>{{ $customer->email }}</td>
                       <td>{{ $customer->phone }}</td>
                       <td>{{ $customer->address }}</td>
-                      <td>{{ $customer->memberID }}</td>
+                      {{--  <td>{{ $customer->memberID }}</td>  --}}
                       <td class="text-center">
                           <a href="/customer/update/{{$customer->id}}" class="btn btn-xs btn-primary">Edit</a> 
                       </td>

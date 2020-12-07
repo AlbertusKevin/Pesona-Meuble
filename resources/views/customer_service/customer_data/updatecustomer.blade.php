@@ -65,7 +65,7 @@
                         @csrf
                         <input type='hidden' name='name' id='name' value={{$customers->name}}>
                         <div class="row justify-content-center">
-                            <button type="submit" class="btn btn-secondary buttonPurple">Register Member</button>
+                            <button type="submit" class="btn btn-outline-primary mt-4">Register Member</button>
                         </div>
                     </form>
                 @endif
@@ -73,5 +73,4 @@
         </div>
     </div>
   </div> 
-
 @endsection

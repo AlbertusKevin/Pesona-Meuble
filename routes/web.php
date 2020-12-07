@@ -132,5 +132,10 @@ Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\Custo
 
 Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
+<<<<<<< HEAD
 Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers')->middleware('login_check');
 Route::put('/customer/member/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateMemberCustomer')->middleware('login_check');
+=======
+Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers');
+Route::put('/customer/member/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateMemberCustomer');
+>>>>>>> 4d9f806fdad2efef8cf90e7eca438293d167c914

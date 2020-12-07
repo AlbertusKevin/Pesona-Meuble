@@ -18,7 +18,6 @@ class CustomerService extends Controller
 {
     // Deklarasi kelas global, untuk pemanggilan model ORM
     private $customers;
-    private $employee;
 
     //==================================================================================================================================================
     // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil

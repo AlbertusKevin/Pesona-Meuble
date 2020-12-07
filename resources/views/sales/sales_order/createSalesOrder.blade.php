@@ -148,7 +148,7 @@
                     </div>
                 </div>
             </form>
-            <div class=" row w-100 mh-100 justify-content-end pl-3">
+            <div class=" row w-100 mh-100 justify-content-start pl-3">
                 <button type="button" class="btn btn-secondary updatePost btn-lg" id="newItem" data-toggle="modal" data-target="#formModal">New Customer</button>
             </div>
         </div>
@@ -181,7 +181,7 @@
                     @csrf
                     <div class="card" style="width: 100%;">
                         <div class="card-body pt-4">
-                            <h4>Customer's Data</h4>
+                            <h4>Customer'   s Data</h4>
                             <div class="form-group row">
                                 <label for="name" class="col-sm-4 col-form-label">Name</label>
                                 <div class="col-sm-8">
