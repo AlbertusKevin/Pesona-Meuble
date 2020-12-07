@@ -6,10 +6,6 @@
  * Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
  */
 
-use App\Domain\Employee\Entity\Employee;
-use App\Domain\Finance\Entity\Discount;
-use App\Domain\Procurement\Dao\MeubleDao;
-use App\Domain\Sales\Dao\SalesOrderDao;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -87,8 +83,17 @@ Route::patch('/procurement/update/header', 'App\Domain\Procurement\Service\Procu
 Route::delete('/procurement/item', 'App\Domain\Procurement\Service\ProcurementService@deleteLine')->middleware('login_check');
 
 //=============================================================================================================
-// Domain Financial
+// Domain Finance
 //=============================================================================================================
+Route::get('/discount/list/', 'App\Domain\Finance\Service\DiscountService@listView')->middleware('login_check');
+Route::get('/discount/detail/{code}', 'App\Domain\Finance\Service\DiscountService@detailView')->middleware('login_check');
+Route::get('/discount/create', 'App\Domain\Finance\Service\DiscountService@createView')->middleware('login_check');
+
+Route::post('/discount/create', 'App\Domain\Finance\Service\DiscountService@createNewDiscount')->middleware('login_check');
+Route::put('/discount/update/{code}', 'App\Domain\Finance\Service\DiscountService@updateStatusDiscount')->middleware('login_check');
+Route::delete('/discount/delete/{code}', 'App\Domain\Finance\Service\DiscountService@deleteDiscount')->middleware('login_check');
+
+
 Route::patch('/procurement/proceed/{num}', 'App\Domain\Procurement\Service\ProcurementService@proceedPO')->middleware('login_check');
 Route::patch('/salesorder/proceed/{num}', 'App\Domain\Sales\Service\SalesOrderService@proceedSO')->middleware('login_check');
 
