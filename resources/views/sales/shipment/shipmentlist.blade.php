@@ -1,66 +1,51 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
-      <div class="row justify-content-center">
-        <h1 class="text-center mt-5 mb-5 font-weight-bold">Shipment List</h1>
-      </div>
-      <div class="row justify-content-between">
-          <div class="col-12 col-md-4">
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              </form>
-          </div>
-          <div class="col-12 col-md-5 text-right">
-            <div class="dropdown">
-                <button class="btn defaultbtn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Sort
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Sort Opt1</a>
-                  <a class="dropdown-item" href="#">Sort Opt2</a>
-                  <a class="dropdown-item" href="#">Sort Opt3</a>
-                </div>
-              </div>
-          </div>
-      </div>
-      <div class="row pt-3">
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Shipment Invoice</th>
-                <th scope="col">Sales Order Number</th>
-                <th scope="col" class="text-center">Shipment Date</th>
-                <th scope="col" class="text-center">Delivered Date</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="trcard">
-                <th scope="row">SH-001</th>
-                <td>SO-001</td>
-                <td class="text-center">22/10/2020</td>
-                <td class="text-center">26/10/2020</td>
-                <td>Delivered to Customer</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">SH-002</th>
-                <td>SO-002</td>
-                <td class="text-center">22/10/2020</td>
-                <td class="text-center">27/10/2020</td>
-                <td >Delivered to Customer</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">SH-003</th>
-                <td>SO-003</td>
-                <td class="text-center">24/10/2020</td>
-                <td class="text-center">~</td>
-                <td> Being Delivered</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-            </tbody>
-          </table>
-      </div>
-    </div>
+<div class="container">
+  <div class="row justify-content-center">
+    <h1 class="text-center mt-5 mb-5 font-weight-bold">Shipment List</h1>
+  </div>
+  <div class="row pt-3">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Delivery Num</th>
+          <th scope="col" class="text-center">Shipment Date</th>
+          <th scope="col" class="text-center">Delivered Date</th>
+          <th scope="col">Status</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(count($deliveries) == 0)
+        <tr class="trcard">
+          <th class="text-center" colspan="5" scope="row">No deliveries have occurred yet</th>
+        </tr>
+        <tr class="separator">
+          <th colspan="5" scope="row"></th>
+        </tr>
+        @endif
+        @foreach($deliveries as $delivery)
+        <tr class="trcard">
+          <th scope="row" class="text-center">{{$delivery->deliveryNum}}</th>
+          <td class="text-center">{{$delivery->dateDelivery}}</td>
+          <td class="text-center">{{$delivery->dateReceived}}</td>
+          @if($delivery->status == 0)
+          <td>Being Delivered</td>
+          @else
+          <td>Delivered to Customer</td>
+          @endif
+          <td>
+            <form action="/delivery/detail/{{$delivery->deliveryNum}}">
+              <button type="submit" class="btn-sml btn-primary">Detail</button>
+            </form>
+          </td>
+        </tr>
+        <tr class="separator">
+          <th scope="row"></th>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
+</div>
 @endsection

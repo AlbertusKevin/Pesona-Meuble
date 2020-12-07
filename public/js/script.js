@@ -43,6 +43,11 @@ $('#modelType').on("change", function () {
             if(data){
                 $("#price").val(data.price);
                 $('#name').val(data.name);
+                if(url == 'salesorder'){
+                    if(data.stock < quantity){
+                        alert('Insufficient stock '+model+'. You can still continue the process if stock is planned.');
+                    }
+                }
             }else{
                 alert(`Model ${$("#modelType").val()} from vendor ${$("#vendor").val()} doesn't exist!`);
                 $('#modelType').val(null);
@@ -139,6 +144,12 @@ $("#lineHeader").on("click", '#addItem', function (){
                     $("#totalItem").val(totalItem);
                     $("#totalPrice").val(totalPrice);
                     $("#totalPayment").val(totalPayment);
+
+                    if(url == 'salesorder'){
+                        if(data.stock < quantity){
+                            alert('Insufficient stock '+$("#modelType").val()+'. You can still continue the process if stock is planned.');
+                        }
+                    }
 
                     //Buat tag template HTML
                     const tag_html = `
@@ -539,15 +550,18 @@ $('#updateTransaction').on("click", function(){
 //proceed PO untuk update stock meuble
 $('#proceed').on("click", function(){
     const result = update();
-    let ajax;
+    let ajaxProceed, ajaxMeuble;
+
     if (result == "salesorder"){
         ajaxProceed = `/salesorder/proceed/${$('#numSO').val()}`;
         ajaxMeuble = '/salesorder/meuble'
     }
+
     if(result == "procurement"){
         ajaxProceed = `/procurement/proceed/${$('#numPO').val()}`
         ajaxMeuble = '/procurement/meuble'
     }
+
     $.ajax({
         url: ajaxProceed,
         method: 'patch',
@@ -565,19 +579,17 @@ $('#proceed').on("click", function(){
                     method: "patch",
                     data: {modelType, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                     success: () => {
-                        if(url == 'salesorder'){
-                            // const freightIn = $('#freightIn').val();
-                            // if(freightIn == 0){
-                            //     $.ajax({
-                            //         url: '/delivery',
-                            //         method: 'post',
-                            //         data: {modelType, numSO: $('#numSO').val()}
-                            //     });
-                            // }
-                            alert('Sales Order now Processed');
-                            window.location.href = '/salesorder';
+                        if(result == 'salesorder'){
+                            const freightIn = parseInt($('#freightIn').val());
+                            console.log(freightIn)
+                            if(freightIn != 0){
+                                window.location.href = `/delivery/new/${$('#numSO').val()}`;
+                            }else{
+                                alert('Sales Order now Processed');
+                                window.location.href = '/salesorder';
+                            }
                         }
-                        if(url == 'procurement'){
+                        if(result == 'procurement'){
                             window.location.href = '/procurement/list';
                             alert('Purchase Order now Processed');
                         }
@@ -588,4 +600,37 @@ $('#proceed').on("click", function(){
     });
     //Data line item yang diambil, update quantity di tabel mebel berdasarkan type model
     //Ubah transaction status menjadi 1
+});
+
+const quantity = () => {
+    const model = $("#modelType").val();
+    const quantity = $('#quantity').val();
+
+    //ambil asal url terlebih dahulu
+    let url = window.location.href;
+    url = url.split("/");
+    url = url[3];
+
+    if(url == 'salesorder'){
+        $.ajax({
+            url: `/procurement/meuble`,
+            data: {
+                model, 
+                source_url: url,
+                _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
+            dataType: "json",
+            success: (data) => {
+                if(data){
+                    if(data.stock < quantity){
+                        alert('Insufficient stock '+model);
+                    }
+                }
+            }
+        });
+    }
+}
+
+//cek quantity SO apakah stock tersedia
+$('.quantity-SO').on("change", function(){
+    quantity();
 });

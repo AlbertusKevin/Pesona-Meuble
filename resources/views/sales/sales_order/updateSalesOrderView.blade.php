@@ -130,7 +130,7 @@
                         <div class="form-group row">
                             <label for="quantity" class="col-sm-4 col-form-label">Quantity</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-line-field-form" id="quantity" name="quantity" placeholder="Quantity">
+                                <input type="number" class="form-control header-line-field-form quantity-SO" id="quantity" name="quantity" placeholder="Quantity">
                             </div>
                         </div>
                         <div class="form-group row">

@@ -5,7 +5,9 @@
 <div class="container">
     <div class="row pt-2">
         <div class="div col-12 col-md-3 text-right align-self-center mwShipment">Shipment List</div>
-        <div class="div col-12 col-md-9 borderShipment"><h1>Shipment Invoice SH-001</h1></div>
+        <div class="div col-12 col-md-9 borderShipment">
+            <h1>Shipment {{$delivery->deliveryNum}}</h1>
+        </div>
     </div>
 
     <div class="row pt-3">
@@ -16,65 +18,61 @@
                         <div class="form-group row">
                             <label for="customerName" class="col-sm-4 col-form-label">Shipping Point: </label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">??</label>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Shipment Invoice:</label>
-                            <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">SH-001</label>
+                                <label class="col-form-label font-weight-bold">{{$delivery->shippingPoint}}</label>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="customerName" class="col-sm-4 col-form-label">Sales Order Invoice:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">SH-001</label>
+                                <label class="col-form-label font-weight-bold">{{$delivery->numSO}}</label>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="customerName" class="col-sm-4 col-form-label">Status:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">Delivered to Customer</label>
+                                <label class="col-form-label font-weight-bold">
+                                    @if($delivery->status == 0)
+                                    Being Delivered
+                                    @else
+                                    Delivered to Customer
+                                    @endif
+                                </label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Ship Date: </label>
+                            <label for="customerName" class="col-sm-4 col-form-label">Shipment Date: </label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">22/10/2020</label>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Estimated Deliver Date: </label>
-                            <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">25/10/2020</label>
+                                <label class="col-form-label font-weight-bold">{{$delivery->dateDelivery}}</label>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="customerName" class="col-sm-4 col-form-label">Delivered Date: </label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">26/10/2020</label>
+                                <label class="col-form-label font-weight-bold">{{$delivery->dateReceived}}</label>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Destination Address: </label>
-                            <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">ABC Street 123, Bandung</label>
-                            </div>
-                        </div>
+                        @if(isset($delivery->notes))
                         <div class="form-group row">
                             <label for="customerName" class="col-sm-4 col-form-label">Notes: </label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">This is notes for shipment</label>
+                                <label class="col-form-label font-weight-bold">{{$delivery->notes}}</label>
                             </div>
                         </div>
+                        @endif
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    {{--  <div class="row justify-content-center">
-        <button type="button" class="btn btn-secondary updatePost">Add</button>
-    </div>  --}}
+    @if($delivery->status == 0)
+    <div class="row justify-content-center">
+        <form action="/delivery/detail/{{$delivery->deliveryNum}}" method="POST">
+            @csrf
+            @method('patch')
+            <button type="submit" class="btn btn-secondary updatePost">Proceed Status</button>
+        </form>
+    </div>
+    @endif
 </div>
 
 @endsection
