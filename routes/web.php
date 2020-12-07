@@ -119,18 +119,18 @@ Route::put('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@
 Route::get('/vendor/list/', 'App\Domain\Vendor\Service\VendorService@listView')->middleware('login_check');
 Route::get('/vendor/detail/{companyCode}', 'App\Domain\Vendor\Service\VendorService@detailView')->middleware('login_check');
 Route::get('/vendor/create', 'App\Domain\Vendor\Service\VendorService@createView')->middleware('login_check');
-Route::get('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateViewVendors');
+Route::get('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateViewVendors')->middleware('login_check');
 
 Route::post('/vendor/create', 'App\Domain\Vendor\Service\VendorService@addNewVendor')->middleware('login_check');
-Route::put('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateVendors');
+Route::put('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateVendors')->middleware('login_check');
 //=============================================================================================================
 // Domain Customer
 //=============================================================================================================
-Route::get('/customer/list', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers');
-Route::get('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createViewCustomers');
-Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers');
+Route::get('/customer/list', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers')->middleware('login_check');
+Route::get('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createViewCustomers')->middleware('login_check');
+Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers')->middleware('login_check');
 
 Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
 
-Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers');
-Route::put('/customer/member/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateMemberCustomer');
+Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers')->middleware('login_check');
+Route::put('/customer/member/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateMemberCustomer')->middleware('login_check');
