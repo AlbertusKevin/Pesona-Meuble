@@ -17,6 +17,15 @@ class Discount extends Model
     protected $table = 'discount';
     public $timestamps = false;
     protected $keyType = 'string';
+    protected $fillable = [
+        'code',
+        'description',
+        'percentDisc',
+        'responsibleEmployee',
+        'statusActive',
+        'from', 
+        'to'
+    ];
 
     public function salesorders()
     {

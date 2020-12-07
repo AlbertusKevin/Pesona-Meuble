@@ -59,7 +59,7 @@
                             <a class="dropdown-item" href="/customer/list">Customer Management</a>
                             <a class="dropdown-item" href="/vendor/list">Vendor Management</a>
                             <a class="dropdown-item" href="/employee/list">Employee Management</a>
-                            <a class="dropdown-item" href="#">Finance</a>
+                            <a class="dropdown-item" href="/discount/list">Finance</a>
                         </div>
                     </li>
                 </ul>

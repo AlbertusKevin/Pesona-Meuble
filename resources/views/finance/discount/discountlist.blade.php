@@ -1,6 +1,14 @@
+{{-- 
+    Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+    Unauthorized copying of this file, via any medium is strictly prohibited
+    Proprietary and confidential
+    Code's Author by Chris Christian, Mikhael Adriel, December 2020 
+--}}
+
 @extends('layouts.app')
 @section('content')
     <div class="container">
+      @include('message')
       <div class="row justify-content-center">
         <h1 class="text-center mt-5 mb-5 font-weight-bold">Discount List</h1>
       </div>
@@ -12,7 +20,7 @@
           </div>
           <div class="col-12 col-md-5 text-right">
             <div class="row text-right justify-content-end">
-                <button type="button" name="" id="" class="defaultbtn btn btn-primary mr-2" > New</button>
+                <a href='/discount/create'type="button" name="" id="" class="defaultbtn btn btn-primary mr-2" > New</a>
                 <div class="dropdown">
                     <button class="btn btn-secondary defaultbtn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Sort
@@ -30,34 +38,36 @@
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">Code Discount</th>
-                <th scope="col">Desc</th>
-                <th scope="col" class="text-center">Email</th>
+                <th scope="col"  class="text-center">Code Discount</th>
+                <th scope="col" class="text-center">Discount Percentage</th>
                 <th scope="col">Status</th>
+                <th scope="col" class="text-center">From</th>
+                <th scope="col" class="text-center">To</th>
+                <th scope="col" class="text-center"></th>
               </tr>
             </thead>
-            <tbody>
-              <tr class="trcard">
-                <th scope="row">DC-001</th>
-                <td >Murah 123</td>
-                <td class="text-center">12/12/2020</td>
-                <td >Active</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">DC-002</th>
-                <td >Murah 432</td>
-                <td class="text-center">12/12/2022</td>
-                <td >Active</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
-              <tr class="trcard">
-                <th scope="row">DC-003</th>
-                <td >mebel 222</td>
-                <td class="text-center">12/12/2021</td>
-                <td >Active</td>
-              </tr>
-              <tr class="separator" ><th scope="row"></th></tr>
+            </tbody>
+              @foreach($discounts as $discount)
+                <tr class="separator" ><th scope="row"></th></tr>
+                <tr class="trcard">
+                <th scope="row" class="text-center"><a href='/discount/detail/{{$discount->code}}'>{{$discount->code}}</a></th>
+                  <td class="text-center">{{$discount->percentDisc * 100 . '%'}}</td>
+                  @if($discount->statusActive === 1)
+                    <td>Active</td>
+                  @else 
+                    <td>Expired</td>
+                  @endif
+                  <td class="text-center">{{$discount->from}}</td>
+                  <td class="text-center">{{$discount->to}}</td>
+                  <td class="text-center">
+                    <form action='/discount/delete/{{$discount->code}}' method='POST'>
+                      @method('DELETE')
+                      @csrf
+                      <button type='submit' class="btn btn-xs btn-danger">Delete</a> 
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
       </div>
