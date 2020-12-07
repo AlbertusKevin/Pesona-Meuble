@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -42,6 +42,7 @@
                             <a class="dropdown-item" href="/salesorder">List</a>
                             <a class="dropdown-item" href="/salesorder/history">History</a>
                             <a class="dropdown-item" href="/salesorder/create">New</a>
+                            <a class="dropdown-item" href="/delivery">Delivery</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

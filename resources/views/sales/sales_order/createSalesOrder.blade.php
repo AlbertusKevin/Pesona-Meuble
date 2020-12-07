@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -123,7 +123,7 @@
                         <div class="form-group row">
                             <label for="quantity" class="col-sm-4 col-form-label">Quantity</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-line-field-form" id="quantity" name="quantity" placeholder="Quantity">
+                                <input type="number" class="form-control header-line-field-form quantity-SO" id="quantity" name="quantity" placeholder="Quantity">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -131,7 +131,7 @@
                             <div class="col-sm-8">
                                 <select id="discountMeuble" name="discountMeuble" class="form-control">
                                     @foreach ($discounts as $discount)
-                                    <option value="{{$discount->code}}">{{$discount->code}}: {{$discount->percentDisc}}</option>
+                                    <option value="{{$discount->code}}">{{$discount->code}}: {{$discount->percentDisc}} %</option>
                                     @endforeach
                                 </select>
                             </div>

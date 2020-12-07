@@ -16,7 +16,7 @@ class CreateInvoiceSalesTable extends Migration
         Schema::create('invoice_sales', function (Blueprint $table) {
             $table->string('numInvoiceSO', 20);
             $table->string('numSO', 20);
-            $table->bigInteger('deliveryNum');
+            $table->bigIncrements('deliveryNum');
             $table->bigInteger('responsibleEmployee')->unsigned();
             $table->date('date');
         });

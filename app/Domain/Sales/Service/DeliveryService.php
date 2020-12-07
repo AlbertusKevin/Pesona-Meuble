@@ -27,8 +27,41 @@ class DeliveryService extends Controller
         $this->delivery = new DeliveryDao();
     }
 
-    public function listOfDelivery()
+    public function index()
     {
-        $this->delivery->listOfDelivery();
+        $deliveries = $this->delivery->listOfDelivery();
+        return view('sales.shipment.shipmentlist', compact('deliveries'));
+    }
+
+    public function show($num)
+    {
+        $delivery = $this->delivery->deliveryByNum($num);
+        return view('sales.shipment.shipmentDetail', compact('delivery'));
+    }
+
+    public function create($num)
+    {
+        return view('sales.shipment.createShipment', compact('num'));
+    }
+
+    public function store($num, Request $request)
+    {
+        // $request->validate([
+        //     'numSO' => 'required',
+        //     'shippingPoint' => 'required',
+        //     'status' => 'required',
+        //     'shipDate' => 'required',
+        //     'deliveredDate' => 'required',
+        //     'notes' => 'required'
+        // ]);
+
+        $this->delivery->store($num, $request);
+        return redirect('/delivery');
+    }
+
+    public function change($num)
+    {
+        $this->delivery->updateStatus($num);
+        return redirect('/delivery')->with('delivery', 'Shipment Number ' . $num . ' Processed');
     }
 }

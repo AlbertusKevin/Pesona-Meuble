@@ -14,6 +14,14 @@ class Delivery extends Model
 {
     protected $table = 'delivery';
     public $timestamps = false;
+    protected $fillable = [
+        'numSO',
+        'shippingPoint',
+        'status',
+        'dateDelivery',
+        'dateReceived',
+        'notes'
+    ];
 
     public function invoicesales()
     {

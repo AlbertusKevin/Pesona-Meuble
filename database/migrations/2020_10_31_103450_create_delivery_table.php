@@ -14,15 +14,21 @@ class CreateDeliveryTable extends Migration
     public function up()
     {
         Schema::create('delivery', function (Blueprint $table) {
-            $table->bigInteger('deliveryNum');
+            $table->bigIncrements('deliveryNum');
+            $table->string('numSO', 20);
             $table->string('shippingPoint', 255);
-            $table->boolean('status');
             $table->date('dateDelivery');
             $table->date('dateReceived');
+            $table->boolean('status');
+            $table->string('notes', 255);
         });
 
         Schema::table('delivery', function (Blueprint $table) {
             $table->primary('deliveryNum');
+            $table->foreign('numSO')
+                ->references('numSO')
+                ->on('sales_order')
+                ->cascadeOnDelete();
         });
     }
 

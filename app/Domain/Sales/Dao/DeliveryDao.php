@@ -24,4 +24,26 @@ class DeliveryDao extends Controller
     {
         return Delivery::all();
     }
+    public function deliveryByNum($num)
+    {
+        return Delivery::where('deliveryNum', $num)->first();
+    }
+    public function updateStatus($num)
+    {
+        return Delivery::where('deliveryNum', $num)->update([
+            'status' => 1
+        ]);
+    }
+    public function store($num, $request)
+    {
+        return Delivery::create([
+            'deliveryNum' => 1,
+            'numSO' => $num,
+            'shippingPoint' => $request->shippingPoint,
+            'status' => $request->status,
+            'dateDelivery' => Carbon::parse($request->shipDate)->format('Y-m-d'),
+            'dateReceived' => Carbon::parse($request->deliveredDate)->format('Y-m-d'),
+            'notes' => $request->notes
+        ]);
+    }
 }
