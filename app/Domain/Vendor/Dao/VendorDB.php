@@ -10,6 +10,8 @@ namespace App\Domain\Vendor\Dao;
 
 use App\Http\Controllers\Controller;
 use App\Domain\Vendor\Entity\Vendor;
+use Illuminate\Http\Request;
+
 
 class VendorDB 
 {
@@ -37,6 +39,20 @@ class VendorDB
             'email' => $request->email,
             'telephone' => $request->telephone,
             'address' => $request->address,
+        ]);
+    }
+
+    public function findByCompanyCode($companyCode)
+    {
+        return Vendor::where('companyCode', $companyCode)->first();
+    }
+
+    public function updateVendors(Request $request, $companyCode)
+    {
+        Vendor::where('companyCode', $companyCode)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'telephone' => $request->telephone
         ]);
     }
 }

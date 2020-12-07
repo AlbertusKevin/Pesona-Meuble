@@ -57,7 +57,7 @@
                       <td>{{ $customer->address }}</td>
                       <td>{{ $customer->memberID }}</td>
                       <td class="text-center">
-                          <a href="{{url('/customer/update/$customers->id')}}" class="btn btn-xs btn-primary">Edit</a> 
+                          <a href="/customer/update/{{'$customers->id'}}" class="btn btn-xs btn-primary">Edit</a> 
                       </td>
                   </tr>
                 @endforeach

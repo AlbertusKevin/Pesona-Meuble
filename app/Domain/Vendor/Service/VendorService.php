@@ -65,8 +65,30 @@ class VendorService extends Controller
         }
         $employee = $this->vendors->createVendor($request);
         return redirect('/vendor/list')->with(['success' => 'New Vendor Addedd Successfully !']);
-
+    }
+    
+    public function updateViewVendors($companyCode)
+    {
+        $vendors = $this->vendors->findByCompanyCode($companyCode);
+        return view('vendor.updatevendor', [
+            "vendors" => $vendors
+        ]);
     }
 
-
+    public function updateVendors(Request $request, $companyCode)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required', 
+            'telephone' => 'required'
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect('/vendors/update/'. $companyCode)
+                ->withInput()
+                ->withErrors($validator);
+        }
+        $vendors = $this->vendors->updateVendors($request, $companyCode);
+        return redirect("/vendors/list")->with(['success' => 'Vendor '. $request->name.' Updated Successfully !']);
+    }
 }

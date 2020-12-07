@@ -73,10 +73,8 @@ class CustomerService extends Controller
     public function updateViewCustomers($id)
     {
         $customers = $this->customers->findById($id);
-        $employee = $this->employee->findById($id);
         return view('customer_service.customer_data.updatecustomer', [
-            "customers" => $customers, 
-            "employee" => $employee
+            "customers" => $customers
         ]);
     }
 

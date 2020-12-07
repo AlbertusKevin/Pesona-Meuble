@@ -42,6 +42,7 @@
                 <th scope="col">Name</th>
                 <th scope="col" class="text-center">Email</th>
                 <th scope="col" class="text-center">Telephone</th>
+                <th scope="col" class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -52,6 +53,9 @@
                   <td><a href='/vendor/detail/{{$vendor->companyCode}}'>{{$vendor->name}}</a></td>
                   <td class="text-center">{{$vendor->email}}</td>
                   <td class="text-center">{{$vendor->telephone}}</td>
+                  <td class="text-center">
+                    <a href="/vendor/update/{{'$vendors->companyCode'}}" class="btn btn-xs btn-primary">Edit</a> 
+                  </td>
                 </tr>
               @endforeach
           </table>
