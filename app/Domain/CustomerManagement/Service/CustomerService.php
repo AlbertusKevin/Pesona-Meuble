@@ -81,7 +81,7 @@ class CustomerService extends Controller
     public function updateCustomers(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|min:4',
             'email' => 'required', 
             'phone' => 'required', 
             'address' => 'required'
@@ -89,11 +89,17 @@ class CustomerService extends Controller
         ]);
     
         if ($validator->fails()) {
-            return redirect('/customers/update/'. $id)
+            return redirect('/customer/update/'. $id)
                 ->withInput()
                 ->withErrors($validator);
         }
         $customers = $this->customers->updateCustomers($request, $id);
-        return redirect('/customers')->with(['success' => 'Customer '. $request->name.' Updated Successfully !']);
+        return redirect('/customer/list')->with(['success' => 'Customer '. $request->name.' Updated Successfully !']);
+    }
+
+    public function updateMemberCustomer(Request $request, $id)
+    {
+        $customers = $this->customers->updateMember($id);
+        return redirect('/customer/list')->with(['success' => 'Customer '. $request->name.' Successfully Registered as a Member  !']);
     }
 }

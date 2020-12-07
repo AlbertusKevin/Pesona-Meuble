@@ -60,8 +60,15 @@ class CustomerDB extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'address' => $request->address
+            'address' => $request->address,
             // 'memberId' => $request->memberId,
+        ]);
+    }
+
+    public function updateMember($id)
+    {
+        Customer::where('id', $id)->update([
+            'memberId' => 1,
         ]);
     }
 }
