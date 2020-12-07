@@ -39,13 +39,9 @@ class SalesOrderLineService extends Controller
         $this->salesorderlines->updateSalesOrderLine($request);
     }
 
-    public function addNewLineItem($num)
+    public function deleteLine(Request $request)
     {
-        $this->salesorderlines->addNewLineItem($num, $_POST);
-    }
-
-    public function deleteNewLineItem($num, $model)
-    {
-        $this->salesorderlines->deleteNewLineItem($num, $model);
+        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
+        $this->salesorderlines->deleteLine($request);
     }
 }

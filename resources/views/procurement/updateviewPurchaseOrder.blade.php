@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -41,13 +41,13 @@
                     <div class="form-group row">
                         <label for="date" class="col-sm-4 col-form-label">Date</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control header-field-form" id="date" name="date" disabled>
+                            <input type="date" class="form-control header-field-form" id="date" name="date" value="{{$po->date}}" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="validTo" class="col-sm-4 col-form-label">Valid To</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control header-field-form" id="validTo" name="validTo" disabled>
+                            <input type="date" class="form-control header-field-form" id="validTo" name="validTo" value="{{$po->validTo}}" disabled>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -154,13 +154,14 @@
                             <p class="font-weight-bold">Description: {{$item->description}}.</p>
                             <button type="button" class="btn btn-primary editItem">edit</button>
                             <button type="button" class="btn btn-danger removeItem">remove</button>
+
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
             <div class=" row w-100 mh-100 justify-content-end pl-3">
-                <button type="button" class="btn btn-secondary updatePost btn-lg" id="updatePO">Update</button>
+                <button type="button" class="btn btn-secondary updatePost btn-lg" id="updateTransaction">Update</button>
             </div>
         </form>
     </div>

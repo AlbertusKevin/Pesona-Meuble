@@ -11,6 +11,7 @@ namespace App\Domain\Procurement\Dao;
 use App\Domain\Procurement\Entity\PurchaseOrder;
 use App\Domain\Procurement\Entity\PurchaseOrderLine;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ProcurementDB
 {
@@ -98,18 +99,16 @@ class ProcurementDB
     public function updateHeader($header)
     {
         PurchaseOrder::where('numPO', $header['numPo'])->update([
-            'numPO' => $header["numPo"],
-            'vendor' => $header["vendor"],
-            'responsibleEmployee' => (int)$header["id"],
-            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
-            'validTo' =>  Carbon::parse($header["validTo"])->format('Y-m-d'),
-            'transactionStatus' => 0,
             'totalItem' => (int)$header["totalItem"],
-            'freightIn' => (int)$header["freightIn"],
             'totalPrice' => (int)$header["totalPrice"],
-            'totalDiscount' => (int)$header["totalDisc"],
             'totalPayment' => (int)$header["totalPayment"]
+            // 'totalDiscount' => (int)$header["totalDisc"],
+            // 'freightIn' => (int)$header["freightIn"],
         ]);
+    }
+    public function deleteLine($header)
+    {
+        PurchaseOrderLine::where('numPO', $header['numPo'])->delete();
     }
 
     public function updateHeaderLine($header)
@@ -129,10 +128,10 @@ class ProcurementDB
         ]);
     }
 
-    public function updateLine($line)
+    public function updateLineItem($request, $num)
     {
-        PurchaseOrderLine::where('numPO', $line["numPo"])->where('modelType', $line["modelType"])->update([
-            'quantity' => $line["quantity"]
+        PurchaseOrderLine::where('numPO', $num)->where('modelType', $request['model'])->update([
+            'quantity' => $request["quantity"],
         ]);
     }
 }
