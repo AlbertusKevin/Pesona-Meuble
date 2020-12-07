@@ -24,7 +24,7 @@ class CustomerDB extends Controller
     public function findAllSalesOrders()
     {
         $customers = Customer::orderBy('id', 'asc');
-        return $customers; 
+        return $customers;
     }
 
     public function findCustomerByID($id)

@@ -114,8 +114,8 @@
                     </div>
                 </div>
             </form>
-            <div class=" row w-100 mh-100 justify-content-end pl-3">
-                <button type="button" class="btn btn-secondary updatePost btn-lg" id="newItem" data-toggle="modal" data-target="#formModal">New Item</button>
+            <div class=" row w-100 mh-100 justify-content-start pl-3">
+                <button type="button" class="btn btn-secondary updatePost btn-lg w-50" id="newItem" data-toggle="modal" data-target="#formModal">New Item</button>
             </div>
         </div>
         <div class="col-12 pt-4">
@@ -127,7 +127,7 @@
 
             </div>
     </div>
-    <div class=" row w-100 mh-100 justify-content-end pl-3">
+    <div class=" row w-100 mh-100 justify-content-start pl-3">
         <button type="button" class="btn btn-secondary updatePost btn-lg" id="createTransaction">Add</button>
     </div>
     </form>

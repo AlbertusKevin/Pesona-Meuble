@@ -75,11 +75,13 @@
         <div class="row justify-content-center">
             @if($employee->status === 1)
                 <a href="/employee/update/{{$employee->id}}" type="button" class="btn btn-secondary updatePost">Update Data</a>
-                <a href="/employee/raise/{{$employee->id}}" type="button" class="btn btn-secondary updatePost">Raise Salary</a>
-                <form action="/employee/resign/{{$employee->id}}" method="POST">
+                <a href="/employee/raise/{{$employee->id}}" type="button" class="btn btn-secondary updatePost ml-3">Raise Salary</a>
+                <form class="w-100" action="/employee/resign/{{$employee->id}}" method="POST">
                     @method('PUT')
                     @csrf
-                    <button type="submit" class="btn btn-danger">Resign</button>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-danger">Resign</button>
+                    </div>
                 </form>
             @endif
         </div>

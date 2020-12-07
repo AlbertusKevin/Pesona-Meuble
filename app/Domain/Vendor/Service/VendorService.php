@@ -31,7 +31,7 @@ class VendorService extends Controller
     {
         $vendors = $this->vendors->showAll();
         return view('vendor.vendorList', [
-            'vendors' => $vendors,
+            "vendors" => $vendors,
         ]);
     }
 
@@ -39,7 +39,7 @@ class VendorService extends Controller
     {
         $vendor = $this->vendors->findVendorByCompanyCode($companyCode);
         return view('vendor.vendorDetail', [
-            'vendor' => $vendor,
+            "vendor" => $vendor,
         ]);
     }
 
@@ -57,21 +57,21 @@ class VendorService extends Controller
             'telephone' => 'required', 
             'address' => 'required', 
         ]);
-    
+        
         if ($validator->fails()) {
             return redirect('/vendor/create')
                 ->withInput()
                 ->withErrors($validator);
         }
-        $employee = $this->vendors->createVendor($request);
         return redirect('/vendor/list')->with(['success' => 'New Vendor Addedd Successfully !']);
     }
-    
-    public function updateViewVendors($companyCode)
+
+    public function updateViewVendors($id)
     {
-        $vendors = $this->vendors->findByCompanyCode($companyCode);
+        $vendor = $this->vendors->findVendorByCompanyCode($id);
+        // dd($vendor);
         return view('vendor.updatevendor', [
-            "vendors" => $vendors
+            "vendor" => $vendor
         ]);
     }
 
@@ -80,15 +80,16 @@ class VendorService extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required', 
-            'telephone' => 'required'
+            'telephone' => 'required',
+            'address' => 'required'
         ]);
     
         if ($validator->fails()) {
-            return redirect('/vendors/update/'. $companyCode)
+            return redirect('/vendor/update/'. $companyCode)
                 ->withInput()
                 ->withErrors($validator);
         }
         $vendors = $this->vendors->updateVendors($request, $companyCode);
-        return redirect("/vendors/list")->with(['success' => 'Vendor '. $request->name.' Updated Successfully !']);
+        return redirect("/vendor/list")->with(['success' => 'Vendor '. $request->name.' Updated Successfully !']);
     }
 }
