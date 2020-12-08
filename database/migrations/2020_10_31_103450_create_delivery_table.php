@@ -22,6 +22,10 @@ class CreateDeliveryTable extends Migration
             $table->boolean('status');
             $table->string('notes', 255);
         });
+
+        Schema::table('delivery', function (Blueprint $table) {
+            $table->foreign('numSO')->references('numSO')->on('invoice_sales')->cascadeOnDelete();
+        });
     }
 
     /**
