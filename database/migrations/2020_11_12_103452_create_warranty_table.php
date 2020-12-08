@@ -14,7 +14,7 @@ class CreateWarrantyTable extends Migration
     public function up()
     {
         Schema::create('warranty', function (Blueprint $table) {
-            $table->string('numInvoiceSO', 20);
+            $table->string('numSO', 20);
             $table->string('modelType', 255);
             $table->bigInteger('responsibleEmployee')->unsigned();
             $table->date('fromDate');
@@ -25,14 +25,18 @@ class CreateWarrantyTable extends Migration
         });
 
         Schema::table('warranty', function (Blueprint $table) {
-            $table->primary(['numInvoiceSO', 'modelType']);
-            $table->foreign('numInvoiceSO')
-                ->references('numInvoiceSO')
+            $table->primary(['numSO', 'modelType']);
+            $table->foreign('numSO')
+                ->references('numSO')
                 ->on('invoice_sales')
                 ->cascadeOnDelete();
             $table->foreign('responsibleEmployee')
                 ->references('id')
                 ->on('employee')
+                ->cascadeOnDelete();
+            $table->foreign('modelType')
+                ->references('modelType')
+                ->on('meuble')
                 ->cascadeOnDelete();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInvoiceSalesTable extends Migration
+class CreateListOfDeliveryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,20 @@ class CreateInvoiceSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoice_sales', function (Blueprint $table) {
+        Schema::create('list_deliveries', function (Blueprint $table) {
             $table->string('numSO', 20);
-            $table->bigInteger('responsibleEmployee')->unsigned();
-            $table->date('date');
+            $table->bigInteger('deliveryNum')->unsigned();
         });
 
-        Schema::table('invoice_sales', function (Blueprint $table) {
-            $table->primary('numSO');
+        Schema::table('list_deliveries', function (Blueprint $table) {
+            $table->primary(['deliveryNum', 'numSO']);
             $table->foreign('numSO')
                 ->references('numSO')
-                ->on('sales_order')
+                ->on('invoice_sales')
                 ->cascadeOnDelete();
-            $table->foreign('responsibleEmployee')
-                ->references('id')
-                ->on('employee')
+            $table->foreign('deliveryNum')
+                ->references('deliveryNum')
+                ->on('delivery')
                 ->cascadeOnDelete();
         });
     }
@@ -39,6 +38,6 @@ class CreateInvoiceSalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_sales');
+        Schema::dropIfExists('list_deliveries');
     }
 }
