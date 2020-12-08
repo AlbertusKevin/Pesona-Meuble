@@ -24,7 +24,10 @@ class CreateDeliveryTable extends Migration
         });
 
         Schema::table('delivery', function (Blueprint $table) {
-            $table->foreign('numSO')->references('numSO')->on('invoice_sales')->cascadeOnDelete();
+            $table->foreign('numSO')
+                ->references('numSO')
+                ->on('invoice_sales')
+                ->cascadeOnDelete();
         });
     }
 
