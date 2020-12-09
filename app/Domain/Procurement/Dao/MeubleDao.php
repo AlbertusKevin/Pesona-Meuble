@@ -23,7 +23,7 @@ class MeubleDao extends Controller
 
     public function findAllMeubles()
     {
-        $meubles = Meuble::orderBy('modelType', 'asc')->paginate(2);
+        $meubles = Meuble::orderBy('modelType', 'asc')->get();
         return $meubles;
     }
 

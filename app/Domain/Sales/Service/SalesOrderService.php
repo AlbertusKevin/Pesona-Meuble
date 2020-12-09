@@ -82,7 +82,8 @@ class SalesOrderService extends Controller
     {
         $meubles = $this->meubles->findAllMeubles();
         $employee = $this->employees->findById($request->session()->get('id_employee'));
-        $discounts = $this->discounts->showAll();
+        $discMeuble = $this->discounts->forMeuble();
+        $discPayment = $this->discounts->forPayment();
         $numSO = $this->salesorders->findLastNumSO();
 
         if (count($numSO) != 0) {
@@ -96,7 +97,8 @@ class SalesOrderService extends Controller
         return view('sales.sales_order.createSalesOrder', [
             'meubles' => $meubles,
             'employee' => $employee,
-            'discounts' => $discounts,
+            'discMeuble' => $discMeuble,
+            'discPayment' => $discPayment,
             'numSO' => $numSO
         ]);
     }

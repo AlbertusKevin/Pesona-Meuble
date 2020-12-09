@@ -70,7 +70,7 @@
                             <input type="number" class="form-control header-field-form" id="totalPrice" name="totalPrice" disabled value="{{$salesorder->totalPrice}}">
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <label for="paymentDiscount" class="col-sm-4 col-form-label">Discount Payment</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$salesorder->paymentDiscount}}" name="paymentDiscount" id="paymentDiscount">
@@ -82,13 +82,13 @@
                             @endforeach
                             </select> --}}
                         </div>
-                    </div>
-                    <div class="form-group row">
+                    </div> -->
+                    <!-- <div class="form-group row">
                         <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount</label>
                         <div class="col-sm-8">
                             <input type="number" class="form-control header-field-form" id="totalDisc" name="totalDisc" disabled value="{{$salesorder->totalDiscount}}">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
                         <label for="totalPayment" class="col-sm-4 col-form-label">Total Payment</label>
                         <div class="col-sm-8">
@@ -133,7 +133,7 @@
                                 <input type="number" class="form-control header-line-field-form quantity-SO" id="quantity" name="quantity" placeholder="Quantity">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="price" class="col-sm-4 col-form-label">Discount Meuble</label>
                             <div class="col-sm-8">
                                 <select id="discountMeuble" name="discountMeuble" class="form-control">
@@ -142,7 +142,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                             <label for="modelType" class="col-sm-4 col-form-label">Price</label>
                             <div class="col-sm-8">
@@ -174,6 +174,7 @@
                     <input type="hidden" id="size-{{$item->modelType}}" value="{{$item->size}}">
                     <input type="hidden" id="desc-{{$item->modelType}}" value="{{$item->description}}">
                     <input type="hidden" id="discMeuble-{{$item->modelType}}" value="{{$item->discountMeuble}}">
+                    <!-- <input type="hidden" id="disc-${data.modelType}" value="${totalDisc}">` : ''} -->
                     <div class="row pt-3">
                         <div class="col-12 col-md-3">
                             <img id="{{$item->modelType}}-img" class="card-img-top" src="{{ asset($item->image) }}" alt="Card image cap">

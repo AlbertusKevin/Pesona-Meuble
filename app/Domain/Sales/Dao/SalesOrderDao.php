@@ -29,7 +29,8 @@ class SalesOrderDao extends Controller
     public function findSalesOrderByNumSOWithCustomer($numSO)
     {
         $salesorder = SalesOrder::where('numSO', $numSO)
-            ->join('customer', 'sales_order.customer', '=', 'customer.id')->first();
+            ->join('customer', 'sales_order.customer', '=', 'customer.id')
+            ->first();
         return $salesorder;
     }
 
@@ -62,10 +63,10 @@ class SalesOrderDao extends Controller
             'totalItem' => (int)$header["totalItem"],
             'freightIn' => (int)$header["freightIn"],
             'totalPrice' => (int)$header["totalPrice"],
-            'paymentDiscount' => (int)$header["paymentDiscount"],
-            'totalDiscount' => (int)$header["totalDisc"],
-            'totalPayment' => (int)$header["totalPayment"],
-            'totalMeubleDiscount' => (int)$header["totalMeubleDisc"]
+            'paymentDiscount' => "default_p",
+            // 'totalDiscount' => (int)$header["totalDisc"],
+            'totalDiscount' => 0,
+            'totalPayment' => (int)$header["totalPayment"]
         ]);
     }
 
@@ -75,9 +76,9 @@ class SalesOrderDao extends Controller
         SalesOrder::where('numSO', $header['numSO'])->update([
             'totalItem' => (int)$header["totalItem"],
             'totalPrice' => (int)$header["totalPrice"],
-            'totalDiscount' => (int)$header["totalDisc"],
-            'totalPayment' => (int)$header["totalPayment"],
-            'totalMeubleDiscount' => (int)$header['totalMeubleDisc']
+            // 'totalDiscount' => (int)$header["totalDisc"],
+            'totalDiscount' => 0,
+            'totalPayment' => (int)$header["totalPayment"]
         ]);
     }
 

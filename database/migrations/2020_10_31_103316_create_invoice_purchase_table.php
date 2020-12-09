@@ -14,7 +14,6 @@ class CreateInvoicePurchaseTable extends Migration
     public function up()
     {
         Schema::create('invoice_purchase', function (Blueprint $table) {
-            $table->string('numInvoicePO', 20);
             $table->string('numPO', 20);
             $table->bigInteger('responsibleEmployee')->unsigned();
             $table->boolean('receivedStatus');
@@ -22,7 +21,7 @@ class CreateInvoicePurchaseTable extends Migration
         });
 
         Schema::table('invoice_purchase', function (Blueprint $table) {
-            $table->primary('numInvoicePO');
+            $table->primary('numPO');
             $table->foreign('numPO')
                 ->references('numPO')
                 ->on('purchase_order')

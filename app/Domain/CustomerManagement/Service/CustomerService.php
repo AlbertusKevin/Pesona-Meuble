@@ -18,6 +18,7 @@ class CustomerService extends Controller
 {
     // Deklarasi kelas global, untuk pemanggilan model ORM
     private $customers;
+    private $employee;
 
     //==================================================================================================================================================
     // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
@@ -41,8 +42,8 @@ class CustomerService extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:4',
-            'email' => 'required', 
-            'phone' => 'required', 
+            'email' => 'required',
+            'phone' => 'required',
             'address' => 'required'
         ]);
 
@@ -56,16 +57,18 @@ class CustomerService extends Controller
         return redirect('/customer/list')->with(['success' => 'Customer ' . $request->customerName . 'successfully created !']);
     }
 
-    public function showCustomers() {
+    public function showCustomers()
+    {
         $customers = $this->customers->showAll();
         // $employee = $this->employee->findById($request->session()->get('id_employee'));
         return view('customer_service.customer_data.customerlist', [
-            "customers" => $customers, 
+            "customers" => $customers,
             // "employee" => $employee
         ]);
     }
 
-    public function createViewCustomers() {
+    public function createViewCustomers()
+    {
         return view('customer_service.customer_data.createCustomer');
     }
 
@@ -81,24 +84,24 @@ class CustomerService extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:4',
-            'email' => 'required', 
-            'phone' => 'required', 
+            'email' => 'required',
+            'phone' => 'required',
             'address' => 'required'
             // 'memberId' => 'required' 
         ]);
-    
+
         if ($validator->fails()) {
-            return redirect('/customer/update/'. $id)
+            return redirect('/customer/update/' . $id)
                 ->withInput()
                 ->withErrors($validator);
         }
         $customers = $this->customers->updateCustomers($request, $id);
-        return redirect('/customer/list')->with(['success' => 'Customer '. $request->name.' Updated Successfully !']);
+        return redirect('/customer/list')->with(['success' => 'Customer ' . $request->name . ' Updated Successfully !']);
     }
 
     public function updateMemberCustomer(Request $request, $id)
     {
         $customers = $this->customers->updateMember($id);
-        return redirect('/customer/list')->with(['success' => 'Customer '. $request->name.' Successfully Registered as a Member  !']);
+        return redirect('/customer/list')->with(['success' => 'Customer ' . $request->name . ' Successfully Registered as a Member  !']);
     }
 }

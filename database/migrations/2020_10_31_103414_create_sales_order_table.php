@@ -21,7 +21,6 @@ class CreateSalesOrderTable extends Migration
             $table->date('validTo');
             $table->tinyInteger('transactionStatus');
             $table->integer('totalItem');
-            $table->integer('totalMeubleDiscount');
             $table->integer('totalPrice');
             $table->integer('freightIn');
             $table->string('paymentDiscount', 20);

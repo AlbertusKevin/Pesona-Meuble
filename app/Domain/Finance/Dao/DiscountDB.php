@@ -18,7 +18,17 @@ class DiscountDB
     {
         return Discount::all();
     }
-    
+
+    public function forMeuble()
+    {
+        return Discount::where('discountFor', 1)->where('statusActive', 1)->get();
+    }
+
+    public function forPayment()
+    {
+        return Discount::where('discountFor', 0)->where('statusActive', 1)->get();
+    }
+
     public function findDiscountByCode($code)
     {
         return Discount::where('code', $code)
@@ -29,13 +39,14 @@ class DiscountDB
     public function createDiscount(Request $request)
     {
         Discount::create([
-            'code' => $request->code, 
-            'description' => $request->description, 
-            'percentDisc' => (float)$request->percentDisc/100, 
-            'responsibleEmployee' => $request->employeeID, 
-            'statusActive' => 1, 
+            'code' => $request->code,
+            'description' => $request->description,
+            'percentDisc' => (float)$request->percentDisc / 100,
+            'responsibleEmployee' => $request->employeeID,
+            'statusActive' => 1,
             'from' => Carbon::parse($request->from)->format('Y-m-d'),
             'to' => Carbon::parse($request->to)->format('Y-m-d'),
+            'discountFor' => $request->discFor
         ]);
     }
 
@@ -50,8 +61,4 @@ class DiscountDB
     {
         return Discount::where('code', $code)->delete();
     }
-
-
-
-
 }

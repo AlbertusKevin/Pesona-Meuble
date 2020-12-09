@@ -98,17 +98,30 @@ $('#totalDisc').keypress(function (e) {
     }
 });
 
+//hitung diskon payment dan Meuble untuk SO (fix)
+const hitungDiskon = (id) => {
+    const disc = $(id).val();
+    let discount = $(`.${disc}`).html().split(":");
+    let percent = parseFloat(discount[1]);
+    return percent;
+}
+
+//prosedur untuk mengubah total diskon payment
+const hitungDiskonTotalPayment = () => {
+    const disc = hitungDiskon('#discount');                         //ambil percent diskon payment
+    let totalPayment = parseInt($("#totalPayment").val());          //ambil total payment yang lama
+    let discValue = parseFloat((totalPayment*disc).toFixed(2));     //hitung besaran diskon payment saat ini
+    let totalDisc = parseInt($("#totalDisc").val());                //ambil total disc yang lama
+    totalDisc = totalDisc + discValue;                              //kalkulasi total discount yang baru
+    $("#totalDisc").val(totalDisc);                                 //ubah tampilan dengan hasil baru
+    totalPayment = totalPayment - discValue;                        //kurangi total payment lama dengan discount baru
+    $("#totalPayment").val(totalPayment);                           //ubah value total Payment setelah dikurangi diskon
+}
+
 //mengambil nilai discount dari header SO (fix)
-$('#discount').on('click', function(){
-    let disc = $(this).val();
-    let totalPayment = $('#totalPayment').val();
-
-    disc = totalPayment*disc;
-    totalPayment = totalPayment - disc;
-    $(this).val(disc);
-    $('#totalPayment').val(totalPayment);
-
-    $(this).attr('disabled',true);
+$('#discount').on('change', function(){
+    $(this).attr('disabled',true);                                  //disabled select option
+    hitungDiskonTotalPayment();
 });
 
 //===================================================== Menambah, Mengedit, Menghapus Line Item SO dan PO ===========================================================
@@ -137,6 +150,7 @@ $("#lineHeader").on("click", '#addItem', function (){
                     let totalItem =  parseInt($("#totalItem").val());
                     let totalPrice = parseInt($("#totalPrice").val());
                     let totalPayment = parseInt($("#totalPayment").val());
+
                     //ubah tampilan data awal sesuaikan dengan kalkulasi
                     totalItem += quantity;
                     totalPrice += quantity*data.price;
@@ -145,25 +159,37 @@ $("#lineHeader").on("click", '#addItem', function (){
                     $("#totalPrice").val(totalPrice);
                     $("#totalPayment").val(totalPayment);
 
+                    // let totalDisc = 0;
                     if(url == 'salesorder'){
+                        // //ambil percent diskon mebel
+                        // const percent = hitungDiskon('#discountMeuble');
+                        // //hitung total diskon mebel
+                        // const discountVal = parseFloat((data.price*percent).toFixed(2));
+                        // totalDisc = discountVal*quantity;
+                        // //ambil total diskon lama
+                        // let oldTotalDisc = parseInt($("#totalDisc").val());
+                        // //hitung total diskon baru
+                        // let newTotalDisc = oldTotalDisc+totalDisc;
+                        // //ubah total diskon dengan yang baru
+                        // $("#totalDisc").val(newTotalDisc);
+                        // //ubah total payment yang baru
+                        // let totalPrice = parseInt($("#totalPrice").val());
+                        // $("#totalPayment").val(totalPrice-newTotalDisc);
+
                         if(data.stock < quantity){
                             alert('Insufficient stock '+$("#modelType").val()+'. You can still continue the process if stock is planned.');
                         }
                     }
 
                     //Buat tag template HTML
+                    // ${url == 'salesorder' ? `<input type="hidden" id="discMeuble-${data.modelType}" value="${$("#discountMeuble").val()}">` : ''}
+                    // ${url == 'salesorder' ? `<input type="hidden" id="disc-${data.modelType}" value="${totalDisc}">` : ''}
+                    // ${url == 'salesorder' ? `<p class="font-weight-bold dataDiscountMeuble">Discount: ${totalDisc}</p>` : ''}
                     const tag_html = `
                         <div id="${data.modelType}">
                             <input type="hidden" id="model-${data.modelType}" value="${data.modelType}">
-                            <input type="hidden" id="name-${data.modelType}" value="${data.name}">
                             <input type="hidden" id="price-${data.modelType}" value="${data.price}"> 
-                            <input type="hidden" id="quantity-${data.modelType}" value="${quantity}"> 
-                            <input type="hidden" id="category-${data.modelType}" value="${data.category}"> 
-                            <input type="hidden" id="warranty-${data.modelType}" value="${data.warrantyPeriodeMonth}">
-                            <input type="hidden" id="color-${data.modelType}" value="${data.color}"> 
-                            <input type="hidden" id="size-${data.modelType}" value="${data.size}">
-                            <input type="hidden" id="desc-${data.modelType}" value="${data.description}">
-                            ${url == 'salesorder' ? `<input type="hidden" id="discMeuble-${data.modelType}" value="${$("#discountMeuble").val()}">` : ''}
+                            <input type="hidden" id="quantity-${data.modelType}" value="${quantity}">
                             <div class="row pt-3" >
                                 <div class="col-12 col-md-3">
                                     <img id="${data.modelType}-img" class="card-img-top" src="${baseURL}${data.image}" alt="Card image cap">
@@ -205,7 +231,6 @@ $('#lineItem').on('click','.removeItem',function(){
     //ambil asal url
     let url = window.location.href;
     url = url.split("/");
-
     let process = url[4];
     url = url[3];
     
@@ -216,26 +241,44 @@ $('#lineItem').on('click','.removeItem',function(){
     const model = element.attr('id');
     const quantity = parseInt($(`#quantity-${model}`).val());
     const price = parseInt($(`#price-${model}`).val());
-
+    
     //ambil data awal dari total item, total payment, dan total price yang ada di header
-    const totalPayment = parseInt($("#totalPayment").val());
     const totalItem =  parseInt($("#totalItem").val());
     const totalPrice = parseInt($("#totalPrice").val());
-
-    //kalkulasi hasil perubahan berdasarkan update
+    const totalPayment = parseInt($("#totalPayment").val());
+    
+    // kalkulasi hasil perubahan berdasarkan update
     const newTotalItem = totalItem - quantity;
     const newTotalPrice = totalPrice - quantity*price;
-    const newTotalPayment = totalPayment - quantity*price;
-
-    console.log("Old Value Item: "+model+" "+quantity+" "+price);
-    console.log("Old Value Header: item-"+totalItem+" payment-"+totalPayment+" price-"+totalPrice);
-    console.log("New Value Header: item-"+newTotalItem+" payment-"+newTotalPayment+" price-"+newTotalPrice);
+    let newTotalPayment;
 
     // ubah tampilan data
     $("#totalItem").val(newTotalItem);
     $("#totalPrice").val(newTotalPrice);
-    $("#totalPayment").val(newTotalPayment);
+    
+    // if(url == 'salesorder'){
+    //     // console.log("--Debug--"); //////////////////////////////////////////////////////////
+    //     // //ambil diskon mebel yang akan diremove
+    //     // let discount = parseInt($(`#disc-${model}`).val());
+    //     // // let discount = $(`#${model} .dataDiscountMeuble`).html();
+    //     // // discount = parseInt(discount.split(":")[1].trim());
+    //     // //ambil total diskon, kalkulasi hasil update, lalu tampilkan
+    //     // let totalDisc = parseInt($("#totalDisc").val());
+    //     // console.log("Total Diskon saat ini: "+ totalDisc); ///////////////////////////////////////
+    //     // totalDisc = totalDisc - discount;
+    //     // $("#totalDisc").val(totalDisc)
+    //     // //ubah totalPayment dengan mengurangi totalPayment - (harga normal - diskon mebel)
+    //     // newTotalPayment = totalPayment - ((quantity*price)-discount);
 
+    //     // console.log("Diskon Mebel: "+ discount);
+    //     // console.log("Total Diskon perubahan: "+ totalDisc);
+    //     // console.log("Total Payment Lama: "+ $("#totalPayment").val());
+    //     // console.log("Total Payment Perubahan: "+ newTotalPayment);
+    // }else{
+    // }
+    
+    newTotalPayment = totalPayment - quantity*price;    
+    $("#totalPayment").val(newTotalPayment);
     //hapus item dari list item
     element.remove();
 });
@@ -257,6 +300,8 @@ $('#lineItem').on("click", '.editItem', function(){
     $("#modelType").attr('disabled',true);
     //ubah tombol add jadi update
     $("#addItem").attr('id','changeItem').html("Change");
+    // //hilangkan select discount meuble
+    // $("#discountMeuble").attr('disabled',true);
 })
 
 //update list item PO dan SO (fix) 
@@ -294,8 +339,6 @@ $("#lineHeader").on("click", '#changeItem', function (){
     //ubah data yang ada di list item dengan hasil update
     $(`#quantity-${model}`).val(quantity);
     $(`#${model} .dataQuantity`).html("Amount: "+quantity);
-    
-    
 
     //kembalikan tombol change ke tombol add
     $("#changeItem").attr('id','addItem').html("Add");
@@ -324,7 +367,7 @@ $("#createTransaction").on("click",function(){
         const totalItem = $("#totalItem").val();
         const freightIn = $("#freightIn").val();
         const totalPrice = $("#totalPrice").val();
-        const totalDisc = $("#totalDisc").val();
+        // const totalDisc = $("#totalDisc").val();
         const totalPayment = $("#totalPayment").val();
         let employee = $("#employeeName").val();
         let id = parseInt(employee.split(":")[0]);
@@ -332,15 +375,14 @@ $("#createTransaction").on("click",function(){
         //data header jika dari SO
         const numSO = $("#numSO").val();
         const customer = $("#customer").val();
-        const paymentDiscount = $("#discount").val();
-        const totalMeubleDisc = totalDisc-paymentDiscount;
+        // const paymentDiscount = $("#discount").val();
 
         //ajax query ke database
         if(url == "salesorder"){
             $.ajax({
                 url: "/salesorder/create/header",
                 method: "post",
-                data: {numSO, customer, id, date, validTo, totalItem, totalPrice, freightIn, paymentDiscount, totalDisc, totalPayment, totalMeubleDisc, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                data: {numSO, customer, id, date, validTo, totalItem, totalPrice, freightIn, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                 success: () => {
                     // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
                     const item = $("#lineItem").children();
@@ -348,21 +390,15 @@ $("#createTransaction").on("click",function(){
                     for(let i = 0; i < item.length; i++){
                         const child = item[i];
                         const modelType = child.getAttribute("id");
-
-                        const meubleName = $(`#name-${modelType}`).val();
-                        const category = $(`#category-${modelType}`).val();
-                        const size = $(`#size-${modelType}`).val();
-                        const color = $(`#color-${modelType}`).val();
-                        const description = $(`#desc-${modelType}`).val();
-                        const warranty = parseInt($(`#warranty-${modelType}`).val());
+                    
                         const price = parseInt($(`#price-${modelType}`).val());
                         const quantity = parseInt($(`#quantity-${modelType}`).val());
-                        const discountMeuble = $(`#discMeuble-${modelType}`).val();
+                        // const discountMeuble = $(`#discMeuble-${modelType}`).val();
                 
                         $.ajax({
                             url: '/salesorder/create/salesorderline',
                             method: "post",
-                            data: {numSO ,modelType, price, quantity, discountMeuble, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                            data: {numSO ,modelType, price, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                             success: () => {
                                 alert("Data successfully inserted");
                                 window.location.href = "/salesorder";
@@ -455,20 +491,20 @@ const update = function (){
         const vendor = $("#vendor").val();
         const totalItem = $("#totalItem").val();
         const totalPrice = $("#totalPrice").val();
-        const totalDisc = $("#totalDisc").val();
+        // const totalDisc = $("#totalDisc").val();
         const totalPayment = $("#totalPayment").val();
         
         //data header jika dari SO
         const numSO = $("#numSO").val();
-        const paymentDiscount = $("#discount").val();
-        const totalMeubleDisc = totalDisc-paymentDiscount;
+        // const paymentDiscount = $("#discount").val();
+        // const totalMeubleDisc = totalDisc-paymentDiscount;
 
         //ajax query ke database
         if(url == "salesorder"){
             $.ajax({
                 url: "/salesorder/update/header",
                 method: "patch",
-                data: {numSO, totalItem, totalPrice, totalDisc, totalPayment, totalMeubleDisc, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                data: {numSO, totalItem, totalPrice, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                 success: () => {
                     // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
                     const item = $("#lineItem").children();
@@ -478,7 +514,7 @@ const update = function (){
                         const modelType = child.getAttribute("id");
                         const price = parseInt($(`#price-${modelType}`).val());
                         const quantity = parseInt($(`#quantity-${modelType}`).val());
-                        const discountMeuble = $(`#discMeuble-${modelType}`).val();
+                        // const discountMeuble = $(`#discMeuble-${modelType}`).val();
                 
                         $.ajax({
                             url: '/salesorder/item',
@@ -488,7 +524,7 @@ const update = function (){
                                 $.ajax({
                                     url: '/salesorder/create/salesorderline',
                                     method: "post",
-                                    data: {numSO ,modelType, price, quantity, discountMeuble, _token: $("#ajaxInput").children()[0].getAttribute("value")}
+                                    data: {numSO ,modelType, price, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")}
                                 });
                             }
                         });

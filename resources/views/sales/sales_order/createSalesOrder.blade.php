@@ -74,24 +74,23 @@
                                 <input type="number" class="form-control header-field-form" id="totalPrice" name="totalPrice" disabled value="0">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="paymentDiscount" class="col-sm-4 col-form-label">Discount Payment</label>
                             <div class="col-sm-8">
                                 <select id="discount" name="paymentDiscount" id="paymentDiscount" class="form-control header-field-form">
-                                    @foreach ($discounts as $discount)
-                                    <option value="{{$discount->code}}">
-                                        {{$discount->percentDisc}}
-                                    </option>
+                                    <option selected disabled>--discount payment--</option>
+                                    @foreach ($discPayment as $discount)
+                                    <option class="{{$discount->code}}" value="{{$discount->code}}">{{$discount->code}}:{{$discount->percentDisc}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group row">
+                        </div> -->
+                        <!-- <div class="form-group row">
                             <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount</label>
                             <div class="col-sm-8">
                                 <input type="number" class="form-control header-field-form" id="totalDisc" name="totalDisc" disabled value="0">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                             <label for="totalPayment" class="col-sm-4 col-form-label">Total Payment</label>
                             <div class="col-sm-8">
@@ -126,16 +125,17 @@
                                 <input type="number" class="form-control header-line-field-form quantity-SO" id="quantity" name="quantity" placeholder="Quantity">
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="price" class="col-sm-4 col-form-label">Discount Meuble</label>
                             <div class="col-sm-8">
                                 <select id="discountMeuble" name="discountMeuble" class="form-control">
-                                    @foreach ($discounts as $discount)
-                                    <option value="{{$discount->code}}">{{$discount->code}}: {{$discount->percentDisc}} %</option>
+                                    <option selected disabled>--discount meuble--</option>
+                                    @foreach ($discMeuble as $discount)
+                                    <option class="{{$discount->code}}" value="{{$discount->code}}">{{$discount->code}}:{{$discount->percentDisc}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group row">
                             <label for="modelType" class="col-sm-4 col-form-label">Price</label>
                             <div class="col-sm-8">
@@ -181,7 +181,7 @@
                     @csrf
                     <div class="card" style="width: 100%;">
                         <div class="card-body pt-4">
-                            <h4>Customer'   s Data</h4>
+                            <h4>Customer' s Data</h4>
                             <div class="form-group row">
                                 <label for="name" class="col-sm-4 col-form-label">Name</label>
                                 <div class="col-sm-8">

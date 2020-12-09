@@ -47,5 +47,17 @@ class MeubleCategorySeeder extends Seeder
                 'description' => 'Bed'
             ]
         );
+        DB::table('meuble_category')->insert(
+            [
+                'id' => 6,
+                'description' => 'Kitchen'
+            ]
+        );
+        DB::table('meuble_category')->insert(
+            [
+                'id' => 7,
+                'description' => 'Home Theater'
+            ]
+        );
     }
 }
