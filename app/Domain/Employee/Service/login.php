@@ -10,10 +10,9 @@ namespace App\Domain\Employee\Service;
 
 use App\Http\Controllers\Controller;
 use App\Domain\Employee\Dao\EmployeeDB as Employee;
-use App\Domain\Procurement\Dao\MeubleDao as Meuble;
+use App\Domain\Procurement\Service\MeubleService as Meuble;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 
 class Login extends Controller
 {
@@ -69,7 +68,7 @@ class Login extends Controller
 
     public function homeAdmin()
     {
-        $meubles = $this->meubles->findAllMeubles();
+        $meubles = $this->meubles->returnListMeuble();
         return view('employee.home', compact('meubles'));
     }
 }

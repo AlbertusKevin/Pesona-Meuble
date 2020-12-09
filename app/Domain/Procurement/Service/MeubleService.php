@@ -68,7 +68,7 @@ class MeubleService extends Controller
     }
 
     //mengambil data mebel yang sudah ada untuk field create PO
-    public function generateMeubleForProcurement()
+    public function generateMeubleData()
     {
         if ($_GET["source_url"] == 'salesorder') {
             $meuble = $this->meubles->findMeubleByModelType($_GET);
@@ -81,5 +81,17 @@ class MeubleService extends Controller
         }
 
         return json_encode($meuble);
+    }
+    //===============================================================================================================================================================================================================
+    // Bukan fungsi dipanggil dari route
+    //===============================================================================================================================================================================================================
+    public function listMeuble()
+    {
+        return $this->meubles->findAllMeubles();
+    }
+
+    public function getMeubleByModel($model)
+    {
+        return $this->meubles->findMeubleByModelType($model);
     }
 }

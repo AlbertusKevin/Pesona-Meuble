@@ -9,7 +9,6 @@
 namespace App\Domain\Sales\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Sales\Entity\SalesOrderLine;
 use App\Domain\Sales\Dao\SalesOrderLineDB;
 use Illuminate\Http\Request;
 
@@ -43,5 +42,11 @@ class SalesOrderLineService extends Controller
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorderlines->deleteLine($request);
+    }
+
+    #########################################
+    public function detailSalesOrderLine($numSO)
+    {
+        return $this->salesorderlines->findSalesOrderLineDetail($numSO);
     }
 }

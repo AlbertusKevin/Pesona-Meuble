@@ -67,54 +67,59 @@ class EmployeeService extends Controller
             'name' => 'required|min:4',
             'password' => 'required|min:6',
             'confirmPassword' => 'required|same:password',
-            'role' => 'required', 
-            'email' => 'required', 
-            'phone' => 'required', 
-            'address' => 'required', 
+            'role' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
             return redirect('/employee/create')
                 ->withInput()
                 ->withErrors($validator);
         }
-        $employee = $this->employees->createEmployee($request);
+        $this->employees->createEmployee($request);
         return redirect('/employee/list')->with(['success' => 'New Employee Addedd Successfully !']);
-
     }
 
     public function updateEmployee(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:4',
-            'role' => 'required', 
-            'email' => 'required', 
-            'phone' => 'required', 
-            'address' => 'required', 
+            'role' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
-            return redirect('/employee/update/'. $id)
+            return redirect('/employee/update/' . $id)
                 ->withInput()
                 ->withErrors($validator);
         }
-        $employee = $this->employees->updateEmployee($request, $id);
-        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' Updated Successfully !']);
+        $this->employees->updateEmployee($request, $id);
+        return redirect('/employee/list')->with(['success' => 'Employee ' . $request->name . ' Updated Successfully !']);
     }
 
     public function resignEmployee(Request $request, $id)
     {
-        $employee = $this->employees->updateResign($id);
-        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' has been resigned !']);
+        $this->employees->updateResign($id);
+        return redirect('/employee/list')->with(['success' => 'Employee ' . $request->name . ' has been resigned !']);
     }
 
     public function raiseSalary(Request $request, $id)
     {
-        $salary= $request->salary + $request->raise;
-        $raiseIteration = $request->raiseIteration+1;
-        $employee = $this->employees->updateSalary($id, $salary, $raiseIteration);
-        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' salary has been raised successfully!']);
+        $salary = $request->salary + $request->raise;
+        $raiseIteration = $request->raiseIteration + 1;
+        $this->employees->updateSalary($id, $salary, $raiseIteration);
+        return redirect('/employee/list')->with(['success' => 'Employee ' . $request->name . ' salary has been raised successfully!']);
     }
 
-
+    //===============================================================================================================================================================================================================
+    // Bukan fungsi dipanggil dari route
+    //===============================================================================================================================================================================================================
+    public function getResponsibleEmployee($request)
+    {
+        return $this->employees->findById($request->session()->get('id_employee'));
+    }
 }

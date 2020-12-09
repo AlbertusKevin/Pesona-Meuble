@@ -53,11 +53,11 @@ class VendorService extends Controller
         $validator = Validator::make($request->all(), [
             'companyCode' => 'required|unique:vendor',
             'name' => 'required',
-            'email' => 'required', 
-            'telephone' => 'required', 
-            'address' => 'required', 
+            'email' => 'required',
+            'telephone' => 'required',
+            'address' => 'required',
         ]);
-        
+
         if ($validator->fails()) {
             return redirect('/vendor/create')
                 ->withInput()
@@ -79,17 +79,17 @@ class VendorService extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required', 
+            'email' => 'required',
             'telephone' => 'required',
             'address' => 'required'
         ]);
-    
+
         if ($validator->fails()) {
-            return redirect('/vendor/update/'. $companyCode)
+            return redirect('/vendor/update/' . $companyCode)
                 ->withInput()
                 ->withErrors($validator);
         }
-        $vendors = $this->vendors->updateVendors($request, $companyCode);
-        return redirect("/vendor/list")->with(['success' => 'Vendor '. $request->name.' Updated Successfully !']);
+        $this->vendors->updateVendors($request, $companyCode);
+        return redirect("/vendor/list")->with(['success' => 'Vendor ' . $request->name . ' Updated Successfully !']);
     }
 }

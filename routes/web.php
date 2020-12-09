@@ -30,8 +30,9 @@ Route::get('/meuble/{typeModel}', 'App\Domain\Procurement\Service\MeubleService@
 //=============================================================================================================
 Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
 Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
-Route::get('/logout', 'App\Domain\Employee\Service\Login@logout')->middleware('login_check');
 Route::get('/admin', 'App\Domain\Employee\Service\Login@homeAdmin')->middleware('login_check');
+
+Route::get('/logout', 'App\Domain\Employee\Service\Login@logout')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Sales
@@ -42,7 +43,6 @@ Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@cre
 Route::get('/salesorder/customer', 'App\Domain\CustomerManagement\Service\CustomerService@generateCustomerForSalesOrder')->middleware('login_check');
 Route::get('/salesorder/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');
 Route::get('/salesorder/history/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetaiHistory')->middleware('login_check');
-Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder')->middleware('login_check');
 
 Route::get('/delivery', 'App\Domain\Sales\Service\DeliveryService@index')->middleware('login_check');
 Route::get('/delivery/detail/{num}', 'App\Domain\Sales\Service\DeliveryService@show')->middleware('login_check');
@@ -53,10 +53,8 @@ Route::post('/delivery/new/{num}', 'App\Domain\Sales\Service\DeliveryService@sto
 Route::post('/salesorder/create/header', 'App\Domain\Sales\Service\SalesOrderService@createHeader')->middleware('login_check');
 Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine')->middleware('login_check');
 
-Route::put('/salesorder/proceed/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@proceedSO')->middleware('login_check');
 Route::put('/salesorder/cancel/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@cancelSO')->middleware('login_check');
 Route::put('/salesorder/finish/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@finishSO')->middleware('login_check');
-Route::put('/salesorder/update/header', 'App\Domain\Sales\Service\SalesOrderService@updateHeader')->middleware('login_check');
 Route::put('/salesorder/update/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@updateSalesOrderLine')->middleware('login_check');
 
 Route::patch('/salesorder/update/header', 'App\Domain\Sales\Service\SalesOrderService@updateHeader')->middleware('login_check');
@@ -65,7 +63,7 @@ Route::patch('/salesorder/meuble', 'App\Domain\Sales\Service\SalesOrderService@u
 
 Route::delete('/salesorder/item', 'App\Domain\Sales\Service\SalesOrderLineService@deleteLine')->middleware('login_check');
 
-Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForSalesOrder')->middleware('login_check');
+Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleData')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Procurement
@@ -75,13 +73,12 @@ Route::get('/procurement/history', 'App\Domain\Procurement\Service\ProcurementSe
 Route::get('/procurement/detail/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@detail')->middleware('login_check');
 Route::get('/procurement/history/detail/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@detailHistory')->middleware('login_check');
 Route::get('/procurement/create', 'App\Domain\Procurement\Service\ProcurementService@viewCreate')->middleware('login_check');
-Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleForProcurement')->middleware('login_check');
+Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleData')->middleware('login_check');
 
 Route::post('/procurement/create', 'App\Domain\Procurement\Service\ProcurementService@create')->middleware('login_check');
 Route::post('/procurement/create/header', 'App\Domain\Procurement\Service\ProcurementService@createHeader')->middleware('login_check');
 Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@insert')->middleware('login_check');
 
-Route::put('/procurement/proceed/{num}', 'App\Domain\Procurement\Service\ProcurementService@proceedPO')->middleware('login_check');
 Route::put('/procurement/cancel/{num}', 'App\Domain\Procurement\Service\ProcurementService@cancelPO')->middleware('login_check');
 
 Route::patch('/procurement/update/header', 'App\Domain\Procurement\Service\ProcurementService@updateHeader')->middleware('login_check');

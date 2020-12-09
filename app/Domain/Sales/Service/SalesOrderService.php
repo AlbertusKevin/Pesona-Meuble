@@ -9,12 +9,11 @@
 namespace App\Domain\Sales\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Sales\Entity\SalesOrder;
 use App\Domain\Sales\Dao\SalesOrderDao;
-use App\Domain\Sales\Dao\SalesOrderLineDB;
-use App\Domain\Employee\Dao\EmployeeDB;
-use App\Domain\Procurement\Dao\MeubleDao;
-use App\Domain\Finance\Dao\DiscountDB;
+use App\Domain\Sales\Service\SalesOrderLineService;
+use App\Domain\Employee\Service\EmployeeService;
+use App\Domain\Procurement\Service\MeubleService;
+use App\Domain\Finance\Service\DiscountService;
 use Illuminate\Http\Request;
 
 class SalesOrderService extends Controller
@@ -34,10 +33,10 @@ class SalesOrderService extends Controller
     public function __construct()
     {
         $this->salesorders = new SalesOrderDao();
-        $this->salesorderlines = new SalesOrderLineDB();
-        $this->employees = new EmployeeDB();
-        $this->meubles = new MeubleDao();
-        $this->discounts = new DiscountDB();
+        $this->salesorderlines = new SalesOrderLineService();
+        $this->employees = new EmployeeService();
+        $this->meubles = new MeubleService();
+        $this->discounts = new DiscountService();
     }
 
     public function listView()
@@ -58,9 +57,9 @@ class SalesOrderService extends Controller
 
     public function salesOrderDetailView($numSO)
     {
-        $salesorder = $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
-        $salesorderlines = $this->salesorderlines->findSalesOrderLineDetail($numSO);
-        $discounts = $this->discounts->showAll();
+        $salesorder = $this->salesOrderNumAndCustomer($numSO);
+        $discounts = $this->discounts->showAllDiscount();
+        $salesorderlines = $this->salesorderlines->detailSalesOrderLine($numSO);
 
         return view('sales.sales_order.updateSalesOrderView', [
             'salesorder' => $salesorder,
@@ -70,8 +69,8 @@ class SalesOrderService extends Controller
     }
     public function salesOrderDetaiHistory($numSO)
     {
-        $salesorder = $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
-        $salesorderlines = $this->salesorderlines->findSalesOrderLineDetail($numSO);
+        $salesorder = $this->salesOrderNumAndCustomer($numSO);
+        $salesorderlines = $this->salesorderlines->detailSalesOrderLine($numSO);
         return view('sales.sales_order.detailHistorySalesOrder', [
             'salesorder' => $salesorder,
             'salesorderlines' => $salesorderlines,
@@ -80,10 +79,10 @@ class SalesOrderService extends Controller
 
     public function createView(Request $request)
     {
-        $meubles = $this->meubles->findAllMeubles();
-        $employee = $this->employees->findById($request->session()->get('id_employee'));
-        $discMeuble = $this->discounts->forMeuble();
-        $discPayment = $this->discounts->forPayment();
+        $meubles = $this->meubles->listMeuble();
+        $employee = $this->employees->getResponsibleEmployee($request);
+        // $discMeuble = $this->discounts->forMeuble();
+        // $discPayment = $this->discounts->forPayment();
         $numSO = $this->salesorders->findLastNumSO();
 
         if (count($numSO) != 0) {
@@ -97,8 +96,8 @@ class SalesOrderService extends Controller
         return view('sales.sales_order.createSalesOrder', [
             'meubles' => $meubles,
             'employee' => $employee,
-            'discMeuble' => $discMeuble,
-            'discPayment' => $discPayment,
+            // 'discMeuble' => $discMeuble,
+            // 'discPayment' => $discPayment,
             'numSO' => $numSO
         ]);
     }
@@ -117,7 +116,7 @@ class SalesOrderService extends Controller
 
     public function updateStock(Request $request)
     {
-        $stock = $this->meubles->findMeubleByModelType($request['modelType']);
+        $stock = $this->meubles->getMeubleByModel($request['modelType']);
         $stock = $stock->stock;
         $stock -= $request['quantity'];
         $this->meubles->update($request, $stock);
@@ -140,5 +139,11 @@ class SalesOrderService extends Controller
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->salesorders->updateFinish($numSO);
         return redirect('/salesorder')->with('success', 'Sales Order  ' . $numSO . ' finished successfully !');
+    }
+
+    ###########################################################
+    public function salesOrderNumAndCustomer($numSO)
+    {
+        return $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
     }
 }

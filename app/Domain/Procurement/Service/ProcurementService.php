@@ -117,6 +117,7 @@ class ProcurementService extends Controller
     {
         $this->procurement->insertHeaderLine($request);
     }
+
     public function proceedPO($num)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
@@ -149,12 +150,4 @@ class ProcurementService extends Controller
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->deleteLine($request);
     }
-
-    // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
-    // if (isset($available)) {
-    //     $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
-    //     $stock = $stock->stock;
-    //     $stock += $_POST['quantity'];
-    //     $this->meuble->update($_POST, $stock);
-    // }
 }
