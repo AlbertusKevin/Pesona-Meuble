@@ -7,6 +7,7 @@
  */
 
 use Illuminate\Support\Facades\Route;
+use PharIo\Manifest\Email;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,19 +74,22 @@ Route::get('/procurement/history', 'App\Domain\Procurement\Service\ProcurementSe
 Route::get('/procurement/detail/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@detail')->middleware('login_check');
 Route::get('/procurement/history/detail/{numPO}', 'App\Domain\Procurement\Service\ProcurementService@detailHistory')->middleware('login_check');
 Route::get('/procurement/create', 'App\Domain\Procurement\Service\ProcurementService@viewCreate')->middleware('login_check');
-Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleData')->middleware('login_check');
 
-Route::post('/procurement/create', 'App\Domain\Procurement\Service\ProcurementService@create')->middleware('login_check');
+Route::post('/procurement/create', 'App\Domain\Procurement\Service\ProcurementLineService@insertLine')->middleware('login_check');
 Route::post('/procurement/create/header', 'App\Domain\Procurement\Service\ProcurementService@createHeader')->middleware('login_check');
-Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@insert')->middleware('login_check');
 
 Route::put('/procurement/cancel/{num}', 'App\Domain\Procurement\Service\ProcurementService@cancelPO')->middleware('login_check');
 
 Route::patch('/procurement/update/header', 'App\Domain\Procurement\Service\ProcurementService@updateHeader')->middleware('login_check');
 Route::patch('/procurement/proceed/{num}', 'App\Domain\Procurement\Service\ProcurementService@proceedPO')->middleware('login_check');
-Route::patch('/procurement/meuble', 'App\Domain\Procurement\Service\ProcurementService@updateStock')->middleware('login_check');
 
-Route::delete('/procurement/item', 'App\Domain\Procurement\Service\ProcurementService@deleteLine')->middleware('login_check');
+Route::delete('/procurement/item', 'App\Domain\Procurement\Service\ProcurementLineService@deleteLine')->middleware('login_check');
+
+//====================================================== Meuble ======================================================
+Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleData')->middleware('login_check');
+Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@insert')->middleware('login_check');
+Route::patch('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@updateStock')->middleware('login_check');
+
 //=============================================================================================================
 // Domain Finance
 //=============================================================================================================

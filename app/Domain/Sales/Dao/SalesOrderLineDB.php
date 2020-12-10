@@ -18,7 +18,6 @@ class SalesOrderLineDB extends Controller
      *
      * @return Response
      */
-
     public function insertHeaderLine($line)
     {
         SalesOrderLine::create([

@@ -14,14 +14,12 @@ use Illuminate\Http\Request;
 
 class DeliveryService extends Controller
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @return Response
-     */
-
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $delivery;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->delivery = new DeliveryDao();

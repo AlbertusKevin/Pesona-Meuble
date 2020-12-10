@@ -20,17 +20,9 @@ class CustomerDB extends Controller
      *
      * @return Response
      */
-
-    public function findAllSalesOrders()
+    public function findById($id)
     {
-        $customers = Customer::orderBy('id', 'asc');
-        return $customers;
-    }
-
-    public function findCustomerByID($id)
-    {
-        $customer = Customer::where('id', '=', $id)->first();
-        return $customer;
+        return Customer::where('id', $id)->first();
     }
 
     public function create($line)
@@ -49,10 +41,6 @@ class CustomerDB extends Controller
         return Customer::all();
     }
 
-    public function findById($id)
-    {
-        return Customer::where('id', $id)->first();
-    }
 
     public function updateCustomers(Request $request, $id)
     {

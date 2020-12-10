@@ -82,7 +82,6 @@ class SalesOrderDao extends Controller
         ]);
     }
 
-
     public function updateProceed($numSO)
     {
         SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 1]);;

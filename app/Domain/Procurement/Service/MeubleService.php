@@ -17,8 +17,12 @@ use App\Domain\Vendor\Dao\VendorDB;
 
 class MeubleService extends Controller
 {
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $meubles;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->meubles = new MeubleDao();
@@ -26,7 +30,7 @@ class MeubleService extends Controller
 
     public function homeView()
     {
-        $meubles = $this->meubles->findAllMeubles();
+        $meubles = $this->listMeuble();
         return view('homecust', [
             'meubles' => $meubles,
         ]);
@@ -34,7 +38,7 @@ class MeubleService extends Controller
 
     public function meubleDetailView($typeModel)
     {
-        $meuble = $this->meubles->findMeuble($typeModel);
+        $meuble = $this->getMeubleByModel($typeModel);
         return view('customer_service.customer_data.meubleDetail', [
             'meuble' => $meuble
         ]);
@@ -71,7 +75,7 @@ class MeubleService extends Controller
     public function generateMeubleData()
     {
         if ($_GET["source_url"] == 'salesorder') {
-            $meuble = $this->meubles->findMeubleByModelType($_GET);
+            $meuble = $this->getMeubleByModel($_GET['model']);
         } else {
             $meuble = $this->meubles->findMeubleByModelTypeAndVendor($_GET);
         }
@@ -82,8 +86,16 @@ class MeubleService extends Controller
 
         return json_encode($meuble);
     }
+
+    public function updateStock(Request $request)
+    {
+        $stock = $this->getMeubleByModel($request['modelType']);
+        $stock = $stock->stock;
+        $stock += $request['quantity'];
+        $this->meubles->update($request, $stock);
+    }
     //===============================================================================================================================================================================================================
-    // Bukan fungsi dipanggil dari route
+    // Fungsi khusus untuk digunakan class lain
     //===============================================================================================================================================================================================================
     public function listMeuble()
     {
@@ -93,5 +105,10 @@ class MeubleService extends Controller
     public function getMeubleByModel($model)
     {
         return $this->meubles->findMeubleByModelType($model);
+    }
+
+    public function getAllCategory()
+    {
+        return $this->meubles->showCategory();
     }
 }

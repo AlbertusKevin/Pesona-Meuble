@@ -22,9 +22,13 @@ class Login extends Controller
      * @return Response
      */
 
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $emp;
     private $meubles;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->emp = new Employee();
@@ -68,7 +72,7 @@ class Login extends Controller
 
     public function homeAdmin()
     {
-        $meubles = $this->meubles->returnListMeuble();
+        $meubles = $this->meubles->listMeuble();
         return view('employee.home', compact('meubles'));
     }
 }

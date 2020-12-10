@@ -18,18 +18,16 @@ use Illuminate\Http\Request;
 
 class SalesOrderService extends Controller
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @return Response
-     */
-
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $salesorders;
     private $salesorderlines;
     private $employees;
     private $meubles;
     private $discounts;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->salesorders = new SalesOrderDao();
@@ -58,13 +56,13 @@ class SalesOrderService extends Controller
     public function salesOrderDetailView($numSO)
     {
         $salesorder = $this->salesOrderNumAndCustomer($numSO);
-        $discounts = $this->discounts->showAllDiscount();
+        // $discounts = $this->discounts->showAllDiscount();
         $salesorderlines = $this->salesorderlines->detailSalesOrderLine($numSO);
 
         return view('sales.sales_order.updateSalesOrderView', [
             'salesorder' => $salesorder,
-            'salesorderlines' => $salesorderlines,
-            'discounts' => $discounts
+            'salesorderlines' => $salesorderlines
+            // 'discounts' => $discounts
         ]);
     }
     public function salesOrderDetaiHistory($numSO)
@@ -141,7 +139,9 @@ class SalesOrderService extends Controller
         return redirect('/salesorder')->with('success', 'Sales Order  ' . $numSO . ' finished successfully !');
     }
 
-    ###########################################################
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
     public function salesOrderNumAndCustomer($numSO)
     {
         return $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);

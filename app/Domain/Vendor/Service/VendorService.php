@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Validator;
 
 class VendorService extends Controller
 {
-    // Deklarasi kelas global, untuk pemanggilan model ORM
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $vendors;
 
     //==================================================================================================================================================
-    // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
     //==================================================================================================================================================
     public function __construct()
     {
@@ -91,5 +91,13 @@ class VendorService extends Controller
         }
         $this->vendors->updateVendors($request, $companyCode);
         return redirect("/vendor/list")->with(['success' => 'Vendor ' . $request->name . ' Updated Successfully !']);
+    }
+
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
+    public function getAllVendor()
+    {
+        return $this->vendor->showAll();
     }
 }

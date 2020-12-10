@@ -62,7 +62,7 @@ $('#customer').on("change", function () {
     $.ajax({
         url: `/salesorder/customer`,
         data: {
-            model: $("#customer").val(),
+            id: $("#customer").val(),
             _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
         dataType: "json",
         success: (data) => {
@@ -131,8 +131,6 @@ $("#lineHeader").on("click", '#addItem', function (){
         //ambil asal url terlebih dahulu
         let url = window.location.href;
         url = url.split("/");
-
-        let process = url[4];
         url = url[3];
 
         $.ajax({
@@ -231,7 +229,6 @@ $('#lineItem').on('click','.removeItem',function(){
     //ambil asal url
     let url = window.location.href;
     url = url.split("/");
-    let process = url[4];
     url = url[3];
     
     //simpan element yang akan di remove
@@ -289,7 +286,6 @@ $('#lineItem').on("click", '.editItem', function(){
     const model = $(this).parent().parent().parent().attr("id");
     const quantity = parseInt($(`#quantity-${model}`).val());
     const price = parseInt($(`#price-${model}`).val());
-    alert(model+" "+price+" "+quantity);
     
     //pasang value lama ke field edit
     $("#modelType").val(model);
@@ -309,8 +305,6 @@ $("#lineHeader").on("click", '#changeItem', function (){
     //ambil asal url
     let url = window.location.href;
     url = url.split("/");
-
-    let process = url[4];
     url = url[3];
 
     //ambil value baru dari field
@@ -350,6 +344,15 @@ $("#lineHeader").on("click", '#changeItem', function (){
     $("#quantity").val(0);
 });
 
+const getURL = () => {
+    //ambil asal url terlebih dahulu
+    let url = window.location.href;
+    url = url.split("/");
+    url = url[3];
+
+    return url;
+}
+
 // ===================================================================== Memproses PO dan SO ==============================================================================
 //create new PO dan SO (fix)
 $("#createTransaction").on("click",function(){
@@ -367,7 +370,7 @@ $("#createTransaction").on("click",function(){
         const totalItem = $("#totalItem").val();
         const freightIn = $("#freightIn").val();
         const totalPrice = $("#totalPrice").val();
-        // const totalDisc = $("#totalDisc").val();
+        const totalDisc = $("#totalDisc").val();
         const totalPayment = $("#totalPayment").val();
         let employee = $("#employeeName").val();
         let id = parseInt(employee.split(":")[0]);
@@ -394,7 +397,7 @@ $("#createTransaction").on("click",function(){
                         const price = parseInt($(`#price-${modelType}`).val());
                         const quantity = parseInt($(`#quantity-${modelType}`).val());
                         // const discountMeuble = $(`#discMeuble-${modelType}`).val();
-                
+
                         $.ajax({
                             url: '/salesorder/create/salesorderline',
                             method: "post",
@@ -419,20 +422,13 @@ $("#createTransaction").on("click",function(){
                     for(let i = 0; i < item.length; i++){
                         const child = item[i];
                         const modelType = child.getAttribute("id");
-    
-                        const meubleName = $(`#name-${modelType}`).val();
-                        const category = $(`#category-${modelType}`).val();
-                        const size = $(`#size-${modelType}`).val();
-                        const color = $(`#color-${modelType}`).val();
-                        const description = $(`#desc-${modelType}`).val();
-                        const warranty = parseInt($(`#warranty-${modelType}`).val());
                         const price = parseInt($(`#price-${modelType}`).val());
                         const quantity = parseInt($(`#quantity-${modelType}`).val());
                 
                         $.ajax({
                             url: `/procurement/create`,
                             method: "post",
-                            data: {numPo ,modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                            data: {numPo, modelType, price, quantity, vendor, _token: $("#ajaxInput").children()[0].getAttribute("value")},
                             success: () => {
                                 alert("Data successfully inserted");
                                 window.location.href = "/procurement/list";
@@ -617,7 +613,6 @@ $('#proceed').on("click", function(){
                     success: () => {
                         if(result == 'salesorder'){
                             const freightIn = parseInt($('#freightIn').val());
-                            console.log(freightIn)
                             if(freightIn != 0){
                                 window.location.href = `/delivery/new/${$('#numSO').val()}`;
                             }else{

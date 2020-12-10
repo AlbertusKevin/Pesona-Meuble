@@ -16,20 +16,21 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerService extends Controller
 {
-    // Deklarasi kelas global, untuk pemanggilan model ORM
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $customers;
 
     //==================================================================================================================================================
-    // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
     //==================================================================================================================================================
     public function __construct()
     {
         $this->customers = new CustomerDB();
     }
 
+    //generate data customer yang diinput, return data jika ada
     public function generateCustomerForSalesOrder()
     {
-        $customer = $this->customers->findCustomerByID($_GET['model']);
+        $customer = $this->getCustomerById($_GET['id']);
         if (isset($customer)) {
             return $customer;
         }
@@ -70,7 +71,7 @@ class CustomerService extends Controller
 
     public function updateViewCustomers($id)
     {
-        $customers = $this->customers->findById($id);
+        $customers = $this->getCustomerById($id);
         return view('customer_service.customer_data.updatecustomer', [
             "customers" => $customers
         ]);
@@ -98,5 +99,13 @@ class CustomerService extends Controller
     {
         $this->customers->updateMember($id);
         return redirect('/customer/list')->with(['success' => 'Customer ' . $request->name . ' Successfully Registered as a Member  !']);
+    }
+
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
+    public function getCustomerById($id)
+    {
+        return $this->customers->findById($id);
     }
 }

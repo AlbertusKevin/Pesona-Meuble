@@ -16,10 +16,13 @@ use Illuminate\Support\Facades\Validator;
 
 class DiscountService extends Controller
 {
-    // Deklarasi kelas global, untuk pemanggilan model ORM
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $discounts;
     private $employees;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->discounts = new DiscountDB();
@@ -86,7 +89,9 @@ class DiscountService extends Controller
         return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Deleted !']);
     }
 
-    ####################################
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
     public function showAllDiscount()
     {
         return $this->discounts->showAll();
