@@ -3,8 +3,16 @@
  * Proprietary and confidential
  * Code's Author by Albertus Kevin, Chris Christian, December 2020
  */
-
 const baseURL = 'http://localhost:8000/';
+
+const getURL = () => {
+    //ambil asal url terlebih dahulu
+    let url = window.location.href;
+    url = url.split("/");
+    url = url[3];
+
+    return url;
+}
 
 function validateForm(type) {
     if(type == 'header'){
@@ -23,13 +31,122 @@ function validateForm(type) {
       });
     return isValidLine;
 }
+
+const update = function (){
+    //ambil asal url terlebih dahulu
+    let url = getURL();
+
+    if(validateForm('header')){
+        //ambil semua data di header PO
+        const numPo = $("#numPO").val();
+        const totalItem = $("#totalItem").val();
+        const totalPrice = $("#totalPrice").val();
+        const totalPayment = $("#totalPayment").val();
+        
+        //data header jika dari SO
+        const numSO = $("#numSO").val();
+        
+        //ajax query ke database
+        if(url == "salesorder"){
+            $.ajax({
+                url: "/salesorder/update/header",
+                method: "patch",
+                data: {numSO, totalItem, totalPrice, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                success: () => {
+                    $.ajax({
+                        url: '/salesorder/item',
+                        method: "delete",
+                        data: {numSO, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                        success: () => {
+                            // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
+                            const item = $("#lineItem").children();
+
+                            //ambil per baris yang ada
+                            for(let i = 0; i < item.length; i++){
+                                const child = item[i];
+                                const modelType = child.getAttribute("id");
+                                const price = parseInt($(`#price-${modelType}`).val());
+                                const quantity = parseInt($(`#quantity-${modelType}`).val());
+                                $.ajax({
+                                    url: '/salesorder/create/salesorderline',
+                                    method: "post",
+                                    data: {numSO ,modelType, price, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")}
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        }else{
+            $.ajax({
+                url: `/procurement/update/header`,
+                method: "patch",
+                data: {numPo, totalItem, totalPrice, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                success: () => {
+                    // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
+                    const item = $("#lineItem").children();
+                    //ambil per baris yang ada
+                    for(let i = 0; i < item.length; i++){
+                        const child = item[i];
+                        const modelType = child.getAttribute("id");
+                        const price = parseInt($(`#price-${modelType}`).val());
+                        const quantity = parseInt($(`#quantity-${modelType}`).val());
+                
+                        $.ajax({
+                            url: `/procurement/item`,
+                            method: "delete",
+                            data: {numPo, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                            success: () => {
+                                $.ajax({
+                                    url: `/procurement/create`,
+                                    method: "post",
+                                    data: {numPo ,modelType, price, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+                                    success: () => {
+                                        return url;
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }else{
+        alert("All field header must be filled!");
+    }
+    return url;
+}
+
+const quantity = () => {
+    const model = $("#modelType").val();
+    const quantity = $('#quantity').val();
+
+    //ambil asal url terlebih dahulu
+    let url = getURL();
+
+    if(url == 'salesorder'){
+        $.ajax({
+            url: `/procurement/meuble`,
+            data: {
+                model, 
+                source_url: url,
+                _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
+            dataType: "json",
+            success: (data) => {
+                if(data){
+                    if(data.stock < quantity){
+                        alert('Insufficient stock '+model);
+                    }
+                }
+            }
+        });
+    }
+}
 // =========================================================== Generate Data Customer dan Meuble ====================================================================
 //generate data jika ada untuk PO dan SO (fix)
 $('#modelType').on("change", function () {
     //ambil asal url terlebih dahulu
-    let url = window.location.href;
-    url = url.split("/");
-    url = url[3];
+    let url = getURL();
 
     $.ajax({
         url: `/procurement/meuble`,
@@ -77,7 +194,7 @@ $('#customer').on("change", function () {
     });
 });
 
-// ============================================= Perhitungan Freight In, Discount, total payment, total item, price dsb ====================================================================
+// ============================================= Perhitungan Freight In, Discount  ====================================================================
 //freight in untuk PO dan SO (fix)
 $('#freightIn').keypress(function (e) {
     if(e.which == 13)  // the enter key code
@@ -98,40 +215,12 @@ $('#totalDisc').keypress(function (e) {
     }
 });
 
-//hitung diskon payment dan Meuble untuk SO (fix)
-const hitungDiskon = (id) => {
-    const disc = $(id).val();
-    let discount = $(`.${disc}`).html().split(":");
-    let percent = parseFloat(discount[1]);
-    return percent;
-}
-
-//prosedur untuk mengubah total diskon payment
-const hitungDiskonTotalPayment = () => {
-    const disc = hitungDiskon('#discount');                         //ambil percent diskon payment
-    let totalPayment = parseInt($("#totalPayment").val());          //ambil total payment yang lama
-    let discValue = parseFloat((totalPayment*disc).toFixed(2));     //hitung besaran diskon payment saat ini
-    let totalDisc = parseInt($("#totalDisc").val());                //ambil total disc yang lama
-    totalDisc = totalDisc + discValue;                              //kalkulasi total discount yang baru
-    $("#totalDisc").val(totalDisc);                                 //ubah tampilan dengan hasil baru
-    totalPayment = totalPayment - discValue;                        //kurangi total payment lama dengan discount baru
-    $("#totalPayment").val(totalPayment);                           //ubah value total Payment setelah dikurangi diskon
-}
-
-//mengambil nilai discount dari header SO (fix)
-$('#discount').on('change', function(){
-    $(this).attr('disabled',true);                                  //disabled select option
-    hitungDiskonTotalPayment();
-});
-
 //===================================================== Menambah, Mengedit, Menghapus Line Item SO dan PO ===========================================================
 //menambahkan item PO dan SO (fix)
 $("#lineHeader").on("click", '#addItem', function (){
     if(validateForm('line')){
         //ambil asal url terlebih dahulu
-        let url = window.location.href;
-        url = url.split("/");
-        url = url[3];
+        let url = getURL();
 
         $.ajax({
             url: `/procurement/meuble`,
@@ -159,30 +248,12 @@ $("#lineHeader").on("click", '#addItem', function (){
 
                     // let totalDisc = 0;
                     if(url == 'salesorder'){
-                        // //ambil percent diskon mebel
-                        // const percent = hitungDiskon('#discountMeuble');
-                        // //hitung total diskon mebel
-                        // const discountVal = parseFloat((data.price*percent).toFixed(2));
-                        // totalDisc = discountVal*quantity;
-                        // //ambil total diskon lama
-                        // let oldTotalDisc = parseInt($("#totalDisc").val());
-                        // //hitung total diskon baru
-                        // let newTotalDisc = oldTotalDisc+totalDisc;
-                        // //ubah total diskon dengan yang baru
-                        // $("#totalDisc").val(newTotalDisc);
-                        // //ubah total payment yang baru
-                        // let totalPrice = parseInt($("#totalPrice").val());
-                        // $("#totalPayment").val(totalPrice-newTotalDisc);
-
                         if(data.stock < quantity){
                             alert('Insufficient stock '+$("#modelType").val()+'. You can still continue the process if stock is planned.');
                         }
                     }
 
                     //Buat tag template HTML
-                    // ${url == 'salesorder' ? `<input type="hidden" id="discMeuble-${data.modelType}" value="${$("#discountMeuble").val()}">` : ''}
-                    // ${url == 'salesorder' ? `<input type="hidden" id="disc-${data.modelType}" value="${totalDisc}">` : ''}
-                    // ${url == 'salesorder' ? `<p class="font-weight-bold dataDiscountMeuble">Discount: ${totalDisc}</p>` : ''}
                     const tag_html = `
                         <div id="${data.modelType}">
                             <input type="hidden" id="model-${data.modelType}" value="${data.modelType}">
@@ -225,12 +296,7 @@ $("#lineHeader").on("click", '#addItem', function (){
 });
 
 //remove item PO dan SO (fix)
-$('#lineItem').on('click','.removeItem',function(){
-    //ambil asal url
-    let url = window.location.href;
-    url = url.split("/");
-    url = url[3];
-    
+$('#lineItem').on('click','.removeItem',function(){    
     //simpan element yang akan di remove
     const element = $(this).parent().parent().parent();
 
@@ -253,29 +319,9 @@ $('#lineItem').on('click','.removeItem',function(){
     $("#totalItem").val(newTotalItem);
     $("#totalPrice").val(newTotalPrice);
     
-    // if(url == 'salesorder'){
-    //     // console.log("--Debug--"); //////////////////////////////////////////////////////////
-    //     // //ambil diskon mebel yang akan diremove
-    //     // let discount = parseInt($(`#disc-${model}`).val());
-    //     // // let discount = $(`#${model} .dataDiscountMeuble`).html();
-    //     // // discount = parseInt(discount.split(":")[1].trim());
-    //     // //ambil total diskon, kalkulasi hasil update, lalu tampilkan
-    //     // let totalDisc = parseInt($("#totalDisc").val());
-    //     // console.log("Total Diskon saat ini: "+ totalDisc); ///////////////////////////////////////
-    //     // totalDisc = totalDisc - discount;
-    //     // $("#totalDisc").val(totalDisc)
-    //     // //ubah totalPayment dengan mengurangi totalPayment - (harga normal - diskon mebel)
-    //     // newTotalPayment = totalPayment - ((quantity*price)-discount);
-
-    //     // console.log("Diskon Mebel: "+ discount);
-    //     // console.log("Total Diskon perubahan: "+ totalDisc);
-    //     // console.log("Total Payment Lama: "+ $("#totalPayment").val());
-    //     // console.log("Total Payment Perubahan: "+ newTotalPayment);
-    // }else{
-    // }
-    
     newTotalPayment = totalPayment - quantity*price;    
     $("#totalPayment").val(newTotalPayment);
+
     //hapus item dari list item
     element.remove();
 });
@@ -302,11 +348,6 @@ $('#lineItem').on("click", '.editItem', function(){
 
 //update list item PO dan SO (fix) 
 $("#lineHeader").on("click", '#changeItem', function (){
-    //ambil asal url
-    let url = window.location.href;
-    url = url.split("/");
-    url = url[3];
-
     //ambil value baru dari field
     const model = $("#modelType").val();
     const quantity = parseInt($("#quantity").val());
@@ -344,22 +385,11 @@ $("#lineHeader").on("click", '#changeItem', function (){
     $("#quantity").val(0);
 });
 
-const getURL = () => {
-    //ambil asal url terlebih dahulu
-    let url = window.location.href;
-    url = url.split("/");
-    url = url[3];
-
-    return url;
-}
-
 // ===================================================================== Memproses PO dan SO ==============================================================================
 //create new PO dan SO (fix)
 $("#createTransaction").on("click",function(){
     //ambil asal url terlebih dahulu
-    let url = window.location.href;
-    url = url.split("/");
-    url = `${url[(url.length)-2]}`;
+    let url = getURL()
 
     if(validateForm('header')){
         //ambil semua data di header PO
@@ -448,9 +478,7 @@ $('#cancel').on("click", function (){
     //ambil asal url terlebih dahulu
     let url_ajax, num, message, url_direct;
     
-    let url = window.location.href;
-    url = url.split("/");
-    url = `${url[(url.length)-2]}`;
+    let url = getURL();
 
     if(url == 'salesorder'){
         num = $("#numSO").val();
@@ -474,99 +502,6 @@ $('#cancel').on("click", function (){
     });
 });
 
-//Fungsi Ekspresi untuk update
-const update = function (){
-    //ambil asal url terlebih dahulu
-    let url = window.location.href;
-    url = url.split("/");
-    url = url[3];
-
-    if(validateForm('header')){
-        //ambil semua data di header PO
-        const numPo = $("#numPO").val();
-        const vendor = $("#vendor").val();
-        const totalItem = $("#totalItem").val();
-        const totalPrice = $("#totalPrice").val();
-        // const totalDisc = $("#totalDisc").val();
-        const totalPayment = $("#totalPayment").val();
-        
-        //data header jika dari SO
-        const numSO = $("#numSO").val();
-        // const paymentDiscount = $("#discount").val();
-        // const totalMeubleDisc = totalDisc-paymentDiscount;
-
-        //ajax query ke database
-        if(url == "salesorder"){
-            $.ajax({
-                url: "/salesorder/update/header",
-                method: "patch",
-                data: {numSO, totalItem, totalPrice, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                success: () => {
-                    // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
-                    const item = $("#lineItem").children();
-                    //ambil per baris yang ada
-                    for(let i = 0; i < item.length; i++){
-                        const child = item[i];
-                        const modelType = child.getAttribute("id");
-                        const price = parseInt($(`#price-${modelType}`).val());
-                        const quantity = parseInt($(`#quantity-${modelType}`).val());
-                        // const discountMeuble = $(`#discMeuble-${modelType}`).val();
-                
-                        $.ajax({
-                            url: '/salesorder/item',
-                            method: "delete",
-                            data: {numSO, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                            success: () => {
-                                $.ajax({
-                                    url: '/salesorder/create/salesorderline',
-                                    method: "post",
-                                    data: {numSO ,modelType, price, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")}
-                                });
-                            }
-                        });
-                    }
-                }
-            });
-        }else{
-            $.ajax({
-                url: `/procurement/update/header`,
-                method: "patch",
-                data: {numPo, totalItem, totalPrice, totalPayment, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                success: () => {
-                    // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
-                    const item = $("#lineItem").children();
-                    //ambil per baris yang ada
-                    for(let i = 0; i < item.length; i++){
-                        const child = item[i];
-                        const modelType = child.getAttribute("id");
-                        const price = parseInt($(`#price-${modelType}`).val());
-                        const quantity = parseInt($(`#quantity-${modelType}`).val());
-                
-                        $.ajax({
-                            url: `/procurement/item`,
-                            method: "delete",
-                            data: {numPo, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                            success: () => {
-                                $.ajax({
-                                    url: `/procurement/create`,
-                                    method: "post",
-                                    data: {numPo ,modelType, price, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                                    success: () => {
-                                        return url;
-                                    }
-                                });
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }else{
-        alert("All field header must be filled!");
-    }
-    return url;
-}
-
 //update PO dan SO (fix)
 $('#updateTransaction').on("click", function(){
     const result = update();
@@ -579,11 +514,13 @@ $('#updateTransaction').on("click", function(){
     }
 });
 
-//proceed PO untuk update stock meuble
+//proceed PO SO untuk update stock meuble
 $('#proceed').on("click", function(){
     const result = update();
     let ajaxProceed, ajaxMeuble;
-
+    let employee = $("#employeeName").val();
+    let id = parseInt(employee.split(":")[0]);
+    
     if (result == "salesorder"){
         ajaxProceed = `/salesorder/proceed/${$('#numSO').val()}`;
         ajaxMeuble = '/salesorder/meuble'
@@ -606,62 +543,122 @@ $('#proceed').on("click", function(){
                 const child = item[i];
                 const modelType = child.getAttribute("id");
                 const quantity = parseInt($(`#quantity-${modelType}`).val());
+
                 $.ajax({
                     url: ajaxMeuble,
                     method: "patch",
                     data: {modelType, quantity, _token: $("#ajaxInput").children()[0].getAttribute("value")},
-                    success: () => {
-                        if(result == 'salesorder'){
-                            const freightIn = parseInt($('#freightIn').val());
-                            if(freightIn != 0){
-                                window.location.href = `/delivery/new/${$('#numSO').val()}`;
-                            }else{
-                                alert('Sales Order now Processed');
-                                window.location.href = '/salesorder';
-                            }
-                        }
-                        if(result == 'procurement'){
-                            window.location.href = '/procurement/list';
-                            alert('Purchase Order now Processed');
-                        }
-                    }
                 });
             }
         }
     });
-    //Data line item yang diambil, update quantity di tabel mebel berdasarkan type model
-    //Ubah transaction status menjadi 1
-});
 
-const quantity = () => {
-    const model = $("#modelType").val();
-    const quantity = $('#quantity').val();
-
-    //ambil asal url terlebih dahulu
-    let url = window.location.href;
-    url = url.split("/");
-    url = url[3];
-
-    if(url == 'salesorder'){
+    if(result == 'salesorder'){
         $.ajax({
-            url: `/procurement/meuble`,
-            data: {
-                model, 
-                source_url: url,
-                _token: $("#ajaxCoba").children()[0].getAttribute("value")}, //ambil nilai dari csrf
-            dataType: "json",
-            success: (data) => {
-                if(data){
-                    if(data.stock < quantity){
-                        alert('Insufficient stock '+model);
+            url: '/salesorder/invoice',
+            method: 'post',
+            data: {numSO: $('#numSO').val(), id, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+            success: () => {
+                const freightIn = parseInt($('#freightIn').val());
+                if(freightIn != 0){
+                    if(confirm('Sales Order has been processed and an invoice has been generated. Do you want to immediately create a shipment document?')){
+                        window.location.href = `/delivery/new/${$('#numSO').val()}`;
+                    }else{
+                        window.location.href = '/salesorder';
                     }
+                }else{
+                    alert('Sales Order has been processed');
+                    window.location.href = '/salesorder';
                 }
             }
         });
     }
-}
+    if(result == 'procurement'){
+        //buat PO invoice
+        $.ajax({
+            url: '/procurement/invoice',
+            method: 'post',
+            data: {numPO: $('#numPO').val(), id, _token: $("#ajaxInput").children()[0].getAttribute("value")},
+            success: () => {
+                alert('The purchase order has been processed and an invoice has been generated!');
+                window.location.href = '/procurement/list';
+            }
+        });
+    }
+});
 
 //cek quantity SO apakah stock tersedia
 $('.quantity-SO').on("change", function(){
     quantity();
 });
+
+
+
+
+//Diskon
+// if(url == 'salesorder'){
+    //     // console.log("--Debug--"); //////////////////////////////////////////////////////////
+    //     // //ambil diskon mebel yang akan diremove
+    //     // let discount = parseInt($(`#disc-${model}`).val());
+    //     // // let discount = $(`#${model} .dataDiscountMeuble`).html();
+    //     // // discount = parseInt(discount.split(":")[1].trim());
+    //     // //ambil total diskon, kalkulasi hasil update, lalu tampilkan
+    //     // let totalDisc = parseInt($("#totalDisc").val());
+    //     // console.log("Total Diskon saat ini: "+ totalDisc); ///////////////////////////////////////
+    //     // totalDisc = totalDisc - discount;
+    //     // $("#totalDisc").val(totalDisc)
+    //     // //ubah totalPayment dengan mengurangi totalPayment - (harga normal - diskon mebel)
+    //     // newTotalPayment = totalPayment - ((quantity*price)-discount);
+
+    //     // console.log("Diskon Mebel: "+ discount);
+    //     // console.log("Total Diskon perubahan: "+ totalDisc);
+    //     // console.log("Total Payment Lama: "+ $("#totalPayment").val());
+    //     // console.log("Total Payment Perubahan: "+ newTotalPayment);
+    // }else{
+    // }
+
+    // //ambil percent diskon mebel
+                        // const percent = hitungDiskon('#discountMeuble');
+                        // //hitung total diskon mebel
+                        // const discountVal = parseFloat((data.price*percent).toFixed(2));
+                        // totalDisc = discountVal*quantity;
+                        // //ambil total diskon lama
+                        // let oldTotalDisc = parseInt($("#totalDisc").val());
+                        // //hitung total diskon baru
+                        // let newTotalDisc = oldTotalDisc+totalDisc;
+                        // //ubah total diskon dengan yang baru
+                        // $("#totalDisc").val(newTotalDisc);
+                        // //ubah total payment yang baru
+                        // let totalPrice = parseInt($("#totalPrice").val());
+                        // $("#totalPayment").val(totalPrice-newTotalDisc);
+
+
+                        // ${url == 'salesorder' ? `<input type="hidden" id="discMeuble-${data.modelType}" value="${$("#discountMeuble").val()}">` : ''}
+                    // ${url == 'salesorder' ? `<input type="hidden" id="disc-${data.modelType}" value="${totalDisc}">` : ''}
+                    // ${url == 'salesorder' ? `<p class="font-weight-bold dataDiscountMeuble">Discount: ${totalDisc}</p>` : ''}
+
+                    //hitung diskon payment dan Meuble untuk SO (fix)
+// const hitungDiskon = (id) => {
+//     const disc = $(id).val();
+//     let discount = $(`.${disc}`).html().split(":");
+//     let percent = parseFloat(discount[1]);
+//     return percent;
+// }
+
+// //prosedur untuk mengubah total diskon payment
+// const hitungDiskonTotalPayment = () => {
+//     const disc = hitungDiskon('#discount');                         //ambil percent diskon payment
+//     let totalPayment = parseInt($("#totalPayment").val());          //ambil total payment yang lama
+//     let discValue = parseFloat((totalPayment*disc).toFixed(2));     //hitung besaran diskon payment saat ini
+//     let totalDisc = parseInt($("#totalDisc").val());                //ambil total disc yang lama
+//     totalDisc = totalDisc + discValue;                              //kalkulasi total discount yang baru
+//     $("#totalDisc").val(totalDisc);                                 //ubah tampilan dengan hasil baru
+//     totalPayment = totalPayment - discValue;                        //kurangi total payment lama dengan discount baru
+//     $("#totalPayment").val(totalPayment);                           //ubah value total Payment setelah dikurangi diskon
+// }
+
+// //mengambil nilai discount dari header SO (fix)
+// $('#discount').on('change', function(){
+//     $(this).attr('disabled',true);                                  //disabled select option
+//     hitungDiskonTotalPayment();
+// });

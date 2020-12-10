@@ -63,6 +63,9 @@ class VendorService extends Controller
                 ->withInput()
                 ->withErrors($validator);
         }
+
+        $this->vendors->createVendor($request);
+
         return redirect('/vendor/list')->with(['success' => 'New Vendor Addedd Successfully !']);
     }
 
@@ -98,6 +101,6 @@ class VendorService extends Controller
     //===============================================================================================================================================================================================================
     public function getAllVendor()
     {
-        return $this->vendor->showAll();
+        return $this->vendors->showAll();
     }
 }

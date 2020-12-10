@@ -45,6 +45,11 @@ class MeubleDao extends Controller
         return $cat;
     }
 
+    public function getCategoryDescription($id)
+    {
+        return MeubleCategory::where('id', $id)->first();
+    }
+
     //input mebel baru yang dibeli lewat proses PO
     public function insert($line, $img)
     {

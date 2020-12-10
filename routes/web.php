@@ -60,7 +60,7 @@ Route::put('/salesorder/update/salesorderline', 'App\Domain\Sales\Service\SalesO
 
 Route::patch('/salesorder/update/header', 'App\Domain\Sales\Service\SalesOrderService@updateHeader')->middleware('login_check');
 Route::patch('/salesorder/proceed/{num}', 'App\Domain\Sales\Service\SalesOrderService@proceedSO')->middleware('login_check');
-Route::patch('/salesorder/meuble', 'App\Domain\Sales\Service\SalesOrderService@updateStock')->middleware('login_check');
+Route::patch('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@updateStockSO')->middleware('login_check');
 
 Route::delete('/salesorder/item', 'App\Domain\Sales\Service\SalesOrderLineService@deleteLine')->middleware('login_check');
 
@@ -100,6 +100,14 @@ Route::get('/discount/create', 'App\Domain\Finance\Service\DiscountService@creat
 Route::post('/discount/create', 'App\Domain\Finance\Service\DiscountService@createNewDiscount')->middleware('login_check');
 Route::put('/discount/update/{code}', 'App\Domain\Finance\Service\DiscountService@updateStatusDiscount')->middleware('login_check');
 Route::delete('/discount/delete/{code}', 'App\Domain\Finance\Service\DiscountService@deleteDiscount')->middleware('login_check');
+
+Route::get('/salesorder/invoice', 'App\Domain\Sales\Service\InvoiceSalesOrderService@listInvoiceSO')->middleware('login_check');
+Route::post('/salesorder/invoice', 'App\Domain\Sales\Service\InvoiceSalesOrderService@createInvoiceSO')->middleware('login_check');
+Route::get('/salesorder/invoice/detail/{numSO}', 'App\Domain\Procurement\Service\InvoiceProcurementService@detailInvoicePO')->middleware('login_check');
+
+Route::get('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@listInvoicePO')->middleware('login_check');
+Route::post('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@createInvoicePO')->middleware('login_check');
+Route::get('/procurement/invoice/detail/{numPO}', 'App\Domain\Procurement\Service\InvoiceProcurementService@detailInvoicePO')->middleware('login_check');
 //=============================================================================================================
 // Domain Employee
 //=============================================================================================================

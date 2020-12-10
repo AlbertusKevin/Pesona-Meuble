@@ -1,12 +1,10 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
     Code's Author by Chris Christian, Mikhael Adriel, December 2020 
 --}}
-
-
-@extends('layouts.app')
+@extends('layouts.appcust')
 
 @section('content')
 {{-- carousel  --}}
@@ -69,18 +67,17 @@
 <div class="container pt-5">
     <div class="row">
         <div class="col-12 col-md-6">
-            <img src="{{$meuble->image}}" class="d-block w-100 h-100" alt="...">
+            <img src="{{ asset($meuble->image) }}" class="d-block w-100 h-100" alt="...">
         </div>
         <div class="col-12 col-md-6git">
-            <h2>Craft the home with furniture</h2>
-            <p class="font-weight-bold">Deskripsi</p>
-            <p>{{$meuble->modelType}}</p>
-            <p class="font-weight-bold">Tipe Model</p>
+            <h2>{{$meuble->name}}</h2>
+            <p class="font-weight-bold">{{$meuble->description}}</p>
+            <p class="font-weight-bold">{{$meuble->modelType}}</p>
             <p>
                 <table>
                     <tr>
                         <td>Category </td>
-                        <td>: {{$meuble->category}}</td>
+                        <td>: {{$category->description}}</td>
                     </tr>
                     <tr>
                         <td>Price </td>

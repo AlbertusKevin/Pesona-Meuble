@@ -133,7 +133,7 @@ class EmployeeService extends Controller
     //===============================================================================================================================================================================================================
     public function getResponsibleEmployee($request)
     {
-        return $this->$this->getEmployeeById($request->session()->get('id_employee'));
+        return $this->getEmployeeById($request->session()->get('id_employee'));
     }
 
     public function getEmployeeById($id)

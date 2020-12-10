@@ -39,8 +39,11 @@ class MeubleService extends Controller
     public function meubleDetailView($typeModel)
     {
         $meuble = $this->getMeubleByModel($typeModel);
+        $category = $this->meubles->getCategoryDescription($meuble->category);
+
         return view('customer_service.customer_data.meubleDetail', [
-            'meuble' => $meuble
+            'meuble' => $meuble,
+            'category' => $category
         ]);
     }
 
@@ -92,6 +95,14 @@ class MeubleService extends Controller
         $stock = $this->getMeubleByModel($request['modelType']);
         $stock = $stock->stock;
         $stock += $request['quantity'];
+        $this->meubles->update($request, $stock);
+    }
+
+    public function updateStockSO(Request $request)
+    {
+        $stock = $this->getMeubleByModel($request['modelType']);
+        $stock = $stock->stock;
+        $stock -= $request['quantity'];
         $this->meubles->update($request, $stock);
     }
     //===============================================================================================================================================================================================================

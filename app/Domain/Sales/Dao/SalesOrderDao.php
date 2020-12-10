@@ -63,7 +63,7 @@ class SalesOrderDao extends Controller
             'totalItem' => (int)$header["totalItem"],
             'freightIn' => (int)$header["freightIn"],
             'totalPrice' => (int)$header["totalPrice"],
-            'paymentDiscount' => "default_p",
+            'paymentDiscount' => "default_m",
             // 'totalDiscount' => (int)$header["totalDisc"],
             'totalDiscount' => 0,
             'totalPayment' => (int)$header["totalPayment"]

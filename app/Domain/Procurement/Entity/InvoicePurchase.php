@@ -8,6 +8,7 @@
 
 namespace App\Domain\Procurement\Entity;
 
+use App\Domain\Employee\Entity\Employee;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoicePurchase extends Model
@@ -15,6 +16,7 @@ class InvoicePurchase extends Model
     protected $table = 'invoice_purchase';
     public $timestamps = false;
     protected $keyType = 'string';
+    protected $fillable = ['numPO', 'responsibleEmployee', 'receivedStatus', 'date'];
 
     public function purchaseorder()
     {

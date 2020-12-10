@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -40,7 +40,7 @@
                         <div class="form-group row">
                             <label for="customerName" class="col-sm-4 col-form-label">Telephone Number</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="telephone" name="telephone">
+                                <input type="text" class="form-control" id="telephone" name="telephone">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -57,7 +57,7 @@
             <button type="submit" class="btn btn-secondary buttonPurple">Add New Vendor</button>
         </div>
     </form>
-    
+
 </div>
 
 @endsection
