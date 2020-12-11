@@ -47,14 +47,12 @@ class Login extends Controller
             'password' => 'required'
         ]);
 
-        $employee = $this->emp->findByEmail($request);
+        $employee = $this->emp->loginEmployee($request);
 
         if (isset($employee)) {
             $check = Hash::check($request->password, $employee->password);
             if ($check) {
-                // Session::put('username', $employee->name);
-                // Session::put('id', $employee->id);
-                session(['login' => true, 'id_employee' => $employee->id]);
+                session(['login' => true, 'id_employee' => $employee->id, 'role' => $employee->role]);
                 return redirect('/admin');
             } else {
                 return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();

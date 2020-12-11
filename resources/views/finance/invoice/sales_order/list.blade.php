@@ -26,7 +26,7 @@
         <th scope="row"></th>
       </tr>
       <tr class="trcard">
-        <th scope="row" class="text-center"><a href='/salesorder/invoice/detail/{{$invoice->numSO}}'>{{$invoice->numPO}}</a></th>
+        <th scope="row" class="text-center"><a href='/salesorder/invoice/detail/{{$invoice->numSO}}'>{{$invoice->numSO}}</a></th>
         <td class="text-center">{{$invoice->date}}</td>
       </tr>
       @endforeach

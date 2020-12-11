@@ -103,7 +103,7 @@ Route::delete('/discount/delete/{code}', 'App\Domain\Finance\Service\DiscountSer
 
 Route::get('/salesorder/invoice', 'App\Domain\Sales\Service\InvoiceSalesOrderService@listInvoiceSO')->middleware('login_check');
 Route::post('/salesorder/invoice', 'App\Domain\Sales\Service\InvoiceSalesOrderService@createInvoiceSO')->middleware('login_check');
-Route::get('/salesorder/invoice/detail/{numSO}', 'App\Domain\Procurement\Service\InvoiceProcurementService@detailInvoicePO')->middleware('login_check');
+Route::get('/salesorder/invoice/detail/{numSO}', 'App\Domain\Sales\Service\InvoiceSalesOrderService@detailInvoiceSO')->middleware('login_check');
 
 Route::get('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@listInvoicePO')->middleware('login_check');
 Route::post('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@createInvoicePO')->middleware('login_check');
