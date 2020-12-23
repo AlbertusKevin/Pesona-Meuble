@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -17,54 +17,63 @@
             <div class="card" style="width: 100%;">
                 <div class="card-body pt-4">
                     <form action='/discount/create' method="POST">
-                        @csrf 
+                        @csrf
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Discount Code</label>
+                            <label for="code" class="col-sm-4 col-form-label">Discount Code</label>
                             <div class="col-sm-8">
                                 <input type="text" id='code' name='code' class="form-control" placeholder='Discount Code'>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Description</label>
+                            <label for="description" class="col-sm-4 col-form-label">Description</label>
                             <div class="col-sm-8">
-                                <textarea class="form-control" id="exampleFormControlTextarea1" name='description' rows="3" placeholder='Description'></textarea>
+                                <textarea class="form-control" id="description" name='description' rows="3" placeholder='Description'></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Responsible Employee</label>
+                            <label for="responsibleEmployee" class="col-sm-4 col-form-label">Responsible Employee</label>
                             <div class="col-sm-8">
                                 <input type="text" id='responsibleEmployee' name='responsibleEmployee' class="form-control" value='{{$employee->name}}' disabled>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Discount (%)</label>
+                            <label for="percentDisc" class="col-sm-4 col-form-label">Discount (%)</label>
                             <div class="col-sm-8">
                                 <input type="number" id='percentDisc' name='percentDisc' class="form-control" placeholder='Discount'>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Valid From</label>
+                            <label for="from" class="col-sm-4 col-form-label">Valid From</label>
                             <div class="col-sm-8">
-                                <input type="date" id='from' name='from'class="form-control">
+                                <input type="date" id='from' name='from' class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Valid To</label>
+                            <label for="to" class="col-sm-4 col-form-label">Valid To</label>
                             <div class="col-sm-8">
-                                <input type="date" id='to' name='to'class="form-control">
+                                <input type="date" id='to' name='to' class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="discFor" class="col-sm-4 col-form-label">Discount For:</label>
+                            <div class="col-sm-8">
+                                <select id="discFor" name="discFor" class="form-control header-field-form">
+                                    <option value="0">Payment</option>
+                                    <option value="1">Meuble</option>
+                                </select>
                             </div>
                         </div>
                         <input type="hidden" id='employeeID' name='employeeID' value="{{$employee->id}}">
                         <div class="row justify-content-center">
                             <button type="submit" class="btn btn-secondary buttonPurple">Add New Discount</button>
                         </div>
-                    </form>    
+                    </form>
                 </div>
             </div>
-            
+
         </div>
     </div>
-   {{--   <div class="row justify-content-center">
+    {{-- <div class="row justify-content-center">
         <button type="button" class="btn btn-secondary updatePost">Edit</button>
     </div>
     <div class="row justify-content-center pt-3">

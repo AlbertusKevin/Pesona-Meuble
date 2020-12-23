@@ -76,78 +76,12 @@
             </div>
         </div>
         @endforeach
-
-        {{-- <div class="col-md-4 pt-3">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="{{ asset('images/lolito.svg') }}" alt="Card image cap">
-        <div class="card-body">
-            <h4 class="font-weight-bold">Lolito</h4>
-            <p class="card-text text-muted">Luxury Sofa</p>
-            <h5 class="font-weight-bold">Rp 3.500.000,00</h5>
-            <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
+        @else
+        <div class="row w-100 justify-content-center">
+            <h3>No Item Found</h3>
         </div>
+        @endif
     </div>
-</div>
-<div class="col-md-4 pt-3">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ asset('images/grifo.svg') }}" alt="Card image cap">
-        <div class="card-body">
-            <h4 class="font-weight-bold">Grifo</h4>
-            <p class="card-text text-muted">Stylish sofa</p>
-            <h5 class="font-weight-bold">Rp 3.000.000,00</h5>
-            <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-4 pt-3">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ asset('images/potty.svg') }}" alt="Card image cap">
-        <div class="card-body">
-            <h4 class="font-weight-bold">Potty</h4>
-            <p class="card-text text-muted">Stylish table</p>
-            <h5 class="font-weight-bold">Rp 1.500.000,00</h5>
-            <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-4 pt-3">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ asset('images/forestrine.svg') }}" alt="Card image cap">
-        <div class="card-body">
-            <h4 class="font-weight-bold">Forestrine</h4>
-            <p class="card-text text-muted">Simple cafe chair</p>
-            <h5 class="font-weight-bold">Rp 2.000.000,00</h5>
-            <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-4 pt-3">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ asset('images/respiro.svg') }}" alt="Card image cap">
-        <div class="card-body">
-            <h4 class="font-weight-bold">Respiro</h4>
-            <p class="card-text text-muted">Luxury chair</p>
-            <h5 class="font-weight-bold">Rp 3.000.000,00</h5>
-            <a style="color:#9B51E0;text-decoration:none" href="#">Detail</a>
-        </div>
-    </div>
-</div> --}}
-{{-- </div>
-        <div class="row justify-content-center pt-5">
-            <a name="" id="" class="btn btn-outline-primary btn-lg w-25" href="#" role="button">Show more</a>
-        </div> --}}
-
-<p class="col-md-4 pt-3">
-    {{ $meubles->links() }}
-</p>
-
-@else
-<div class="row w-100 justify-content-center">
-    <h3>No Item Found</h3>
-</div>
-@endif
-
-</div>
 </div>
 
 @endsection

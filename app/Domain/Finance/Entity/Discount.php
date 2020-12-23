@@ -23,8 +23,9 @@ class Discount extends Model
         'percentDisc',
         'responsibleEmployee',
         'statusActive',
-        'from', 
-        'to'
+        'from',
+        'to',
+        'discountFor'
     ];
 
     public function salesorders()

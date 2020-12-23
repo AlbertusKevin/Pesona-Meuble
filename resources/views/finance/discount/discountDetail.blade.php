@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -43,7 +43,7 @@
                         <label for="customerName" class="col-sm-4 col-form-label">Status</label>
                         <div class="col-sm-8">
                             @if($discount->statusActive === 1)
-                                <label class="col-form-label font-weight-bold"> : Active</label>
+                            <label class="col-form-label font-weight-bold"> : Active</label>
                             @else
                             <label class="col-form-label font-weight-bold"> : Expired</label>
                             @endif
@@ -58,26 +58,33 @@
                     <div class="form-group row">
                         <label for="customerName" class="col-sm-4 col-form-label">Valid To</label>
                         <div class="col-sm-8">
-                            <label class="col-form-label font-weight-bold"> :  {{$discount->to}}</label>
+                            <label class="col-form-label font-weight-bold"> : {{$discount->to}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="customerName" class="col-sm-4 col-form-label">Discount For</label>
+                        <div class="col-sm-8">
+                            @if($discount->discountFor == 0)
+                            <label class="col-form-label font-weight-bold"> : Meuble Discount</label>
+                            @else
+                            <label class="col-form-label font-weight-bold"> : Payment Discount</label>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     @if($discount->statusActive === 1)
-        <form action='/discount/update/{{$discount->code}}' method="POST">
-            @method('PUT')
-            @csrf
-            <div class="row justify-content-center">
-                <button type="submit" class="btn btn-secondary buttonPurple">Update Status</button>
-            </div>
-        </form>
+    <form action='/discount/update/{{$discount->code}}' method="POST">
+        @method('PUT')
+        @csrf
+        <div class="row justify-content-center">
+            <button type="submit" class="btn btn-secondary buttonPurple">Update Status</button>
+        </div>
+    </form>
     @endif
-    {{-- <div class="row justify-content-center pt-3 pb-5">
-        <a href="#" class="more">Back</a>
-    </div> --}}
 </div>
 
 @endsection

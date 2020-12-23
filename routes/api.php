@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Domain\Procurement\Entity\Meuble;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('meubles', function () {
+    $meubles = Meuble::all();
+    if ($meubles) {
+        return response()->json([
+            'status' => true,
+            'meubles' => Meuble::all(),
+            'message' => 'Data berhasil didapat.'
+        ], 200);
+    } else {
+        return response()->json([
+            'status' => false,
+            'message' => 'Data meuble tidak ditemukan.'
+        ], 404);
+    }
 });

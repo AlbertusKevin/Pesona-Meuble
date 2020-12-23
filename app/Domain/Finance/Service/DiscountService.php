@@ -23,7 +23,7 @@ class DiscountService extends Controller
     public function __construct()
     {
         $this->discounts = new DiscountDB();
-        $this->employees = new EmployeeDB(); 
+        $this->employees = new EmployeeDB();
     }
 
     //==================================================================================================================================================
@@ -49,34 +49,39 @@ class DiscountService extends Controller
     //     return redirect('/customer/list')->with(['success' => 'Customer ' . $request->customerName . 'successfully created !']);
     // }
 
-    public function listView() {
+    public function listView()
+    {
         $discounts = $this->discounts->showAll();
         return view('finance.discount.discountList', [
-            "discounts" => $discounts, 
+            "discounts" => $discounts,
         ]);
     }
 
-    public function detailView($code) {
+    public function detailView($code)
+    {
         $discount = $this->discounts->findDiscountByCode($code);
         return view('finance.discount.discountDetail', [
-            "discount" => $discount, 
+            "discount" => $discount,
         ]);
     }
 
-    public function createView(Request $request) {
+    public function createView(Request $request)
+    {
         $employee = $this->employees->findById($request->session()->get('id_employee'));
         return view('finance.discount.newDiscount', [
             "employee" => $employee,
         ]);
     }
 
-    public function createNewDiscount(Request $request) {
+    public function createNewDiscount(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'code' => 'required|min:4|unique:discount',
-            'description' => 'required', 
+            'description' => 'required',
             'percentDisc' => 'required',
             'from' => 'required',
             'to' => 'required',
+            'discFor' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -89,17 +94,19 @@ class DiscountService extends Controller
         return redirect('/discount/list')->with(['success' => 'Discount ' . $request->code . 'successfully created !']);
     }
 
-    public function updateStatusDiscount($code) {
+    public function updateStatusDiscount($code)
+    {
         $discount = $this->discounts->updateStatus($code);
-        return redirect('/discount/list')->with(['success' => 'Discount '. $code .' Updated Expired Successfully !']);
+        return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Updated Expired Successfully !']);
     }
 
-    public function deleteDiscount($code) {
+    public function deleteDiscount($code)
+    {
         $discount = $this->discounts->deleteDiscount($code);
-        return redirect('/discount/list')->with(['success' => 'Discount '. $code .' Deleted !']);
+        return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Deleted !']);
     }
 
-    
+
 
 
 
@@ -124,7 +131,7 @@ class DiscountService extends Controller
     //         'address' => 'required'
     //         // 'memberId' => 'required' 
     //     ]);
-    
+
     //     if ($validator->fails()) {
     //         return redirect('/customer/update/'. $id)
     //             ->withInput()

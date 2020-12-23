@@ -30,7 +30,7 @@ class CustomerDB extends Controller
     public function findCustomerByID($id)
     {
         $customer = Customer::where('id', '=', $id)->first();
-        return $customer; 
+        return $customer;
     }
 
     public function create($line)
@@ -40,7 +40,7 @@ class CustomerDB extends Controller
             'email' => $line["email"],
             'phone' => (int)$line["phone"],
             'address' => $line["address"],
-            'memberId' => 0
+            'member' => 0
         ]);
     }
 
@@ -60,15 +60,14 @@ class CustomerDB extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'address' => $request->address,
-            // 'memberId' => $request->memberId,
+            'address' => $request->address
         ]);
     }
 
     public function updateMember($id)
     {
         Customer::where('id', $id)->update([
-            'memberId' => 1,
+            'member' => 1,
         ]);
     }
 }

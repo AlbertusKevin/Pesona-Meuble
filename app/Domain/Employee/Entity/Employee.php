@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
-    use HasFactory;
     protected $table = 'employee';
     public $timestamps = false;
     protected $fillable = [
@@ -21,11 +20,11 @@ class Employee extends Model
         'name',
         'email',
         'phone',
-        'address', 
-        'password', 
-        'raiseIteration', 
-        'role', 
-        'status', 
+        'address',
+        'password',
+        'raiseIteration',
+        'role',
+        'status',
         'salary'
     ];
 
@@ -33,5 +32,4 @@ class Employee extends Model
     {
         return $this->hasMany(SalesOrder::class);
     }
-
 }
