@@ -19,9 +19,9 @@ class EmployeeDB
         return Employee::all();
     }
 
-    public function findByEmail(Request $request)
+    public function loginEmployee(Request $request)
     {
-        return Employee::where('email', $request->email)->first();
+        return Employee::where('email', $request->email)->where('status', 1)->first();
     }
 
     public function findById($id)
@@ -31,12 +31,12 @@ class EmployeeDB
 
     public function findByName(Request $request)
     {
-        return Employee::where('name',$request->name)->first();
+        return Employee::where('name', $request->name)->first();
     }
 
     public function createEmployee(Request $request)
     {
-        
+
         Employee::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -75,6 +75,4 @@ class EmployeeDB
             'raiseIteration' => $raiseIteration++,
         ]);
     }
-
-
 }

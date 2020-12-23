@@ -11,19 +11,22 @@ namespace App\Domain\Finance\Service;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Domain\Finance\Dao\DiscountDB;
-use App\Domain\Employee\Dao\EmployeeDB;
+use App\Domain\Employee\Service\EmployeeService;
 use Illuminate\Support\Facades\Validator;
 
 class DiscountService extends Controller
 {
-    // Deklarasi kelas global, untuk pemanggilan model ORM
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $discounts;
     private $employees;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->discounts = new DiscountDB();
-        $this->employees = new EmployeeDB();
+        $this->employees = new EmployeeService();
     }
 
     //==================================================================================================================================================
@@ -67,7 +70,7 @@ class DiscountService extends Controller
 
     public function createView(Request $request)
     {
-        $employee = $this->employees->findById($request->session()->get('id_employee'));
+        $employee = $this->employees->getResponsibleEmployee($request);
         return view('finance.discount.newDiscount', [
             "employee" => $employee,
         ]);
@@ -106,44 +109,11 @@ class DiscountService extends Controller
         return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Deleted !']);
     }
 
-
-
-
-
-    // public function createViewCustomers() {
-    //     return view('customer_service.customer_data.createCustomer');
-    // }
-
-    // public function updateViewCustomers($id)
-    // {
-    //     $customers = $this->customers->findById($id);
-    //     return view('customer_service.customer_data.updatecustomer', [
-    //         "customers" => $customers
-    //     ]);
-    // }
-
-    // public function updateCustomers(Request $request, $id)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'name' => 'required|min:4',
-    //         'email' => 'required', 
-    //         'phone' => 'required', 
-    //         'address' => 'required'
-    //         // 'memberId' => 'required' 
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return redirect('/customer/update/'. $id)
-    //             ->withInput()
-    //             ->withErrors($validator);
-    //     }
-    //     $customers = $this->customers->updateCustomers($request, $id);
-    //     return redirect('/customer/list')->with(['success' => 'Customer '. $request->name.' Updated Successfully !']);
-    // }
-
-    // public function updateMemberCustomer(Request $request, $id)
-    // {
-    //     $customers = $this->customers->updateMember($id);
-    //     return redirect('/customer/list')->with(['success' => 'Customer '. $request->name.' Successfully Registered as a Member  !']);
-    // }
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
+    public function showAllDiscount()
+    {
+        return $this->discounts->showAll();
+    }
 }

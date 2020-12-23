@@ -59,5 +59,14 @@ class MeubleCategorySeeder extends Seeder
                 'description' => 'Home Theater'
             ]
         );
+<<<<<<< HEAD
+=======
+        DB::table('meuble_category')->insert(
+            [
+                'id' => 8,
+                'description' => 'Accessories'
+            ]
+        );
+>>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
     }
 }

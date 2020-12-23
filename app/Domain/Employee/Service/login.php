@@ -10,10 +10,13 @@ namespace App\Domain\Employee\Service;
 
 use App\Http\Controllers\Controller;
 use App\Domain\Employee\Dao\EmployeeDB as Employee;
+<<<<<<< HEAD
 use App\Domain\Procurement\Dao\MeubleDao as Meuble;
+=======
+use App\Domain\Procurement\Service\MeubleService as Meuble;
+>>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 
 class Login extends Controller
 {
@@ -23,9 +26,13 @@ class Login extends Controller
      * @return Response
      */
 
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $emp;
     private $meubles;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->emp = new Employee();
@@ -44,14 +51,12 @@ class Login extends Controller
             'password' => 'required'
         ]);
 
-        $employee = $this->emp->findByEmail($request);
+        $employee = $this->emp->loginEmployee($request);
 
         if (isset($employee)) {
             $check = Hash::check($request->password, $employee->password);
             if ($check) {
-                // Session::put('username', $employee->name);
-                // Session::put('id', $employee->id);
-                session(['login' => true, 'id_employee' => $employee->id]);
+                session(['login' => true, 'id_employee' => $employee->id, 'role' => $employee->role]);
                 return redirect('/admin');
             } else {
                 return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
@@ -69,7 +74,11 @@ class Login extends Controller
 
     public function homeAdmin()
     {
+<<<<<<< HEAD
         $meubles = $this->meubles->findAllMeubles();
+=======
+        $meubles = $this->meubles->listMeuble();
+>>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
         return view('employee.home', compact('meubles'));
     }
 }

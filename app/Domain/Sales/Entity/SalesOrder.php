@@ -23,7 +23,6 @@ class SalesOrder extends Model
         'validTo',
         'transactionStatus',
         'totalItem',
-        'totalMeubleDiscount',
         'freightIn',
         'totalPrice',
         'paymentDiscount',

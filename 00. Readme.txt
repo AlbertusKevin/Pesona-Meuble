@@ -1,0 +1,11 @@
+Testing:
+- Buat database, pesona_meuble
+- jalankan: composer install
+- Copy file env.example, rename copy file dengan .env, sesuaikan:
+    APP_NAME=Pesona_Meuble_Shop (line 1)
+    DB_DATABASE=pesona_meuble (line 13)
+- php artisan key:generate
+- php artisan migrate:fresh --seed
+- informasi login:
+	> arahkan url ke /gate
+	> informasi employee bisa dilihat pada class seeder di /database/seeder/EmployeeSeeder termasuk password untuk login

@@ -37,12 +37,6 @@ class ProcurementDB
     {
         return PurchaseOrder::where('numPO', $num)->first();
     }
-    //ambil data line PO berdasarkan nomor PO
-    public function showDetailPOLine($num)
-    {
-        return PurchaseOrderLine::where('numPO', $num)
-            ->join('meuble', 'purchase_order_line.modelType', '=', 'meuble.modelType')->get();
-    }
 
     //insert data header dari PO ke tabel purchase_order
     public function insertHeader($header)
@@ -62,31 +56,6 @@ class ProcurementDB
         ]);
     }
 
-    //input data line item ke purchase_order_line setelah data PO berhasil diinput
-    public function insertHeaderLine($line)
-    {
-        PurchaseOrderLine::create([
-            'numPO' => $line["numPo"],
-            'modelType' => $line["modelType"],
-            'price' => $line["price"],
-            'quantity' => $line["quantity"]
-        ]);
-    }
-    public function addNewLineItem($num, $line)
-    {
-        PurchaseOrderLine::create([
-            'numPO' => $num,
-            'modelType' => $line["model"],
-            'price' => $line["price"],
-            'quantity' => $line["quantity"]
-        ]);
-    }
-
-    public function deleteNewLineItem($num, $model)
-    {
-        PurchaseOrderLine::where('numPO', $num)->where('modelType', $model)->delete();
-    }
-
     public function proceedPO($num)
     {
         PurchaseOrder::where('numPO', $num)->update(['transactionStatus' => 1]);;
@@ -104,34 +73,6 @@ class ProcurementDB
             'totalPayment' => (int)$header["totalPayment"]
             // 'totalDiscount' => (int)$header["totalDisc"],
             // 'freightIn' => (int)$header["freightIn"],
-        ]);
-    }
-    public function deleteLine($header)
-    {
-        PurchaseOrderLine::where('numPO', $header['numPo'])->delete();
-    }
-
-    public function updateHeaderLine($header)
-    {
-        PurchaseOrder::where('numPO', $header['numPo'])->update([
-            'numPO' => $header["numPo"],
-            'vendor' => $header["vendor"],
-            'responsibleEmployee' => (int)$header["id"],
-            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
-            'validTo' =>  Carbon::parse($header["validTo"])->format('Y-m-d'),
-            'transactionStatus' => 0,
-            'totalItem' => (int)$header["totalItem"],
-            'freightIn' => (int)$header["freightIn"],
-            'totalPrice' => (int)$header["totalPrice"],
-            'totalDiscount' => (int)$header["totalDisc"],
-            'totalPayment' => (int)$header["totalPayment"]
-        ]);
-    }
-
-    public function updateLineItem($request, $num)
-    {
-        PurchaseOrderLine::where('numPO', $num)->where('modelType', $request['model'])->update([
-            'quantity' => $request["quantity"],
         ]);
     }
 }

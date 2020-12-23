@@ -16,22 +16,22 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomerService extends Controller
 {
-    // Deklarasi kelas global, untuk pemanggilan model ORM
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $customers;
     private $employee;
 
     //==================================================================================================================================================
-    // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
     //==================================================================================================================================================
     public function __construct()
     {
         $this->customers = new CustomerDB();
-        $this->employee = new EmployeeDB();
     }
 
+    //generate data customer yang diinput, return data jika ada
     public function generateCustomerForSalesOrder()
     {
-        $customer = $this->customers->findCustomerByID($_GET['model']);
+        $customer = $this->getCustomerById($_GET['id']);
         if (isset($customer)) {
             return $customer;
         }
@@ -60,10 +60,8 @@ class CustomerService extends Controller
     public function showCustomers()
     {
         $customers = $this->customers->showAll();
-        // $employee = $this->employee->findById($request->session()->get('id_employee'));
         return view('customer_service.customer_data.customerlist', [
             "customers" => $customers,
-            // "employee" => $employee
         ]);
     }
 
@@ -74,7 +72,7 @@ class CustomerService extends Controller
 
     public function updateViewCustomers($id)
     {
-        $customers = $this->customers->findById($id);
+        $customers = $this->getCustomerById($id);
         return view('customer_service.customer_data.updatecustomer', [
             "customers" => $customers
         ]);
@@ -87,7 +85,6 @@ class CustomerService extends Controller
             'email' => 'required',
             'phone' => 'required',
             'address' => 'required'
-            // 'memberId' => 'required' 
         ]);
 
         if ($validator->fails()) {
@@ -95,13 +92,21 @@ class CustomerService extends Controller
                 ->withInput()
                 ->withErrors($validator);
         }
-        $customers = $this->customers->updateCustomers($request, $id);
+        $this->customers->updateCustomers($request, $id);
         return redirect('/customer/list')->with(['success' => 'Customer ' . $request->name . ' Updated Successfully !']);
     }
 
     public function updateMemberCustomer(Request $request, $id)
     {
-        $customers = $this->customers->updateMember($id);
+        $this->customers->updateMember($id);
         return redirect('/customer/list')->with(['success' => 'Customer ' . $request->name . ' Successfully Registered as a Member  !']);
+    }
+
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
+    public function getCustomerById($id)
+    {
+        return $this->customers->findById($id);
     }
 }

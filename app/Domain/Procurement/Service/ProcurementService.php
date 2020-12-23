@@ -11,32 +11,32 @@ namespace App\Domain\Procurement\Service;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Domain\Procurement\Dao\ProcurementDB;
-use App\Domain\Employee\Dao\EmployeeDB;
-use App\Domain\Procurement\Dao\MeubleDao;
-use App\Domain\Vendor\Dao\VendorDB;
+use App\Domain\Procurement\Service\ProcurementLineService;
+use App\Domain\Employee\Service\EmployeeService;
+use App\Domain\Procurement\Service\MeubleService;
+use App\Domain\Vendor\Service\VendorService;
 
 class ProcurementService extends Controller
 {
-    // Deklarasi kelas global, untuk pemanggilan model ORM
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $procurement;
     private $employee;
     private $vendor;
     private $meuble;
+    private $procurementline;
 
     //==================================================================================================================================================
-    // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
     //==================================================================================================================================================
     public function __construct()
     {
         $this->procurement = new ProcurementDB();
-        $this->employee = new EmployeeDB();
-        $this->vendor = new VendorDB();
-        $this->meuble = new MeubleDao();
+        $this->procurementline = new ProcurementLineService();
+        $this->employee = new EmployeeService();
+        $this->vendor = new VendorService();
+        $this->meuble = new MeubleService();
     }
 
-    //==================================================================================================================================================
-    // Ambil data Pembelian Barang
-    //==================================================================================================================================================
     // menampilkan semua procurement bagian header
     public function showOpen()
     {
@@ -57,9 +57,9 @@ class ProcurementService extends Controller
     //menampilkan detail line item dari salah satu procurement
     public function detail(Request $request, $numPO)
     {
-        $detailProcurement = $this->procurement->showDetailPO($numPO);
-        $detailProcurementLine = $this->procurement->showDetailPOLine($numPO);
-        $employee = $this->employee->findById($request->session()->get('id_employee'));
+        $detailProcurement = $this->showDetail($numPO);
+        $detailProcurementLine = $this->procurementline->detailLine($numPO);
+        $employee = $this->employee->getResponsibleEmployee($request);
         return view('procurement.updateviewPurchaseOrder', [
             "po" => $detailProcurement,
             "line" => $detailProcurementLine,
@@ -69,9 +69,9 @@ class ProcurementService extends Controller
     //menampilkan detail line item dari salah satu procurement
     public function detailHistory(Request $request, $numPO)
     {
-        $detailProcurement = $this->procurement->showDetailPO($numPO);
-        $detailProcurementLine = $this->procurement->showDetailPOLine($numPO);
-        $employee = $this->employee->findById($request->session()->get('id_employee'));
+        $detailProcurement = $this->showDetail($numPO);
+        $detailProcurementLine = $this->procurementline->detailLine($numPO);
+        $employee = $this->employee->getResponsibleEmployee($request);
         return view('procurement.detailPurchaseOrder', [
             "po" => $detailProcurement,
             "line" => $detailProcurementLine,
@@ -85,10 +85,11 @@ class ProcurementService extends Controller
     //mengambil view create pembelian barang
     public function viewCreate(Request $request)
     {
-        $vendor = $this->vendor->showAll();
-        $employee = $this->employee->findById($request->session()->get('id_employee'));
-        $meuble = $this->meuble->showCategory();
+        $vendor = $this->vendor->getAllVendor();
+        $employee = $this->employee->getResponsibleEmployee($request);
+        $meuble = $this->meuble->getAllCategory();
         $numPO = $this->procurement->getLastNumPO();
+
         if (count($numPO) != 0) {
             $numPO = $numPO[0]->numPO;
             $numPO = ((int)$numPO) + 1;
@@ -112,23 +113,10 @@ class ProcurementService extends Controller
         $this->procurement->insertHeader($request);
     }
 
-    // Insert Line Item PO
-    public function create(Request $request)
-    {
-        $this->procurement->insertHeaderLine($request);
-    }
     public function proceedPO($num)
     {
         // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
         $this->procurement->proceedPO($num);
-    }
-
-    public function updateStock(Request $request)
-    {
-        $stock = $this->meuble->findMeubleByModelType($request['modelType']);
-        $stock = $stock->stock;
-        $stock += $request['quantity'];
-        $this->meuble->update($request, $stock);
     }
 
     public function cancelPO($num)
@@ -144,17 +132,11 @@ class ProcurementService extends Controller
         $this->procurement->updateHeader($request);
     }
 
-    public function deleteLine(Request $request)
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
+    public function showDetail($numPO)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurement->deleteLine($request);
+        return $this->procurement->showDetailPO($numPO);
     }
-
-    // $available = $this->meuble->findMeubleByModelType($_POST['modelType']);
-    // if (isset($available)) {
-    //     $stock = $this->meuble->findMeubleByModelType($_POST['modelType']);
-    //     $stock = $stock->stock;
-    //     $stock += $_POST['quantity'];
-    //     $this->meuble->update($_POST, $stock);
-    // }
 }

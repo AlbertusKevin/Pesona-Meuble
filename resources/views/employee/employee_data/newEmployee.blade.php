@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
@@ -40,7 +40,10 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-4 col-form-label">Role</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="role" name="role">
+                                <select id="role" name="role" class="form-control header-field-form">
+                                    <option value="sales">Sales</option>
+                                    <option value="inventory">Inventory</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -75,7 +78,7 @@
             <button type="submit" class="btn btn-secondary buttonPurple">Add New Employee</button>
         </div>
     </form>
-    
+
 </div>
 
 @endsection

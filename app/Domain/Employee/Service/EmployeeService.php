@@ -15,13 +15,18 @@ use Illuminate\Support\Facades\Validator;
 
 class EmployeeService extends Controller
 {
+    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $employees;
 
+    //==================================================================================================================================================
+    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
+    //==================================================================================================================================================
     public function __construct()
     {
         $this->employees = new EmployeeDB();
     }
 
+    //menampilkan semua daftar employee
     public function listView()
     {
         $employees = $this->employees->showAll();
@@ -30,9 +35,10 @@ class EmployeeService extends Controller
         ]);
     }
 
+    //detail view salah satu employee berdasarkan id
     public function detailView($id)
     {
-        $employee = $this->employees->findById($id);
+        $employee = $this->getEmployeeById($id);
         $currentSalary = ($employee->raiseIteration * 500000) + 5000000;
         return view('employee.employee_data.employeeDetail', [
             'employee' => $employee,
@@ -40,81 +46,98 @@ class EmployeeService extends Controller
         ]);
     }
 
+    //update data employee berdasarkan id
     public function updateView($id)
     {
-        $employee = $this->employees->findById($id);
+        $employee = $this->getEmployeeById($id);
         return view('employee.employee_data.employeeUpdate', [
             'employee' => $employee,
         ]);
     }
 
+    //ubah gaji karyawan dengan id tertentu
     public function raiseSalaryView($id)
     {
-        $employee = $this->employees->findById($id);
+        $employee = $this->getEmployeeById($id);
         return view('employee.employee_data.employeeRaiseSalary', [
             'employee' => $employee,
         ]);
     }
 
+    //view untuk input data customer baru
     public function newEmployeeView()
     {
         return view('employee.employee_data.newEmployee');
     }
 
+    //proses input data employee yang baru
     public function addNewEmployee(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:4',
             'password' => 'required|min:6',
             'confirmPassword' => 'required|same:password',
-            'role' => 'required', 
-            'email' => 'required', 
-            'phone' => 'required', 
-            'address' => 'required', 
+            'role' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
             return redirect('/employee/create')
                 ->withInput()
                 ->withErrors($validator);
         }
-        $employee = $this->employees->createEmployee($request);
+        $this->employees->createEmployee($request);
         return redirect('/employee/list')->with(['success' => 'New Employee Addedd Successfully !']);
-
     }
 
+    //update data profile employee berdasarkan id
     public function updateEmployee(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:4',
-            'role' => 'required', 
-            'email' => 'required', 
-            'phone' => 'required', 
-            'address' => 'required', 
+            'role' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
-            return redirect('/employee/update/'. $id)
+            return redirect('/employee/update/' . $id)
                 ->withInput()
                 ->withErrors($validator);
         }
-        $employee = $this->employees->updateEmployee($request, $id);
-        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' Updated Successfully !']);
+        $this->employees->updateEmployee($request, $id);
+        return redirect('/employee/list')->with(['success' => 'Employee ' . $request->name . ' Updated Successfully !']);
     }
 
+    //ketika employee ada yang mengundurkan diri
     public function resignEmployee(Request $request, $id)
     {
-        $employee = $this->employees->updateResign($id);
-        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' has been resigned !']);
+        $this->employees->updateResign($id);
+        return redirect('/employee/list')->with(['success' => 'Employee ' . $request->name . ' has been resigned !']);
     }
 
+    //update gaji karyawan, berdasarkan kenaikan gaji yang ditentukan
     public function raiseSalary(Request $request, $id)
     {
-        $salary= $request->salary + $request->raise;
-        $raiseIteration = $request->raiseIteration+1;
-        $employee = $this->employees->updateSalary($id, $salary, $raiseIteration);
-        return redirect('/employee/list')->with(['success' => 'Employee '. $request->name.' salary has been raised successfully!']);
+        $salary = $request->salary + $request->raise;
+        $raiseIteration = $request->raiseIteration + 1;
+        $this->employees->updateSalary($id, $salary, $raiseIteration);
+        return redirect('/employee/list')->with(['success' => 'Employee ' . $request->name . ' salary has been raised successfully!']);
     }
 
+    //===============================================================================================================================================================================================================
+    // Fungsi khusus untuk digunakan class lain
+    //===============================================================================================================================================================================================================
+    public function getResponsibleEmployee($request)
+    {
+        return $this->getEmployeeById($request->session()->get('id_employee'));
+    }
 
+    public function getEmployeeById($id)
+    {
+        return $this->employees->findById($id);
+    }
 }

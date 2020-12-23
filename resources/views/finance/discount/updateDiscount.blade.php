@@ -1,4 +1,4 @@
-@extends('layouts.navbaronly')
+@extends('layouts.app')
 
 @section('content')
 
@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-   {{--   <div class="row justify-content-center">
+    {{-- <div class="row justify-content-center">
         <button type="button" class="btn btn-secondary updatePost">Edit</button>
     </div>
     <div class="row justify-content-center pt-3">

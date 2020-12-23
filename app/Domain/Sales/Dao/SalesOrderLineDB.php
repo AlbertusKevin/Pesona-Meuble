@@ -18,14 +18,13 @@ class SalesOrderLineDB extends Controller
      *
      * @return Response
      */
-
     public function insertHeaderLine($line)
     {
         SalesOrderLine::create([
             'numSO' => $line["numSO"],
             'modelType' => $line["modelType"],
             'price' => $line["price"],
-            'discountMeuble' => $line["discountMeuble"],
+            'discountMeuble' => "default_m",
             'quantity' => $line["quantity"]
         ]);
     }
@@ -49,7 +48,7 @@ class SalesOrderLineDB extends Controller
             'modelType' => $line["model"],
             'price' => $line["price"],
             'quantity' => $line["quantity"],
-            'discountMeuble' => $line["discMeuble"]
+            'discountMeuble' => "default_m"
         ]);
     }
 

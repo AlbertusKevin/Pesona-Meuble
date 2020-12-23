@@ -42,6 +42,7 @@
                             <a class="dropdown-item" href="/salesorder">List</a>
                             <a class="dropdown-item" href="/salesorder/history">History</a>
                             <a class="dropdown-item" href="/salesorder/create">New</a>
+                            <a class="dropdown-item" href="/salesorder/invoice">Invoice</a>
                             <a class="dropdown-item" href="/delivery">Delivery</a>
                         </div>
                     </li>
@@ -51,6 +52,7 @@
                             <a class="dropdown-item" href="/procurement/list">List</a>
                             <a class="dropdown-item" href="/procurement/history">History</a>
                             <a class="dropdown-item" href="/procurement/create">New</a>
+                            <a class="dropdown-item" href="/procurement/invoice">Invoice</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -59,7 +61,7 @@
                             <a class="dropdown-item" href="/customer/list">Customer Management</a>
                             <a class="dropdown-item" href="/vendor/list">Vendor Management</a>
                             <a class="dropdown-item" href="/employee/list">Employee Management</a>
-                            <a class="dropdown-item" href="/discount/list">Finance</a>
+                            <a class="dropdown-item" href="/discount/list">Discount Management</a>
                         </div>
                     </li>
                 </ul>
