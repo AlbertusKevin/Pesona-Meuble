@@ -10,11 +10,7 @@ namespace App\Domain\Employee\Service;
 
 use App\Http\Controllers\Controller;
 use App\Domain\Employee\Dao\EmployeeDB as Employee;
-<<<<<<< HEAD
-use App\Domain\Procurement\Dao\MeubleDao as Meuble;
-=======
 use App\Domain\Procurement\Service\MeubleService as Meuble;
->>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -74,11 +70,7 @@ class Login extends Controller
 
     public function homeAdmin()
     {
-<<<<<<< HEAD
-        $meubles = $this->meubles->findAllMeubles();
-=======
         $meubles = $this->meubles->listMeuble();
->>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
         return view('employee.home', compact('meubles'));
     }
 }
