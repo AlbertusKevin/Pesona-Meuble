@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Employee;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Domain\Employee\Entity\Employee;
 use Illuminate\Support\Facades\Hash;
@@ -49,48 +50,48 @@ class EmployeeAPIController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $rules = [
-                'name' => 'required',
-                'email' => 'email|required',
-                'phone' => 'required|number',
-                'address' => 'required',
-                'password' => 'required|min:6',
-                'role' => 'required'
-            ];
+        // try {
+        $rules = [
+            'name' => 'required',
+            'email' => 'email|required',
+            'phone' => 'required|numeric',
+            'address' => 'required',
+            'password' => 'required|min:6',
+            'role' => 'required'
+        ];
 
-            $validator = Validator::make($request->all(), $rules);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => $validator->errors,
-                ], 400);
-            }
-
-            $employee = Employee::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'password' => Hash::make($request->password),
-                'role' => $request->role,
-                'raiseIteration' => 0,
-                'status' => 1,
-                'salary' => 3500000
-            ]);
-
-            return response()->json([
-                'status' => 'success',
-                'employee' => $employee,
-                'message' => 'Berhasil menambah data pekerja ' . $request->name
-            ], 201);
-        } catch (Throwable $e) {
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Gagal menambahkan data karyawan.',
-                'error' => $e
-            ], 500);
+                'message' => $validator->errors(),
+            ], 400);
         }
+
+        $employee = Employee::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'raiseIteration' => 0,
+            'status' => 1,
+            'salary' => 3500000
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'employee' => $employee,
+            'message' => 'Berhasil menambah data pekerja ' . $request->name
+        ], 201);
+        // } catch (Throwable $e) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Gagal menambahkan data karyawan.',
+        //         'error' => $e
+        //     ], 500);
+        // }
     }
 
     /**
@@ -135,13 +136,30 @@ class EmployeeAPIController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $rules = [
+            'name' => 'required',
+            'email' => 'email|required',
+            'phone' => 'required|numeric',
+            'address' => 'required',
+            'password' => 'required|min:6',
+            'role' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
         $employee = Employee::where('id', $id)->update($request->all());
         if ($employee) {
             return response()->json([
                 'status' => 'success',
                 'employee' => $employee,
                 'message' => 'Berhasil mengupdate data pekerja ' . $request->name
-            ], 204);
+            ], 200);
         }
         return response()->json([
             'status' => false,
