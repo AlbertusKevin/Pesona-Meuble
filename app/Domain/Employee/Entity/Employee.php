@@ -10,9 +10,16 @@ namespace App\Domain\Employee\Entity;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+// ! Ubah configurasi di config/auth.php, lalu ubah users menjadi nama model yang ingin digunakan
+// ! import ini pada model yang ingin dijadikan sebagai pengganti tabel defaul user agar bisa menggunakan fitur auth
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Employee extends Model
+// !ganti extends model menjadi Authenticatable
+class Employee extends Authenticatable
 {
+    use HasFactory, Notifiable;
+
     protected $table = 'employee';
     public $timestamps = false;
     protected $fillable = [
