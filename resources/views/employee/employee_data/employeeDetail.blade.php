@@ -75,7 +75,7 @@
     <div class="row justify-content-center">
         @if($employee->status === 1)
         <form action="/employee/resign/{{$employee->id}}" method="POST">
-            @method('PUT')
+            @method('PATCH')
             @csrf
             <div class="row justify-content-center">
                 <button type="submit" class="btn btn-danger">Resign</button>

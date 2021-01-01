@@ -13,25 +13,24 @@ use App\Domain\Vendor\Entity\Vendor;
 use Illuminate\Http\Request;
 
 
-class VendorDB 
+class VendorDB
 {
     /**
      * Show the profile for the given user.
      *
      * @return Response
      */
-     public static function findVendorByCompanyCode($id){
-          return Vendor::where('companyCode', $id)->first();
-     }
-
-    public static function showAll()
+    public static function vendor_by_code($code)
     {
-        $vendor = Vendor::all();
-        return $vendor;
+        return Vendor::where('companyCode', $code)->first();
     }
 
-    //insert data header dari Vendorservice ke tabel vendor
-    public function createVendor($request)
+    public static function index()
+    {
+        return Vendor::all();
+    }
+
+    public function new_vendor($request)
     {
         Vendor::create([
             'companyCode' => $request->companyCode,
@@ -42,7 +41,7 @@ class VendorDB
         ]);
     }
 
-    public function updateVendors(Request $request, $id)
+    public function update_vendor($request, $id)
     {
         Vendor::where('companyCode', $id)->update([
             'name' => $request->name,

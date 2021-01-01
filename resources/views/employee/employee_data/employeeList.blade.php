@@ -37,7 +37,7 @@
         </tr>
         <tr class="trcard">
           <th scope="row">{{$employee->id}}</th>
-          <td><a href='/employee/detail/{{$employee->id}}'>{{$employee->name}}</a></td>
+          <td><a href='/employee/{{$employee->id}}'>{{$employee->name}}</a></td>
           <td>{{$employee->role}}</td>
           <td class="text-center">{{$employee->email}}</td>
           <td class="text-center">{{$employee->phone}}</td>

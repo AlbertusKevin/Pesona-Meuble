@@ -12,8 +12,8 @@
 <div class="container">
     @include('message')
     <h1 class="text-center pt-5 pb-5">Update Employee's Data</h1>
-    <form action='/employee/update/{{$employee->id}}' method="POST">
-    @method('PUT')
+    <form action='/employee/{{$employee->id}}' method="POST">
+    @method('PATCH')
     @csrf
         <div class="row justify-content-center">
             <div class="col-6 pb-5">

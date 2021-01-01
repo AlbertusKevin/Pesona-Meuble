@@ -12,7 +12,7 @@
 <div class="container">
     @include('message')
     <h1 class="text-center pt-5 pb-5">Add New Vendor</h1>
-    <form action='/vendor/create' method="POST">
+    <form action='/vendor' method="POST">
         @csrf
         <div class="row justify-content-center">
             <div class="col-6 pb-5">
@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <button type="submit" class="btn btn-secondary buttonPurple">Add New Vendor</button>
+            <button type="submit" class="btn btn-secondary buttonPurple">Create</button>
         </div>
     </form>
 

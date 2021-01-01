@@ -38,7 +38,7 @@
         </tr>
         <tr class="trcard">
           <th scope="row">{{$vendor->companyCode}}</th>
-          <td><a href='/vendor/detail/{{$vendor->companyCode}}'>{{$vendor->name}}</a></td>
+          <td><a href='/vendor/{{$vendor->companyCode}}'>{{$vendor->name}}</a></td>
           <td class="text-center">{{$vendor->email}}</td>
           <td class="text-center">{{$vendor->telephone}}</td>
           <td class="text-center">{{$vendor->address}}</td>

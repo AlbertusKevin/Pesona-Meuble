@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Employee;
 
 use App\Domain\Employee\Service\EmployeeService;
 use App\Http\Controllers\Controller;
@@ -17,14 +17,16 @@ class EmployeeController extends Controller
         $this->employee_service = new EmployeeService();
     }
 
-    public function detail_meuble($typeModel)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $meuble = $this->meuble_service->show_meuble($typeModel);
-        $category = $this->meuble_service->show_category_description($meuble->category);
-
-        return view('customer_service.customer_data.meubleDetail', [
-            'meuble' => $meuble,
-            'category' => $category
+        $employees = $this->employee_service->index_employee();
+        return view('employee.employee_data.employeeList', [
+            'employees' => $employees,
         ]);
     }
 
@@ -35,7 +37,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee.employee_data.newEmployee');
     }
 
     /**
@@ -46,6 +48,24 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:4',
+            'password' => 'required|min:6',
+            'confirmPassword' => 'required|same:password',
+            'role' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/employee/create')
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        $this->employee_service->store($request);
+        return redirect('/employee')->with(['success' => 'New Employee Addedd Successfully !']);
     }
 
     /**
@@ -56,6 +76,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
+        $employee = $this->employee_service->get_employee_by_id($id);
+        return view('employee.employee_data.employeeDetail', compact('employee'));
     }
 
     /**
@@ -66,7 +88,18 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = $this->employee_service->get_employee_by_id($id);
+        return view('employee.employee_data.employeeUpdate', [
+            'employee' => $employee,
+        ]);
+    }
+
+    public function edit_salary($id)
+    {
+        $employee = $this->employee_service->get_employee_by_id($id);
+        return view('employee.employee_data.employeeRaiseSalary', [
+            'employee' => $employee,
+        ]);
     }
 
     /**
@@ -78,15 +111,33 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:4',
+            'role' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/employee/update/' . $id)
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        $this->employee_service->update_employee($request, $id);
+        return redirect('/employee')->with(['success' => 'Employee ' . $request->name . ' Updated Successfully !']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function update_active_status(Request $request, $id)
     {
+        $this->employee_service->resign($id);
+        return redirect('/employee')->with(['success' => 'Employee ' . $request->name . ' has been resigned !']);
+    }
+
+    public function update_salary(Request $request, $id)
+    {
+        $this->employee_service->update_salary($request, $id);
+        return redirect('/employee')->with(['success' => 'Employee ' . $request->name . ' salary has been raised successfully!']);
     }
 }

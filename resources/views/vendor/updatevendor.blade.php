@@ -17,9 +17,8 @@
     <div class="row justify-content-center">
         <div class="card p-5" style="width: 75%;">
             <div class="card-body pt-4">
-                <form action="/vendor/update/{{$vendor->companyCode}}" method="POST">
-
-                    @method('PUT')
+                <form action="/vendor/{{$vendor->companyCode}}" method="POST">
+                    @method('PATCH')
                     @csrf
                     <div class="form-group row">
                         <label for="customerName" class="col-sm-3 col-form-label">Name:</label>

@@ -27,73 +27,24 @@ class VendorService extends Controller
         $this->vendors = new VendorDB();
     }
 
-    public function listView()
+    public function index()
     {
-        $vendors = $this->vendors->showAll();
-        return view('vendor.vendorList', [
-            "vendors" => $vendors,
-        ]);
+        return $this->vendors->index();
     }
 
-    public function detailView($companyCode)
+    public function vendor_by_code($companyCode)
     {
-        $vendor = $this->vendors->findVendorByCompanyCode($companyCode);
-        return view('vendor.vendorDetail', [
-            "vendor" => $vendor,
-        ]);
+        return $this->vendors->vendor_by_code($companyCode);
     }
 
-    public function createView()
+    public function new_vendor($request)
     {
-        return view('vendor.newVendor');
+        $this->vendors->new_vendor($request);
     }
 
-    public function addNewVendor(Request $request)
+    public function update_vendor($request, $companyCode)
     {
-        $validator = Validator::make($request->all(), [
-            'companyCode' => 'required|unique:vendor',
-            'name' => 'required',
-            'email' => 'required',
-            'telephone' => 'required',
-            'address' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/vendor/create')
-                ->withInput()
-                ->withErrors($validator);
-        }
-
-        $this->vendors->createVendor($request);
-
-        return redirect('/vendor/list')->with(['success' => 'New Vendor Addedd Successfully !']);
-    }
-
-    public function updateViewVendors($id)
-    {
-        $vendor = $this->vendors->findVendorByCompanyCode($id);
-        // dd($vendor);
-        return view('vendor.updatevendor', [
-            "vendor" => $vendor
-        ]);
-    }
-
-    public function updateVendors(Request $request, $companyCode)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required',
-            'telephone' => 'required',
-            'address' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/vendor/update/' . $companyCode)
-                ->withInput()
-                ->withErrors($validator);
-        }
-        $this->vendors->updateVendors($request, $companyCode);
-        return redirect("/vendor/list")->with(['success' => 'Vendor ' . $request->name . ' Updated Successfully !']);
+        $this->vendors->update_vendor($request, $companyCode);
     }
 
     //===============================================================================================================================================================================================================

@@ -19,26 +19,18 @@ class EmployeeDB
         return Employee::where('email', $request->email)->where('status', 1)->first();
     }
 
-    // !=====================================================================================================
-
-    public function showAll()
+    public function index_employee()
     {
         return Employee::all();
     }
 
-    public function findById($id)
+    public function show_by_id($id)
     {
         return Employee::where('id', $id)->first();
     }
 
-    public function findByName(Request $request)
+    public function new_employee(Request $request)
     {
-        return Employee::where('name', $request->name)->first();
-    }
-
-    public function createEmployee(Request $request)
-    {
-
         Employee::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -52,7 +44,7 @@ class EmployeeDB
         ]);
     }
 
-    public function updateEmployee(Request $request, $id)
+    public function update_employee(Request $request, $id)
     {
         Employee::where('id', $id)->update([
             'name' => $request->name,
@@ -62,19 +54,24 @@ class EmployeeDB
             'role' => $request->role,
         ]);
     }
-
-    public function updateResign($id)
+    public function resign($id)
     {
         Employee::where('id', $id)->update([
             'status' => 0,
         ]);
     }
 
-    public function updateSalary($id, $salary, $raiseIteration)
+    public function update_salary($id, $salary, $raiseIteration)
     {
         Employee::where('id', $id)->update([
             'salary' => $salary,
             'raiseIteration' => $raiseIteration++,
         ]);
+    }
+
+    // TODO: Refactor this code =================================================================================
+    public function findByName(Request $request)
+    {
+        return Employee::where('name', $request->name)->first();
     }
 }

@@ -12,7 +12,7 @@
 <div class="container">
     <h1 class="text-center pt-5 pb-5">Raise Employee Salary</h1>
     <form action='/employee/raise/{{$employee->id}}' method="POST">
-        @method('PUT')
+        @method('PATCH')
         @csrf
         <div class="row justify-content-center">
             <div class="col-6 pb-5">

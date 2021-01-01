@@ -12,7 +12,7 @@
 <div class="container">
     @include('message')
     <h1 class="text-center pt-5 pb-5">Add New Employee</h1>
-    <form action='/employee/create' method="POST">
+    <form action='/employee' method="POST">
         @csrf
         <div class="row justify-content-center">
             <div class="col-6 pb-5">
