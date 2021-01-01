@@ -18,7 +18,7 @@ class EmployeeAPIController extends Controller
      */
     public function index()
     {
-        $employees = Employee::select('name', 'email', 'phone', 'address', 'status')->get();
+        $employees = Employee::select('name', 'email', 'phone', 'address', 'status')->paginate(10);
         if ($employees) {
             return response()->json([
                 'status' => 'success',

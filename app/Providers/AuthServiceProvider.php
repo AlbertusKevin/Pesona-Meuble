@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,7 +25,14 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        // Passport::routes();
+        // $startTime = date("Y-m-d H:i:s");
+        // $endTime = date(
+        //     "Y-m-d H:i:s",
+        //     strtotime('+7 day +1 hour +30 minute +45 seconds', strtotime($startTime))
+        // );
+        // $expTime = \DateTime::createFromFormat("Y-m-d H:i:s", $endTime);
+        // // Passport::tokensExpireIn(Carbon::now()->addDays(15));
+        // Passport::tokensExpireIn($expTime);
     }
 }

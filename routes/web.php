@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
@@ -8,6 +7,10 @@
 
 use Illuminate\Support\Facades\Route;
 use PharIo\Manifest\Email;
+
+// Namespace controller yang akan digunakan
+use App\Http\Controllers\Employee\AuthController;
+use App\Http\Controllers\PagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +26,52 @@ use PharIo\Manifest\Email;
 //=============================================================================================================
 // Home and Display Product
 //=============================================================================================================
-Route::get('/', 'App\Domain\Procurement\Service\MeubleService@homeView');
-Route::get('/meuble/{typeModel}', 'App\Domain\Procurement\Service\MeubleService@meubleDetailView');
+Route::get('/', [PagesController::class, 'home_view_customer']);
+Route::get('/meuble/{typeModel}', [PagesController::class, 'detail_meuble']);
+
+//=============================================================================================================
+// Domain Authentication and Login Employee
+//=============================================================================================================
+Route::get('/gate', [AuthController::class, 'login_view']);
+Route::post('/gate', [AuthController::class, 'login_process']);
+Route::get('/admin', [AuthController::class, 'home_admin'])->middleware('login_check');
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('login_check');
 
 //=============================================================================================================
 // Domain Employee
 //=============================================================================================================
-Route::get('/gate', 'App\Domain\Employee\Service\Login@login_view');
-Route::post('/gate', 'App\Domain\Employee\Service\Login@login_process');
-Route::get('/admin', 'App\Domain\Employee\Service\Login@homeAdmin')->middleware('login_check');
+Route::get('/employee/list', 'App\Domain\Employee\Service\EmployeeService@listView')->middleware('login_check');
+Route::get('/employee/detail/{id}', 'App\Domain\Employee\Service\EmployeeService@detailView')->middleware('login_check');
+Route::get('/employee/create', 'App\Domain\Employee\Service\EmployeeService@newEmployeeView')->middleware('login_check');
+Route::get('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService@updateView')->middleware('login_check');
+Route::get('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalaryView')->middleware('login_check');
 
-Route::get('/logout', 'App\Domain\Employee\Service\Login@logout')->middleware('login_check');
+Route::post('/employee/create', 'App\Domain\Employee\Service\EmployeeService@addNewEmployee')->middleware('login_check');
+Route::put('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService@updateEmployee')->middleware('login_check');
+Route::put('/employee/resign/{id}', 'App\Domain\Employee\Service\EmployeeService@resignEmployee')->middleware('login_check');
+Route::put('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalary')->middleware('login_check');
+
+//=============================================================================================================
+// Domain Vendor
+//=============================================================================================================
+Route::get('/vendor/list/', 'App\Domain\Vendor\Service\VendorService@listView')->middleware('login_check');
+Route::get('/vendor/detail/{companyCode}', 'App\Domain\Vendor\Service\VendorService@detailView')->middleware('login_check');
+Route::get('/vendor/create', 'App\Domain\Vendor\Service\VendorService@createView')->middleware('login_check');
+Route::get('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateViewVendors')->middleware('login_check');
+
+Route::post('/vendor/create', 'App\Domain\Vendor\Service\VendorService@addNewVendor')->middleware('login_check');
+Route::put('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateVendors')->middleware('login_check');
+//=============================================================================================================
+// Domain Customer
+//=============================================================================================================
+Route::get('/customer/list', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers')->middleware('login_check');
+Route::get('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createViewCustomers')->middleware('login_check');
+Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers')->middleware('login_check');
+
+Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
+
+Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers')->middleware('login_check');
+Route::put('/customer/member/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateMemberCustomer')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Sales
@@ -108,38 +146,3 @@ Route::get('/salesorder/invoice/detail/{numSO}', 'App\Domain\Sales\Service\Invoi
 Route::get('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@listInvoicePO')->middleware('login_check');
 Route::post('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@createInvoicePO')->middleware('login_check');
 Route::get('/procurement/invoice/detail/{numPO}', 'App\Domain\Procurement\Service\InvoiceProcurementService@detailInvoicePO')->middleware('login_check');
-//=============================================================================================================
-// Domain Employee
-//=============================================================================================================
-Route::get('/employee/list', 'App\Domain\Employee\Service\EmployeeService@listView')->middleware('login_check');
-Route::get('/employee/detail/{id}', 'App\Domain\Employee\Service\EmployeeService@detailView')->middleware('login_check');
-Route::get('/employee/create', 'App\Domain\Employee\Service\EmployeeService@newEmployeeView')->middleware('login_check');
-Route::get('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService@updateView')->middleware('login_check');
-Route::get('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalaryView')->middleware('login_check');
-
-Route::post('/employee/create', 'App\Domain\Employee\Service\EmployeeService@addNewEmployee')->middleware('login_check');
-Route::put('/employee/update/{id}', 'App\Domain\Employee\Service\EmployeeService@updateEmployee')->middleware('login_check');
-Route::put('/employee/resign/{id}', 'App\Domain\Employee\Service\EmployeeService@resignEmployee')->middleware('login_check');
-Route::put('/employee/raise/{id}', 'App\Domain\Employee\Service\EmployeeService@raiseSalary')->middleware('login_check');
-
-//=============================================================================================================
-// Domain Vendor
-//=============================================================================================================
-Route::get('/vendor/list/', 'App\Domain\Vendor\Service\VendorService@listView')->middleware('login_check');
-Route::get('/vendor/detail/{companyCode}', 'App\Domain\Vendor\Service\VendorService@detailView')->middleware('login_check');
-Route::get('/vendor/create', 'App\Domain\Vendor\Service\VendorService@createView')->middleware('login_check');
-Route::get('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateViewVendors')->middleware('login_check');
-
-Route::post('/vendor/create', 'App\Domain\Vendor\Service\VendorService@addNewVendor')->middleware('login_check');
-Route::put('/vendor/update/{companyCode}', 'App\Domain\Vendor\Service\VendorService@updateVendors')->middleware('login_check');
-//=============================================================================================================
-// Domain Customer
-//=============================================================================================================
-Route::get('/customer/list', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers')->middleware('login_check');
-Route::get('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createViewCustomers')->middleware('login_check');
-Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers')->middleware('login_check');
-
-Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
-
-Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers')->middleware('login_check');
-Route::put('/customer/member/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateMemberCustomer')->middleware('login_check');

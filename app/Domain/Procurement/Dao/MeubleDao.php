@@ -21,17 +21,23 @@ class MeubleDao extends Controller
      * @return Response
      */
 
-    public function findAllMeubles()
+    public function index_meuble()
     {
-        $meubles = Meuble::orderBy('modelType', 'asc')->get();
+        $meubles = Meuble::all();
         return $meubles;
     }
 
-    public static function findMeubleByModelType($model)
+    public static function show_meuble($model)
     {
-        $meuble = Meuble::where('modelType', $model)->first();
-        return $meuble;
+        return Meuble::where('modelType', $model)->first();
     }
+
+    public function show_category($id)
+    {
+        return MeubleCategory::where('id', $id)->first();
+    }
+
+    // !===============================================================================================
 
     public static function findMeubleByModelTypeAndVendor($data)
     {
@@ -43,11 +49,6 @@ class MeubleDao extends Controller
     {
         $cat = MeubleCategory::all();
         return $cat;
-    }
-
-    public function getCategoryDescription($id)
-    {
-        return MeubleCategory::where('id', $id)->first();
     }
 
     //input mebel baru yang dibeli lewat proses PO

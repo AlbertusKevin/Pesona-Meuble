@@ -14,63 +14,30 @@ use App\Domain\Procurement\Service\MeubleService as Meuble;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class Login extends Controller
+class AuthService extends Controller
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @return Response
-     */
-
     // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
-    private $emp;
-    private $meubles;
+    private $employee_dao;
 
     //==================================================================================================================================================
     // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
     //==================================================================================================================================================
     public function __construct()
     {
-        $this->emp = new Employee();
-        $this->meubles = new Meuble();
+        $this->employee_dao = new Employee();
     }
 
-    public function login_view()
+    public function login_service($request)
     {
-        return view('employee.login.login');
-    }
-
-    public function login_process(Request $request)
-    {
-        $request->validate([
-            'email' => 'required | email',
-            'password' => 'required'
-        ]);
-
-        $employee = $this->emp->loginEmployee($request);
+        $employee = $this->employee_dao->authenticate_employee($request);
 
         if (isset($employee)) {
             $check = Hash::check($request->password, $employee->password);
             if ($check) {
-                session(['login' => true, 'id_employee' => $employee->id, 'role' => $employee->role]);
-                return redirect('/admin');
-            } else {
-                return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
+                session(['login' => true, 'id_employee' => $employee->id]);
+                return true;
             }
-        } else {
-            return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
         }
-    }
-
-    public function logout(Request $request)
-    {
-        $request->session()->flush();
-        return redirect('/');
-    }
-
-    public function homeAdmin()
-    {
-        $meubles = $this->meubles->listMeuble();
-        return view('employee.home', compact('meubles'));
+        return false;
     }
 }

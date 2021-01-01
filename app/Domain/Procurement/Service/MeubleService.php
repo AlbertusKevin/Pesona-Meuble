@@ -28,25 +28,6 @@ class MeubleService extends Controller
         $this->meubles = new MeubleDao();
     }
 
-    public function homeView()
-    {
-        $meubles = $this->listMeuble();
-        return view('homecust', [
-            'meubles' => $meubles,
-        ]);
-    }
-
-    public function meubleDetailView($typeModel)
-    {
-        $meuble = $this->getMeubleByModel($typeModel);
-        $category = $this->meubles->getCategoryDescription($meuble->category);
-
-        return view('customer_service.customer_data.meubleDetail', [
-            'meuble' => $meuble,
-            'category' => $category
-        ]);
-    }
-
     public function insert(Request $request)
     {
         $request->validate([
@@ -108,15 +89,24 @@ class MeubleService extends Controller
     //===============================================================================================================================================================================================================
     // Fungsi khusus untuk digunakan class lain
     //===============================================================================================================================================================================================================
-    public function listMeuble()
+    // menampilkan semua meuble
+    public function index_meuble()
     {
-        return $this->meubles->findAllMeubles();
+        return $this->meubles->index_meuble();
     }
 
-    public function getMeubleByModel($model)
+    // menampilkan data meuble tertentu
+    public function show_meuble($model)
     {
-        return $this->meubles->findMeubleByModelType($model);
+        return $this->meubles->show_meuble($model);
     }
+
+    public function show_category_description($category)
+    {
+        return $this->meubles->show_category($category);
+    }
+
+    // !================================================================
 
     public function getAllCategory()
     {

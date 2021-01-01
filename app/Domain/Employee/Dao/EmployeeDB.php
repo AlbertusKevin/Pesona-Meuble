@@ -14,14 +14,16 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeDB
 {
+    public function authenticate_employee($request)
+    {
+        return Employee::where('email', $request->email)->where('status', 1)->first();
+    }
+
+    // !=====================================================================================================
+
     public function showAll()
     {
         return Employee::all();
-    }
-
-    public function loginEmployee(Request $request)
-    {
-        return Employee::where('email', $request->email)->where('status', 1)->first();
     }
 
     public function findById($id)

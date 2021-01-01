@@ -49,5 +49,7 @@ Route::get('meubles/{model}', function ($model) {
         'message' => 'Data meuble tidak ditemukan.'
     ], 404);
 });
-
+Route::group(['middleware' => 'auth:api'], function () {
+});
+Route::get('login', 'App\Domain\Employee\Service\Login@login_view');
 Route::apiResource('employee', EmployeeAPIController::class);
