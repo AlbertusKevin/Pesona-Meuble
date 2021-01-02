@@ -34,6 +34,10 @@ use App\Http\Controllers\Warehouse\MeubleController;
 Route::get('/gate', [AuthController::class, 'login_view']);
 Route::post('/gate', [AuthController::class, 'login_process']);
 
+//! =====================================Domain Warehouse: Meuble =============================================
+Route::get('/', [MeubleController::class, 'home_customer']);
+Route::get('/meuble/{typeModel}', [MeubleController::class, 'detail_meuble']);
+
 //?=============================================================================================================
 //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dalam middleware ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //?=============================================================================================================
@@ -99,6 +103,12 @@ Route::group(['middleware' => 'login_check'], function () {
     Route::post('/procurement/invoice', [InvoicePurchaseOrderController::class, 'store']);
     Route::get('/procurement/invoice', [InvoicePurchaseOrderController::class, 'index']);
     Route::get('/procurement/invoice/{numPO}', [InvoicePurchaseOrderController::class, 'show']);
+
+    //! =====================================Domain Warehouse: Meuble =============================================
+    Route::get('/meuble', [MeubleController::class, 'search_meuble']);
+    Route::post('/meuble', [MeubleController::class, 'store']);
+    Route::patch('/meuble/add', [MeubleController::class, 'add_stock']);
+    Route::patch('/meuble/reduce', [MeubleController::class, 'reduce_stock']);
 });
 
 //=============================================================================================================
@@ -126,11 +136,9 @@ Route::put('/salesorder/update/salesorderline', 'App\Domain\Sales\Service\SalesO
 
 Route::patch('/salesorder/update/header', 'App\Domain\Sales\Service\SalesOrderService@updateHeader')->middleware('login_check');
 Route::patch('/salesorder/proceed/{num}', 'App\Domain\Sales\Service\SalesOrderService@proceedSO')->middleware('login_check');
-Route::patch('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@updateStockSO')->middleware('login_check');
 
 Route::delete('/salesorder/item', 'App\Domain\Sales\Service\SalesOrderLineService@deleteLine')->middleware('login_check');
 
-Route::get('/salesorder/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleData')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Procurement
@@ -150,11 +158,3 @@ Route::patch('/procurement/update/header', 'App\Domain\Procurement\Service\Procu
 Route::patch('/procurement/proceed/{num}', 'App\Domain\Procurement\Service\ProcurementService@proceedPO')->middleware('login_check');
 
 Route::delete('/procurement/item', 'App\Domain\Procurement\Service\ProcurementLineService@deleteLine')->middleware('login_check');
-
-//! =====================================Domain Warehouse: Meuble =============================================
-Route::get('/', [MeubleController::class, 'home_view_customer']);
-Route::get('/meuble/{typeModel}', [MeubleController::class, 'detail_meuble']);
-
-Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleData')->middleware('login_check');
-Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@insert')->middleware('login_check');
-Route::patch('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@updateStock')->middleware('login_check');

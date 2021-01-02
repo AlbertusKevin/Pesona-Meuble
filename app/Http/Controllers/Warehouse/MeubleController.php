@@ -15,7 +15,7 @@ class MeubleController extends Controller
         $this->meuble_service = new MeubleService();
     }
 
-    public function home_view_customer()
+    public function home_customer()
     {
         $meubles = $this->meuble_service->index_meuble();
         return view('homecust', [
@@ -33,6 +33,23 @@ class MeubleController extends Controller
             'category' => $category
         ]);
     }
+
+    public function search_meuble()
+    {
+        if ($_GET["source_url"] == 'salesorder') {
+            $meuble = $this->meuble_service->show_meuble($_GET['model']);
+        } else {
+            $meuble = $this->meuble_service->search_meuble_with_vendor($_GET);
+        }
+
+        //todo: untuk dicoba, return langsung meuble tanpa perlu json encode
+        if (isset($meuble)) {
+            return $meuble;
+        }
+
+        return json_encode($meuble);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -61,7 +78,21 @@ class MeubleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'modelType' => 'required',
+            'meubleName' => 'required',
+            'category' => 'required',
+            'size' => 'required',
+            'color' => 'required',
+            'description' => 'required',
+            'warranty' => 'required',
+            'price' => 'required',
+            'vendor' => 'required',
+            'picture' => 'required'
+        ]);
+
+        $this->meuble_service->new_meuble($request);
+        return redirect()->back()->with('success_new_meuble', 'Meuble ' . $request->modelType . ': ' . $request->meubleName . ' created success!');
     }
 
     /**
@@ -96,6 +127,16 @@ class MeubleController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function add_stock(Request $request)
+    {
+        $this->meuble_service->add_stock($request);
+    }
+
+    public function reduce_stock(Request $request)
+    {
+        $this->meuble_service->reduce_stock($request);
     }
 
     /**

@@ -32,30 +32,13 @@ class MeubleDao extends Controller
         return Meuble::where('modelType', $model)->first();
     }
 
-    public function show_category($id)
+    public static function search_meuble_with_vendor($data)
     {
-        return MeubleCategory::where('id', $id)->first();
+        return Meuble::where('modelType', $data["model"])->where('vendor', $data["vendor"])->first();
     }
 
-    // !===============================================================================================
-
-    public static function findMeubleByModelTypeAndVendor($data)
-    {
-        $meuble = Meuble::where('modelType', $data["model"])->where('vendor', $data["vendor"])->first();
-        return $meuble;
-    }
-
-    public function showCategory()
-    {
-        $cat = MeubleCategory::all();
-        return $cat;
-    }
-
-    //input mebel baru yang dibeli lewat proses PO
     public function insert($line, $img)
     {
-        // modelType, meubleName, category, size, color, description, warranty, price, quantity, vendor
-        // modelType 	image 	name 	description 	price 	category 	warantyPeriodeMonth 	size 	stock 	vendor 	color 	
         Meuble::create([
             'modelType' => $line["modelType"],
             'name' => $line["meubleName"],
@@ -71,12 +54,22 @@ class MeubleDao extends Controller
         ]);
     }
 
-    //update stok barang jika barang yang dibeli sudah ada di mebel db
     public function update($line, $stock)
     {
         Meuble::where('modelType', $line["modelType"])
             ->update([
                 'stock' => $stock
             ]);
+    }
+
+    public function showCategory()
+    {
+        $cat = MeubleCategory::all();
+        return $cat;
+    }
+
+    public function show_category($id)
+    {
+        return MeubleCategory::where('id', $id)->first();
     }
 }

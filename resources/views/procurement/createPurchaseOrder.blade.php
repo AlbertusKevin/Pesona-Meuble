@@ -143,7 +143,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/procurement/meuble" method="post" enctype="multipart/form-data">
+                <form action="/meuble" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card" style="width: 100%;">
                         <div class="card-body pt-4">

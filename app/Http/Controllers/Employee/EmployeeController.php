@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Employee;
 use App\Domain\Employee\Service\EmployeeService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller

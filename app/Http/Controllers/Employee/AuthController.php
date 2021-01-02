@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Domain\Employee\Service\AuthService;
-use App\Domain\Procurement\Service\MeubleService;
+use App\Domain\Warehouse\Service\MeubleService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

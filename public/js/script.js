@@ -168,7 +168,7 @@ const quantity = () => {
 
     if (url == "salesorder") {
         $.ajax({
-            url: `/procurement/meuble`,
+            url: `/meuble`,
             data: {
                 model,
                 source_url: url,
@@ -192,7 +192,7 @@ $("#modelType").on("change", function () {
     let url = getURL();
 
     $.ajax({
-        url: `/procurement/meuble`,
+        url: `/meuble`,
         data: {
             model: $("#modelType").val(),
             vendor: $("#vendor").val(),
@@ -305,7 +305,7 @@ $("#lineHeader").on("click", "#addItem", function () {
         let url = getURL();
 
         $.ajax({
-            url: `/procurement/meuble`,
+            url: `/meuble`,
             data: {
                 model: $("#modelType").val(),
                 vendor: $("#vendor").val(),
@@ -726,12 +726,12 @@ $("#proceed").on("click", function () {
 
     if (result == "salesorder") {
         ajaxProceed = `/salesorder/proceed/${$("#numSO").val()}`;
-        ajaxMeuble = "/salesorder/meuble";
+        ajaxMeuble = "/meuble/reduce";
     }
 
     if (result == "procurement") {
         ajaxProceed = `/procurement/proceed/${$("#numPO").val()}`;
-        ajaxMeuble = "/procurement/meuble";
+        ajaxMeuble = "/meuble/add";
     }
 
     $.ajax({
