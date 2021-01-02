@@ -6,11 +6,11 @@
  * Code's Author by Albertus Kevin, Chris Christian, December 2020
  */
 
-namespace App\Domain\Procurement\Dao;
+namespace App\Domain\Warehouse\Dao;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Procurement\Entity\Meuble;
-use App\Domain\Procurement\Entity\MeubleCategory;
+use App\Domain\Warehouse\Entity\Meuble;
+use App\Domain\Warehouse\Entity\MeubleCategory;
 use Illuminate\Http\Request;
 
 class MeubleDao extends Controller

@@ -19,7 +19,7 @@
         <div class="card p-5" style="width: 75%;">
             <div class="card-body pt-4">
                 <form action='/customer/update/{{$customers->id}}' method="POST">
-                    @method('PUT')
+                    @method('PATCH')
                     @csrf
                     <div class="form-group row">
                         <label for="customerName" class="col-sm-3 col-form-label">Name:</label>
@@ -61,7 +61,7 @@
                 </form>
                 @if($customers->member === 0)
                 <form action='/customer/member/{{$customers->id}}' method="POST">
-                    @method('PUT')
+                    @method('PATCH')
                     @csrf
                     <input type='hidden' name='name' id='name' value="{{$customers->name}}">
                     <div class="row justify-content-center">

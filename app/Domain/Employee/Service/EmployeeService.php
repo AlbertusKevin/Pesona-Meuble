@@ -12,6 +12,7 @@ namespace App\Domain\Employee\Service;
 
 use App\Http\Controllers\Controller;
 use App\Domain\Employee\Dao\EmployeeDB;
+use Illuminate\Support\Facades\Request;
 
 class EmployeeService extends Controller
 {
@@ -56,11 +57,5 @@ class EmployeeService extends Controller
     public function get_employee_by_id($id)
     {
         return $this->employees->show_by_id($id);
-    }
-
-    // TODO: Refactor this code =================================================================================
-    public function getResponsibleEmployee($request)
-    {
-        return $this->getEmployeeById($request->session()->get('id_employee'));
     }
 }

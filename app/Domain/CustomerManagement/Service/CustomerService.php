@@ -28,6 +28,11 @@ class CustomerService extends Controller
         $this->customers = new CustomerDB();
     }
 
+    public function index_customers()
+    {
+        return $this->customers->index_customers();
+    }
+
     //generate data customer yang diinput, return data jika ada
     public function generateCustomerForSalesOrder()
     {
@@ -38,75 +43,26 @@ class CustomerService extends Controller
         return json_encode($customer);
     }
 
-    public function createNewCustomer(Request $request)
+    public function new_customer($request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|min:4',
-            'email' => 'required',
-            'phone' => 'required',
-            'address' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/customer/create/')
-                ->withInput()
-                ->withErrors($validator);
-        }
-
-        $this->customers->create($request);
-        return redirect('/customer/list')->with(['success' => 'Customer ' . $request->customerName . 'successfully created !']);
+        $this->customers->create_customer($request);
     }
 
-    public function showCustomers()
+    public function update($request, $id)
     {
-        $customers = $this->customers->showAll();
-        return view('customer_service.customer_data.customerlist', [
-            "customers" => $customers,
-        ]);
+        $this->customers->update_customer($request, $id);
     }
 
-    public function createViewCustomers()
+    public function update_member($request, $id)
     {
-        return view('customer_service.customer_data.createCustomer');
-    }
-
-    public function updateViewCustomers($id)
-    {
-        $customers = $this->getCustomerById($id);
-        return view('customer_service.customer_data.updatecustomer', [
-            "customers" => $customers
-        ]);
-    }
-
-    public function updateCustomers(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|min:4',
-            'email' => 'required',
-            'phone' => 'required',
-            'address' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/customer/update/' . $id)
-                ->withInput()
-                ->withErrors($validator);
-        }
-        $this->customers->updateCustomers($request, $id);
-        return redirect('/customer/list')->with(['success' => 'Customer ' . $request->name . ' Updated Successfully !']);
-    }
-
-    public function updateMemberCustomer(Request $request, $id)
-    {
-        $this->customers->updateMember($id);
-        return redirect('/customer/list')->with(['success' => 'Customer ' . $request->name . ' Successfully Registered as a Member  !']);
+        $this->customers->update_member($id);
     }
 
     //===============================================================================================================================================================================================================
     // Fungsi khusus untuk digunakan class lain
     //===============================================================================================================================================================================================================
-    public function getCustomerById($id)
+    public function customer_by_id($id)
     {
-        return $this->customers->findById($id);
+        return $this->customers->customer_by_id($id);
     }
 }

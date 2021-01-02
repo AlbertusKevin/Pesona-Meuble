@@ -6,7 +6,7 @@
  * Code's Author by Albertus Kevin, December 2020
  */
 
-namespace App\Domain\Sales\Entity;
+namespace App\Domain\Warehouse\Entity;
 
 use Illuminate\Database\Eloquent\Model;
 

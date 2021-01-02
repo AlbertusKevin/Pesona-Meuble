@@ -27,7 +27,7 @@
         <th scope="row"></th>
       </tr>
       <tr class="trcard">
-        <th scope="row" class="text-center"><a href='/procurement/invoice/detail/{{$invoice->numPO}}'>{{$invoice->numPO}}</a></th>
+        <th scope="row" class="text-center"><a href='/procurement/invoice{{$invoice->numPO}}'>{{$invoice->numPO}}</a></th>
         <td class="text-center">{{$invoice->receivedStatus}}</td>
         <td class="text-center">{{$invoice->date}}</td>
       </tr>

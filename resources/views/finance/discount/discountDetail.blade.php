@@ -77,8 +77,8 @@
     </div>
 
     @if($discount->statusActive === 1)
-    <form action='/discount/update/{{$discount->code}}' method="POST">
-        @method('PUT')
+    <form action='/discount/{{$discount->code}}' method="POST">
+        @method('PATCH')
         @csrf
         <div class="row justify-content-center">
             <button type="submit" class="btn btn-secondary buttonPurple">Update Status</button>

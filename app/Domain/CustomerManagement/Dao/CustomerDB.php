@@ -20,12 +20,17 @@ class CustomerDB extends Controller
      *
      * @return Response
      */
-    public function findById($id)
+    public function index_customers()
+    {
+        return Customer::all();
+    }
+
+    public function customer_by_id($id)
     {
         return Customer::where('id', $id)->first();
     }
 
-    public function create($line)
+    public function create_customer($line)
     {
         Customer::create([
             'name' => $line["name"],
@@ -36,13 +41,7 @@ class CustomerDB extends Controller
         ]);
     }
 
-    public function showAll()
-    {
-        return Customer::all();
-    }
-
-
-    public function updateCustomers(Request $request, $id)
+    public function update_customer(Request $request, $id)
     {
         Customer::where('id', $id)->update([
             'name' => $request->name,
@@ -52,7 +51,7 @@ class CustomerDB extends Controller
         ]);
     }
 
-    public function updateMember($id)
+    public function update_member($id)
     {
         Customer::where('id', $id)->update([
             'member' => 1,

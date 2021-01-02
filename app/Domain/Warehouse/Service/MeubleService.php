@@ -6,14 +6,11 @@
  * Code's Author by Albertus Kevin, Chris Christian, December 2020
  */
 
-namespace App\Domain\Procurement\Service;
+namespace App\Domain\Warehouse\Service;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Domain\Procurement\Dao\ProcurementDB;
-use App\Domain\Employee\Dao\EmployeeDB;
-use App\Domain\Procurement\Dao\MeubleDao;
-use App\Domain\Vendor\Dao\VendorDB;
+use App\Domain\Warehouse\Dao\MeubleDao;
 
 class MeubleService extends Controller
 {

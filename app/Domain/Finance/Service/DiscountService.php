@@ -18,7 +18,6 @@ class DiscountService extends Controller
 {
     // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $discounts;
-    private $employees;
 
     //==================================================================================================================================================
     // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
@@ -26,94 +25,30 @@ class DiscountService extends Controller
     public function __construct()
     {
         $this->discounts = new DiscountDB();
-        $this->employees = new EmployeeService();
     }
 
-    //==================================================================================================================================================
-    // Inisialisasi secara otomatis model yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
-    //==================================================================================================================================================
-
-    // public function createNewCustomer(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'name' => 'required|min:4',
-    //         'email' => 'required', 
-    //         'phone' => 'required', 
-    //         'address' => 'required'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return redirect('/customer/create/')
-    //             ->withInput()
-    //             ->withErrors($validator);
-    //     }
-
-    //     $this->customers->create($request);
-    //     return redirect('/customer/list')->with(['success' => 'Customer ' . $request->customerName . 'successfully created !']);
-    // }
-
-    public function listView()
+    public function index_discount()
     {
-        $discounts = $this->discounts->showAll();
-        return view('finance.discount.discountList', [
-            "discounts" => $discounts,
-        ]);
+        return $this->discounts->index();
     }
 
-    public function detailView($code)
+    public function discount_by_code($code)
     {
-        $discount = $this->discounts->findDiscountByCode($code);
-        return view('finance.discount.discountDetail', [
-            "discount" => $discount,
-        ]);
+        return $this->discounts->discount_by_code($code);
     }
 
-    public function createView(Request $request)
+    public function new_discount(Request $request)
     {
-        $employee = $this->employees->getResponsibleEmployee($request);
-        return view('finance.discount.newDiscount', [
-            "employee" => $employee,
-        ]);
+        $this->discounts->new_discount($request);
     }
 
-    public function createNewDiscount(Request $request)
+    public function update_status($code)
     {
-        $validator = Validator::make($request->all(), [
-            'code' => 'required|min:4|unique:discount',
-            'description' => 'required',
-            'percentDisc' => 'required',
-            'from' => 'required',
-            'to' => 'required',
-            'discFor' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect('/discount/create')
-                ->withInput()
-                ->withErrors($validator);
-        }
-
-        $this->discounts->createDiscount($request);
-        return redirect('/discount/list')->with(['success' => 'Discount ' . $request->code . 'successfully created !']);
+        $this->discounts->update_status($code);
     }
 
-    public function updateStatusDiscount($code)
+    public function delete_discount($code)
     {
-        $discount = $this->discounts->updateStatus($code);
-        return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Updated Expired Successfully !']);
-    }
-
-    public function deleteDiscount($code)
-    {
-        $discount = $this->discounts->deleteDiscount($code);
-        return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Deleted !']);
-    }
-
-    //===============================================================================================================================================================================================================
-    // Fungsi khusus untuk digunakan class lain
-    //===============================================================================================================================================================================================================
-    public function showAllDiscount()
-    {
-        return $this->discounts->showAll();
+        $this->discounts->delete_discount($code);
     }
 }

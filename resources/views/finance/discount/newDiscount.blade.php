@@ -16,7 +16,7 @@
         <div class="col-6 pb-5">
             <div class="card" style="width: 100%;">
                 <div class="card-body pt-4">
-                    <form action='/discount/create' method="POST">
+                    <form action='/discount' method="POST">
                         @csrf
                         <div class="form-group row">
                             <label for="code" class="col-sm-4 col-form-label">Discount Code</label>

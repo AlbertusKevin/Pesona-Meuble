@@ -6,9 +6,8 @@
  * Code's Author by Albertus Kevin, December 2020
  */
 
-namespace App\Domain\Procurement\Entity;
+namespace App\Domain\Finance\Entity;
 
-use App\Domain\Employee\Entity\Employee;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoicePurchase extends Model

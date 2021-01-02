@@ -5,14 +5,19 @@
  * Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
  */
 
+use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\DiscountController;
 use Illuminate\Support\Facades\Route;
 use PharIo\Manifest\Email;
 
 // Namespace controller yang akan digunakan
 use App\Http\Controllers\Employee\AuthController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Finance\InvoicePurchaseOrderController;
+use App\Http\Controllers\Finance\InvoiceSalesOrderController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\Vendor\VendorController;
+use App\Http\Controllers\Warehouse\MeubleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,28 +30,19 @@ use App\Http\Controllers\Vendor\VendorController;
 |
 */
 
-//=============================================================================================================
-// Home and Display Product
-//=============================================================================================================
-Route::get('/', [PagesController::class, 'home_view_customer']);
-Route::get('/meuble/{typeModel}', [PagesController::class, 'detail_meuble']);
-
-//=============================================================================================================
-// Domain Authentication and Login Employee
-//=============================================================================================================
+// !=================================== Domain Authentication and Login Employee ===================================
 Route::get('/gate', [AuthController::class, 'login_view']);
 Route::post('/gate', [AuthController::class, 'login_process']);
 
+//?=============================================================================================================
+//* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Dalam middleware ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//?=============================================================================================================
 Route::group(['middleware' => 'login_check'], function () {
-    //=============================================================================================================
-    // Domain Authentication and Login Employee
-    //=============================================================================================================
+    // !=================================== Domain Authentication and Login Employee ===================================
     Route::get('/admin', [AuthController::class, 'home_admin']);
     Route::get('/logout', [AuthController::class, 'logout']);
 
-    //=============================================================================================================
-    // Domain Employee
-    //=============================================================================================================
+    // !=================================== Domain Employee ===================================
     Route::get('/employee/create', [EmployeeController::class, 'create']);
     Route::post('/employee', [EmployeeController::class, 'store']);
 
@@ -61,9 +57,7 @@ Route::group(['middleware' => 'login_check'], function () {
 
     Route::patch('/employee/resign/{id}', [EmployeeController::class, 'update_active_status']);
 
-    //=============================================================================================================
-    // Domain Vendor
-    //=============================================================================================================
+    // !=================================== Domain Vendor ===================================
     Route::get('/vendor/create', [VendorController::class, 'create']);
     Route::post('/vendor', [VendorController::class, 'store']);
 
@@ -72,18 +66,40 @@ Route::group(['middleware' => 'login_check'], function () {
 
     Route::get('/vendor/update/{companyCode}', [VendorController::class, 'edit']);
     Route::patch('/vendor/{companyCode}', [VendorController::class, 'update']);
+
+    // !=================================== Domain Customer ===================================
+    Route::get('/customer', [CustomerController::class, 'index']);
+
+    Route::get('/customer/create', [CustomerController::class, 'create']);
+    Route::post('/customer', [CustomerController::class, 'store']);
+
+    Route::get('/customer/update/{id}', [CustomerController::class, 'edit']);
+    Route::patch('/customer/update/{id}', [CustomerController::class, 'update']);
+    Route::patch('/customer/member/{id}', [CustomerController::class, 'update_member']);
+
+    //? ==============================================================================================
+    //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FINANCE DOMAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //? ==============================================================================================
+    //! ================================== Domain Finance: Discount ==================================
+    Route::get('/discount/create', [DiscountController::class, 'create']);
+    Route::post('/discount', [DiscountController::class, 'store']);
+
+    Route::get('/discount', [DiscountController::class, 'index']);
+    Route::get('/discount/{code}', [DiscountController::class, 'show']);
+
+    Route::patch('/discount/{code}', [DiscountController::class, 'update']);
+    Route::delete('/discount/{code}', [DiscountController::class, 'destroy']);
+
+    // !=============================== Domain Finance: Invoice Sales Order ===============================
+    Route::post('/salesorder/invoice', [InvoiceSalesOrderController::class, 'store']);
+    Route::get('/salesorder/invoice', [InvoiceSalesOrderController::class, 'index']);
+    Route::get('/salesorder/invoice/{numSO}', [InvoiceSalesOrderController::class, 'show']);
+
+    // !=============================== Domain Finance: Invoice Purchase Order ===============================
+    Route::post('/procurement/invoice', [InvoicePurchaseOrderController::class, 'store']);
+    Route::get('/procurement/invoice', [InvoicePurchaseOrderController::class, 'index']);
+    Route::get('/procurement/invoice/{numPO}', [InvoicePurchaseOrderController::class, 'show']);
 });
-//=============================================================================================================
-// Domain Customer
-//=============================================================================================================
-Route::get('/customer/list', 'App\Domain\CustomerManagement\Service\CustomerService@showCustomers')->middleware('login_check');
-Route::get('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createViewCustomers')->middleware('login_check');
-Route::get('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateViewCustomers')->middleware('login_check');
-
-Route::post('/customer/create', 'App\Domain\CustomerManagement\Service\CustomerService@createNewCustomer')->middleware('login_check');
-
-Route::put('/customer/update/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateCustomers')->middleware('login_check');
-Route::put('/customer/member/{id}', 'App\Domain\CustomerManagement\Service\CustomerService@updateMemberCustomer')->middleware('login_check');
 
 //=============================================================================================================
 // Domain Sales
@@ -135,26 +151,10 @@ Route::patch('/procurement/proceed/{num}', 'App\Domain\Procurement\Service\Procu
 
 Route::delete('/procurement/item', 'App\Domain\Procurement\Service\ProcurementLineService@deleteLine')->middleware('login_check');
 
-//====================================================== Meuble ======================================================
+//! =====================================Domain Warehouse: Meuble =============================================
+Route::get('/', [MeubleController::class, 'home_view_customer']);
+Route::get('/meuble/{typeModel}', [MeubleController::class, 'detail_meuble']);
+
 Route::get('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@generateMeubleData')->middleware('login_check');
 Route::post('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@insert')->middleware('login_check');
 Route::patch('/procurement/meuble', 'App\Domain\Procurement\Service\MeubleService@updateStock')->middleware('login_check');
-
-//=============================================================================================================
-// Domain Finance
-//=============================================================================================================
-Route::get('/discount/list/', 'App\Domain\Finance\Service\DiscountService@listView')->middleware('login_check');
-Route::get('/discount/detail/{code}', 'App\Domain\Finance\Service\DiscountService@detailView')->middleware('login_check');
-Route::get('/discount/create', 'App\Domain\Finance\Service\DiscountService@createView')->middleware('login_check');
-
-Route::post('/discount/create', 'App\Domain\Finance\Service\DiscountService@createNewDiscount')->middleware('login_check');
-Route::put('/discount/update/{code}', 'App\Domain\Finance\Service\DiscountService@updateStatusDiscount')->middleware('login_check');
-Route::delete('/discount/delete/{code}', 'App\Domain\Finance\Service\DiscountService@deleteDiscount')->middleware('login_check');
-
-Route::get('/salesorder/invoice', 'App\Domain\Sales\Service\InvoiceSalesOrderService@listInvoiceSO')->middleware('login_check');
-Route::post('/salesorder/invoice', 'App\Domain\Sales\Service\InvoiceSalesOrderService@createInvoiceSO')->middleware('login_check');
-Route::get('/salesorder/invoice/detail/{numSO}', 'App\Domain\Sales\Service\InvoiceSalesOrderService@detailInvoiceSO')->middleware('login_check');
-
-Route::get('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@listInvoicePO')->middleware('login_check');
-Route::post('/procurement/invoice', 'App\Domain\Procurement\Service\InvoiceProcurementService@createInvoicePO')->middleware('login_check');
-Route::get('/procurement/invoice/detail/{numPO}', 'App\Domain\Procurement\Service\InvoiceProcurementService@detailInvoicePO')->middleware('login_check');

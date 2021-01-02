@@ -6,13 +6,13 @@
  * Code's Author by Albertus Kevin December 2020
  */
 
-namespace App\Domain\Procurement\Service;
+namespace App\Domain\Finance\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Procurement\Dao\InvoiceProcurementDao;
+use App\Domain\Finance\Dao\InvoicePurchaseOrderDao;
 use Illuminate\Http\Request;
 
-class InvoiceProcurementService extends Controller
+class InvoicePurchaseOrderService extends Controller
 {
     // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $invoice;
@@ -22,21 +22,15 @@ class InvoiceProcurementService extends Controller
     //==================================================================================================================================================
     public function __construct()
     {
-        $this->invoice = new InvoiceProcurementDao();
+        $this->invoice = new InvoicePurchaseOrderDao();
     }
 
-    public function listInvoicePO()
+    public function index_po_invoice()
     {
-        $invoices = $this->invoice->listInvoice();
-        return view('finance.invoice.procurement.list', compact('invoices'));
+        return $this->invoice->index_po_invoice();
     }
 
-    public function detailInvoicePO($num)
-    {
-        return redirect('/procurement/history/detail/' . $num);
-    }
-
-    public function createInvoicePO(Request $request)
+    public function new_po_invoice(Request $request)
     {
         $this->invoice->create($request);
     }

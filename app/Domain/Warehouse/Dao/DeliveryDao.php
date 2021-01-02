@@ -6,10 +6,10 @@
  * Code's Author by Albertus Kevin, December 2020
  */
 
-namespace App\Domain\Sales\Dao;
+namespace App\Domain\Warehouse\Dao;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Sales\Entity\Delivery;
+use App\Domain\Warehouse\Entity\Delivery;
 use Carbon\Carbon;
 
 class DeliveryDao extends Controller

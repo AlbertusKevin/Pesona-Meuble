@@ -6,13 +6,13 @@
  * Code's Author by Albertus Kevin, December 2020
  */
 
-namespace App\Domain\Sales\Dao;
+namespace App\Domain\Finance\Dao;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Sales\Entity\InvoiceSales;
+use App\Domain\Finance\Entity\InvoiceSales;
 use Carbon\Carbon;
 
-class InvoiceSalesDao extends Controller
+class InvoiceSalesOrderDao extends Controller
 {
     /**
      * Show the profile for the given user.
@@ -20,7 +20,7 @@ class InvoiceSalesDao extends Controller
      * @return Response
      */
 
-    public function listInvoice()
+    public function index_so_invoice()
     {
         return InvoiceSales::all();
     }

@@ -6,10 +6,10 @@
  * Code's Author by Albertus Kevin, Chris Christian, December 2020
  */
 
-namespace App\Domain\Sales\Service;
+namespace App\Domain\Warehouse\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Sales\Dao\DeliveryDao;
+use App\Domain\Warehouse\Dao\DeliveryDao;
 use Illuminate\Http\Request;
 
 class DeliveryService extends Controller

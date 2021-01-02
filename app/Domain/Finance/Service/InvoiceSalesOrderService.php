@@ -6,10 +6,10 @@
  * Code's Author by Albertus Kevin, Chris Christian, December 2020
  */
 
-namespace App\Domain\Sales\Service;
+namespace App\Domain\Finance\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Sales\Dao\InvoiceSalesDao;
+use App\Domain\Finance\Dao\InvoiceSalesOrderDao;
 use Illuminate\Http\Request;
 
 class InvoiceSalesOrderService extends Controller
@@ -22,20 +22,15 @@ class InvoiceSalesOrderService extends Controller
     //==================================================================================================================================================
     public function __construct()
     {
-        $this->invoice = new InvoiceSalesDao();
+        $this->invoice = new InvoiceSalesOrderDao();
     }
 
-    public function listInvoiceSO()
+    public function index_so_invoice()
     {
-        $invoices = $this->invoice->listInvoice();
-        return view('finance.invoice.sales_order.list', compact("invoices"));
+        return $this->invoice->index_so_invoice();
     }
 
-    public function detailInvoiceSO($num)
-    {
-        return redirect('/salesorder/history/detail/' . $num);
-    }
-    public function createInvoiceSO(Request $request)
+    public function create_so_invoice(Request $request)
     {
         $this->invoice->create($request);
     }

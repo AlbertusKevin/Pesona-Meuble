@@ -6,15 +6,15 @@
  * Code's Author by Albertus Kevin, December 2020
  */
 
-namespace App\Domain\Procurement\Dao;
+namespace App\Domain\Finance\Dao;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Procurement\Entity\InvoicePurchase;
+use App\Domain\Finance\Entity\InvoicePurchase;
 use Carbon\Carbon;
 
-class InvoiceProcurementDao extends Controller
+class InvoicePurchaseOrderDao extends Controller
 {
-    public function listInvoice()
+    public function index_po_invoice()
     {
         return InvoicePurchase::all();
     }

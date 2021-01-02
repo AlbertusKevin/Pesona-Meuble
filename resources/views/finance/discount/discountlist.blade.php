@@ -37,7 +37,7 @@
         <th scope="row"></th>
       </tr>
       <tr class="trcard">
-        <th scope="row" class="text-center"><a href='/discount/detail/{{$discount->code}}'>{{$discount->code}}</a></th>
+        <th scope="row" class="text-center"><a href='/discount/{{$discount->code}}'>{{$discount->code}}</a></th>
         <td class="text-center">{{$discount->percentDisc * 100 . '%'}}</td>
         @if($discount->statusActive === 1)
         <td>Active</td>
@@ -47,7 +47,7 @@
         <td class="text-center">{{$discount->from}}</td>
         <td class="text-center">{{$discount->to}}</td>
         <td class="text-center">
-          <form action='/discount/delete/{{$discount->code}}' method='POST'>
+          <form action='/discount/{{$discount->code}}' method='POST'>
             @method('DELETE')
             @csrf
             <button type='submit' class="btn btn-xs btn-danger">Delete</a>

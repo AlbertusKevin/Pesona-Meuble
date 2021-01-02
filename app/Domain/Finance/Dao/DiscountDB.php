@@ -14,29 +14,19 @@ use Carbon\Carbon;
 
 class DiscountDB
 {
-    public function showAll()
+    public function index()
     {
         return Discount::all();
     }
 
-    public function forMeuble()
-    {
-        return Discount::where('discountFor', 1)->where('statusActive', 1)->get();
-    }
-
-    public function forPayment()
-    {
-        return Discount::where('discountFor', 0)->where('statusActive', 1)->get();
-    }
-
-    public function findDiscountByCode($code)
+    public function discount_by_code($code)
     {
         return Discount::where('code', $code)
             ->join('employee', 'discount.responsibleEmployee', '=', 'employee.id')
             ->first();
     }
 
-    public function createDiscount(Request $request)
+    public function new_discount(Request $request)
     {
         Discount::create([
             'code' => $request->code,
@@ -50,14 +40,14 @@ class DiscountDB
         ]);
     }
 
-    public function updateStatus($code)
+    public function update_status($code)
     {
         return Discount::where('code', $code)->update([
             'statusActive' => 0,
         ]);
     }
 
-    public function deleteDiscount($code)
+    public function delete_discount($code)
     {
         return Discount::where('code', $code)->delete();
     }
