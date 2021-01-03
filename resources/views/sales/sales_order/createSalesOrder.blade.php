@@ -79,27 +79,6 @@
                             <div class="col-sm-8">
                                 <select id="discount" name="paymentDiscount" id="paymentDiscount" class="form-control header-field-form">
                                     <option selected disabled>--discount payment--</option>
-<<<<<<< HEAD
-                                    @foreach ($discPayment as $discount)
-                                    <option class="{{$discount->code}}" value="{{$discount->code}}">{{$discount->code}}:{{$discount->percentDisc}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control header-field-form" id="totalDisc" name="totalDisc" disabled value="0">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="totalPayment" class="col-sm-4 col-form-label">Total Payment</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control header-field-form" id="totalPayment" name="totalPayment" disabled value="0">
-                            </div>
-                        </div>
-                    </form>
-=======
                                     @foreach ($discPayment as $discount) 
                                     <option class="{{$discount->code}}" value="{{$discount->code}}">{{$discount->code}}:{{$discount->percentDisc}}</option>
                         @endforeach
@@ -116,7 +95,6 @@
                 <label for="totalPayment" class="col-sm-4 col-form-label">Total Payment</label>
                 <div class="col-sm-8">
                     <input type="number" class="form-control header-field-form" id="totalPayment" name="totalPayment" disabled value="0">
->>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
                 </div>
             </div>
             </form>
@@ -154,26 +132,6 @@
                                     <option selected disabled>--discount meuble--</option>
                                     @foreach ($discMeuble as $discount)
                                     <option class="{{$discount->code}}" value="{{$discount->code}}">{{$discount->code}}:{{$discount->percentDisc}}</option>
-<<<<<<< HEAD
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="modelType" class="col-sm-4 col-form-label">Price</label>
-                            <div class="col-sm-8">
-                                <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0" ;>
-                            </div>
-                        </div>
-                        <div class="row w-100 justify-content-end">
-                            <button type="button" class="btn btn-secondary" id="addItem">Add</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <div class=" row w-100 mh-100 justify-content-start pl-3">
-                <button type="button" class="btn btn-secondary updatePost btn-lg" id="newItem" data-toggle="modal" data-target="#formModal">New Customer</button>
-=======
                 @endforeach
                 </select>
             </div>
@@ -182,7 +140,6 @@
             <label for="modelType" class="col-sm-4 col-form-label">Price</label>
             <div class="col-sm-8">
                 <input type="number" class="form-control header-line-field-form" name="price" id="price" disabled value="0" ;>
->>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
             </div>
         </div>
         <div class="row w-100 justify-content-end">

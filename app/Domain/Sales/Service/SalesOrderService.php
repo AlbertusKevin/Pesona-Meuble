@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Domain\Sales\Dao\SalesOrderDao;
 use App\Domain\Sales\Service\SalesOrderLineService;
 use App\Domain\Employee\Service\EmployeeService;
-use App\Domain\Procurement\Service\MeubleService;
+use App\Domain\Warehouse\Service\MeubleService;
 use App\Domain\Finance\Service\DiscountService;
 use Illuminate\Http\Request;
 
@@ -77,17 +77,10 @@ class SalesOrderService extends Controller
 
     public function createView(Request $request)
     {
-<<<<<<< HEAD
-        $meubles = $this->meubles->findAllMeubles();
-        $employee = $this->employees->findById($request->session()->get('id_employee'));
-        $discMeuble = $this->discounts->forMeuble();
-        $discPayment = $this->discounts->forPayment();
-=======
-        $meubles = $this->meubles->listMeuble();
-        $employee = $this->employees->getResponsibleEmployee($request);
+        $meubles = $this->meubles->index_meuble();
+        $employee = $this->employees->get_employee_by_id($request->session()->get('id_employee'));
         // $discMeuble = $this->discounts->forMeuble();
         // $discPayment = $this->discounts->forPayment();
->>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
         $numSO = $this->salesorders->findLastNumSO();
 
         if (count($numSO) != 0) {
@@ -101,13 +94,8 @@ class SalesOrderService extends Controller
         return view('sales.sales_order.createSalesOrder', [
             'meubles' => $meubles,
             'employee' => $employee,
-<<<<<<< HEAD
-            'discMeuble' => $discMeuble,
-            'discPayment' => $discPayment,
-=======
             // 'discMeuble' => $discMeuble,
             // 'discPayment' => $discPayment,
->>>>>>> 10a72466cfe866f3fa8ce0d8d16161d836cc1035
             'numSO' => $numSO
         ]);
     }

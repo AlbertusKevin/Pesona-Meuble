@@ -9,10 +9,7 @@
 namespace App\Domain\Vendor\Service;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Domain\Vendor\Dao\VendorDB;
-use Illuminate\Support\Facades\Validator;
-
 
 class VendorService extends Controller
 {
@@ -45,13 +42,5 @@ class VendorService extends Controller
     public function update_vendor($request, $companyCode)
     {
         $this->vendors->update_vendor($request, $companyCode);
-    }
-
-    //===============================================================================================================================================================================================================
-    // Fungsi khusus untuk digunakan class lain
-    //===============================================================================================================================================================================================================
-    public function getAllVendor()
-    {
-        return $this->vendors->showAll();
     }
 }

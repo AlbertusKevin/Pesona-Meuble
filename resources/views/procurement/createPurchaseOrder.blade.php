@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="col-12 col-md-6 pb-5" id="lineHeader">
-            <form id="ajaxCoba" action="" method="POST">
+            <form id="ajaxCoba" action="/procurement" method="POST">
                 @csrf
                 <div class="card" style="width: 100%;">
                     <div class="card-body pt-4">
@@ -121,7 +121,7 @@
         <div class="col-12 pt-4">
             <h1 class="text-center">Product Lists</h1>
         </div>
-        <form id="ajaxInput" action="" method="POST">
+        <form id="ajaxInput" action="/procurement" method="POST">
             @csrf
             <div class="card" style="width: 100%;" id="lineItem">
 

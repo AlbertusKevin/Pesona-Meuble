@@ -42,17 +42,28 @@
                             <a class="dropdown-item" href="/salesorder">List</a>
                             <a class="dropdown-item" href="/salesorder/history">History</a>
                             <a class="dropdown-item" href="/salesorder/create">New</a>
-                            <a class="dropdown-item" href="/salesorder/invoice">Invoice</a>
-                            <a class="dropdown-item" href="/delivery">Delivery</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
-                            <a class="dropdown-item" href="/procurement/list">List</a>
+                            <a class="dropdown-item" href="/procurement">List</a>
                             <a class="dropdown-item" href="/procurement/history">History</a>
                             <a class="dropdown-item" href="/procurement/create">New</a>
-                            <a class="dropdown-item" href="/procurement/invoice">Invoice</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-warehouse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Warehouse</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-warehouse">
+                            <a class="dropdown-item" href="/delivery">Delivery</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-finance" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Finance</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-finance">
+                            <a class="dropdown-item" href="/discount">Discount Management</a>
+                            <a class="dropdown-item" href="/procurement/invoice">Invoice Purchase Order</a>
+                            <a class="dropdown-item" href="/salesorder/invoice">Invoice Sales Order</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -61,7 +72,6 @@
                             <a class="dropdown-item" href="/customer">Customer Management</a>
                             <a class="dropdown-item" href="/vendor">Vendor Management</a>
                             <a class="dropdown-item" href="/employee">Employee Management</a>
-                            <a class="dropdown-item" href="/discount">Discount Management</a>
                         </div>
                     </li>
                 </ul>

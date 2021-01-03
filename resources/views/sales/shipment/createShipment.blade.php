@@ -8,7 +8,7 @@
         <div class="col-6 pb-5">
             <div class="card" style="width: 100%;">
                 <div class="card-body pt-4">
-                    <form action="/delivery/new/{{$num}}" method="POST">
+                    <form action="/delivery/{{$num}}" method="POST">
                         @csrf
                         <div class="form-group row">
                             <label for="shippingPoint" class="col-sm-4 col-form-label">Shipping Point: </label>

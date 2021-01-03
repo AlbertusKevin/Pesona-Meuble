@@ -62,10 +62,9 @@ class MeubleDao extends Controller
             ]);
     }
 
-    public function showCategory()
+    public function index_category()
     {
-        $cat = MeubleCategory::all();
-        return $cat;
+        return MeubleCategory::all();
     }
 
     public function show_category($id)

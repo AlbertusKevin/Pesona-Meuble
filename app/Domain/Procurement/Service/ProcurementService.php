@@ -9,134 +9,58 @@
 namespace App\Domain\Procurement\Service;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Domain\Procurement\Dao\ProcurementDB;
-use App\Domain\Procurement\Service\ProcurementLineService;
-use App\Domain\Employee\Service\EmployeeService;
-use App\Domain\Procurement\Service\MeubleService;
-use App\Domain\Vendor\Service\VendorService;
 
 class ProcurementService extends Controller
 {
-    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $procurement;
-    private $employee;
-    private $vendor;
-    private $meuble;
-    private $procurementline;
 
-    //==================================================================================================================================================
-    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
-    //==================================================================================================================================================
     public function __construct()
     {
         $this->procurement = new ProcurementDB();
-        $this->procurementline = new ProcurementLineService();
-        $this->employee = new EmployeeService();
-        $this->vendor = new VendorService();
-        $this->meuble = new MeubleService();
     }
 
-    // menampilkan semua procurement bagian header
-    public function showOpen()
+    public function index_open()
     {
-        $procurement = $this->procurement->showAllOpen();
-        return view('procurement.listOfProcurement', [
-            "procurement" => $procurement
-        ]);
+        return $this->procurement->index_open();
     }
 
-    public function showHistory()
+    public function index_history()
     {
-        $procurement = $this->procurement->showAllHistory();
-        return view('procurement.historyOfProcurement', [
-            "procurement" => $procurement
-        ]);
+        return $this->procurement->index_history();
     }
 
-    //menampilkan detail line item dari salah satu procurement
-    public function detail(Request $request, $numPO)
+    public function show_header($numPO)
     {
-        $detailProcurement = $this->showDetail($numPO);
-        $detailProcurementLine = $this->procurementline->detailLine($numPO);
-        $employee = $this->employee->getResponsibleEmployee($request);
-        return view('procurement.updateviewPurchaseOrder', [
-            "po" => $detailProcurement,
-            "line" => $detailProcurementLine,
-            "employee" => $employee
-        ]);
-    }
-    //menampilkan detail line item dari salah satu procurement
-    public function detailHistory(Request $request, $numPO)
-    {
-        $detailProcurement = $this->showDetail($numPO);
-        $detailProcurementLine = $this->procurementline->detailLine($numPO);
-        $employee = $this->employee->getResponsibleEmployee($request);
-        return view('procurement.detailPurchaseOrder', [
-            "po" => $detailProcurement,
-            "line" => $detailProcurementLine,
-            "employee" => $employee
-        ]);
+        return $this->procurement->show_header($numPO);
     }
 
-    //==================================================================================================================================================
-    // Insert data Pembelian Barang
-    //==================================================================================================================================================
-    //mengambil view create pembelian barang
-    public function viewCreate(Request $request)
+    public function get_last_numPO()
     {
-        $vendor = $this->vendor->getAllVendor();
-        $employee = $this->employee->getResponsibleEmployee($request);
-        $meuble = $this->meuble->getAllCategory();
-        $numPO = $this->procurement->getLastNumPO();
-
+        $numPO = $this->procurement->get_last_numPO();
         if (count($numPO) != 0) {
-            $numPO = $numPO[0]->numPO;
-            $numPO = ((int)$numPO) + 1;
-            $numPO = (string)$numPO;
-        } else {
-            $numPO = "10000001";
+            return (string)(((int)$numPO[0]->numPO) + 1);
         }
-
-        return view('procurement.createPurchaseOrder', [
-            "employee" => $employee,
-            "vendor" => $vendor,
-            "category" => $meuble,
-            "num" => $numPO
-        ]);
+        return "10000001";
     }
 
-    // Insert Header dari PO
-    public function createHeader(Request $request)
+    public function store($request)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurement->insertHeader($request);
+        $this->procurement->store($request);
     }
 
-    public function proceedPO($num)
+    public function proceed($num)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurement->proceedPO($num);
+        $this->procurement->proceed($num);
     }
 
-    public function cancelPO($num)
+    public function cancel($num)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurement->cancelPO($num);
-        return redirect('/procurement/list')->with('cancel_po', 'Purchase Order ' . $num . ' canceled!');
+        $this->procurement->cancel($num);
     }
 
-    public function updateHeader(Request $request)
+    public function update($request)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurement->updateHeader($request);
-    }
-
-    //===============================================================================================================================================================================================================
-    // Fungsi khusus untuk digunakan class lain
-    //===============================================================================================================================================================================================================
-    public function showDetail($numPO)
-    {
-        return $this->procurement->showDetailPO($numPO);
+        $this->procurement->update($request);
     }
 }

@@ -71,7 +71,15 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+    }
+
+    public function search()
+    {
+        $customer = $this->customer_service->customer_by_id($_GET['id']);
+        if (isset($customer)) {
+            return $customer;
+        }
+        return json_encode($customer);
     }
 
     /**

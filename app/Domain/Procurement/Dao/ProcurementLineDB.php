@@ -12,15 +12,13 @@ use App\Domain\Procurement\Entity\PurchaseOrderLine;
 
 class ProcurementLineDB
 {
-    //ambil data line PO berdasarkan nomor PO
-    public function showDetailPOLine($num)
+    public function show_line($num)
     {
         return PurchaseOrderLine::where('numPO', $num)
             ->join('meuble', 'purchase_order_line.modelType', '=', 'meuble.modelType')->get();
     }
 
-    //input data line item ke purchase_order_line setelah data PO berhasil diinput
-    public function insertHeaderLine($line)
+    public function store_line($line)
     {
         PurchaseOrderLine::create([
             'numPO' => $line["numPo"],
@@ -30,7 +28,7 @@ class ProcurementLineDB
         ]);
     }
 
-    public function deleteLine($header)
+    public function delete_line($header)
     {
         PurchaseOrderLine::where('numPO', $header['numPo'])->delete();
     }

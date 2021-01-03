@@ -45,7 +45,7 @@
                         </p>
                     </div>
                     <div class="row card-text">
-                        <a href="/procurement/detail/{{$po->numPO}}" class="more">More Detail...</a>
+                        <a href="/procurement/{{$po->numPO}}" class="more">More Detail...</a>
                     </div>
                 </div>
             </div>

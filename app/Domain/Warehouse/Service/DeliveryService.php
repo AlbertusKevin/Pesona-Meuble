@@ -27,34 +27,17 @@ class DeliveryService extends Controller
 
     public function index()
     {
-        $deliveries = $this->delivery->listOfDelivery();
-        return view('sales.shipment.shipmentlist', compact('deliveries'));
+        return $this->delivery->index();
     }
 
     public function show($num)
     {
-        $delivery = $this->delivery->deliveryByNum($num);
-        return view('sales.shipment.shipmentDetail', compact('delivery'));
+        return $this->delivery->show($num);
     }
 
-    public function create($num)
+    public function store($num, $request)
     {
-        return view('sales.shipment.createShipment', compact('num'));
-    }
-
-    public function store($num, Request $request)
-    {
-        // $request->validate([
-        //     'numSO' => 'required',
-        //     'shippingPoint' => 'required',
-        //     'status' => 'required',
-        //     'shipDate' => 'required',
-        //     'deliveredDate' => 'required',
-        //     'notes' => 'required'
-        // ]);
-
         $this->delivery->store($num, $request);
-        return redirect('/delivery');
     }
 
     public function change($num)

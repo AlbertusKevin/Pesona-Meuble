@@ -35,7 +35,7 @@
           <td>Delivered to Customer</td>
           @endif
           <td>
-            <form action="/delivery/detail/{{$delivery->deliveryNum}}">
+            <form action="/delivery/{{$delivery->deliveryNum}}">
               <button type="submit" class="btn-sml btn-primary">Detail</button>
             </form>
           </td>

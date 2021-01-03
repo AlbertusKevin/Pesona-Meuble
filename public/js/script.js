@@ -100,7 +100,7 @@ const update = function () {
             });
         } else {
             $.ajax({
-                url: `/procurement/update/header`,
+                url: `/procurement`,
                 method: "patch",
                 data: {
                     numPo,
@@ -122,7 +122,7 @@ const update = function () {
                         );
 
                         $.ajax({
-                            url: `/procurement/item`,
+                            url: `/procurement/line`,
                             method: "delete",
                             data: {
                                 numPo,
@@ -132,7 +132,7 @@ const update = function () {
                             },
                             success: () => {
                                 $.ajax({
-                                    url: `/procurement/create`,
+                                    url: `/procurement`,
                                     method: "post",
                                     data: {
                                         numPo,
@@ -229,7 +229,7 @@ $("#modelType").on("change", function () {
 //generate data customer jika ada (fix)
 $("#customer").on("change", function () {
     $.ajax({
-        url: `/salesorder/customer`,
+        url: "/customer/search",
         data: {
             id: $("#customer").val(),
             _token: $("#ajaxCoba").children()[0].getAttribute("value"),
@@ -311,7 +311,7 @@ $("#lineHeader").on("click", "#addItem", function () {
                 vendor: $("#vendor").val(),
                 source_url: url,
                 _token: $("#ajaxCoba").children()[0].getAttribute("value"),
-            }, //ambil nilai dari csrf
+            },
             dataType: "json",
             success: (data) => {
                 if (data) {
@@ -501,7 +501,7 @@ $("#lineItem").on("click", ".editItem", function () {
     $("#modelType").attr("disabled", true);
     //ubah tombol add jadi update
     $("#addItem").attr("id", "changeItem").html("Change");
-    // //hilangkan select discount meuble
+    //hilangkan select discount meuble
     // $("#discountMeuble").attr('disabled',true);
 });
 
@@ -614,7 +614,7 @@ $("#createTransaction").on("click", function () {
                             },
                             success: () => {
                                 alert("Data successfully inserted");
-                                window.location.href = "/salesorder";
+                                window.location.href = "/salesorder"; //? Can be better to php first?
                             },
                         });
                     }
@@ -622,7 +622,7 @@ $("#createTransaction").on("click", function () {
             });
         } else {
             $.ajax({
-                url: `/procurement/create/header`,
+                url: `/procurement`,
                 method: "post",
                 data: {
                     numPo,
@@ -650,7 +650,7 @@ $("#createTransaction").on("click", function () {
                         );
 
                         $.ajax({
-                            url: `/procurement/create`,
+                            url: `/procurement/line`,
                             method: "post",
                             data: {
                                 numPo,
@@ -664,7 +664,7 @@ $("#createTransaction").on("click", function () {
                             },
                             success: () => {
                                 alert("Data successfully inserted");
-                                window.location.href = "/procurement/list";
+                                window.location.href = "/procurement"; //? Can be better to php first for generate flash message?
                             },
                         });
                     }
@@ -691,16 +691,16 @@ $("#cancel").on("click", function () {
     } else {
         num = $("#numPO").val();
         message = `Purchase Order ${num} canceled`;
-        url_direct = "/procurement/list";
+        url_direct = "/procurement";
         url_ajax = `/procurement/cancel/${num}`;
     }
 
     $.ajax({
         url: url_ajax,
-        method: "put",
+        method: "patch",
         success: () => {
             alert(message);
-            window.location.href = url_direct;
+            window.location.href = url_direct; //? Can be better to php first for generate session flash message
         },
     });
 });
@@ -710,10 +710,10 @@ $("#updateTransaction").on("click", function () {
     const result = update();
     alert("Data successfully updated");
     if (result == "salesorder") {
-        window.location.href = "/salesorder";
+        window.location.href = "/salesorder"; //? Can be better to php first for generate session flash message
     }
     if (result == "procurement") {
-        window.location.href = "/procurement/list";
+        window.location.href = "/procurement"; //? Can be better to php first for generate session flash message
     }
 });
 
@@ -762,6 +762,7 @@ $("#proceed").on("click", function () {
         },
     });
 
+    //? Can be better with DRY
     if (result == "salesorder") {
         $.ajax({
             url: "/salesorder/invoice",
@@ -779,15 +780,15 @@ $("#proceed").on("click", function () {
                             "Sales Order has been processed and an invoice has been generated. Do you want to immediately create a shipment document?"
                         )
                     ) {
-                        window.location.href = `/delivery/new/${$(
+                        window.location.href = `/delivery/create/${$(
                             "#numSO"
                         ).val()}`;
                     } else {
-                        window.location.href = "/salesorder";
+                        window.location.href = "/salesorder"; //? Can be better to php first for generate session flash message
                     }
                 } else {
                     alert("Sales Order has been processed");
-                    window.location.href = "/salesorder";
+                    window.location.href = "/salesorder"; //? Can be better to php first for generate session flash message
                 }
             },
         });
@@ -806,7 +807,7 @@ $("#proceed").on("click", function () {
                 alert(
                     "The purchase order has been processed and an invoice has been generated!"
                 );
-                window.location.href = "/procurement/list";
+                window.location.href = "/procurement"; //? Can be better to php first for generate session flash message
             },
         });
     }

@@ -80,10 +80,8 @@ class MeubleService extends Controller
         return $this->meubles->show_category($category);
     }
 
-    // !================================================================
-
-    public function getAllCategory()
+    public function index_category()
     {
-        return $this->meubles->showCategory();
+        return $this->meubles->index_category();
     }
 }

@@ -33,16 +33,6 @@ class CustomerService extends Controller
         return $this->customers->index_customers();
     }
 
-    //generate data customer yang diinput, return data jika ada
-    public function generateCustomerForSalesOrder()
-    {
-        $customer = $this->getCustomerById($_GET['id']);
-        if (isset($customer)) {
-            return $customer;
-        }
-        return json_encode($customer);
-    }
-
     public function new_customer($request)
     {
         $this->customers->create_customer($request);

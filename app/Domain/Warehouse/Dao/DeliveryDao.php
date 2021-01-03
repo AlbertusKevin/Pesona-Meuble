@@ -20,14 +20,16 @@ class DeliveryDao extends Controller
      * @return Response
      */
 
-    public function listOfDelivery()
+    public function index()
     {
         return Delivery::all();
     }
-    public function deliveryByNum($num)
+
+    public function show($num)
     {
         return Delivery::where('deliveryNum', $num)->first();
     }
+
     public function updateStatus($num)
     {
         return Delivery::where('deliveryNum', $num)->update([
@@ -36,7 +38,7 @@ class DeliveryDao extends Controller
     }
     public function store($num, $request)
     {
-        return Delivery::create([
+        Delivery::create([
             'deliveryNum' => 1,
             'numSO' => $num,
             'shippingPoint' => $request->shippingPoint,

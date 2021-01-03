@@ -15,37 +15,25 @@ use App\Domain\Procurement\Service\ProcurementService;
 
 class ProcurementLineService extends Controller
 {
-    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $procurementline;
 
-    //==================================================================================================================================================
-    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
-    //==================================================================================================================================================
     public function __construct()
     {
         $this->procurementline = new ProcurementLineDB();
     }
 
-    //==================================================================================================================================================
-    // Ambil data Pembelian Barang
-    //==================================================================================================================================================
-    //menampilkan detail line item dari salah satu procurement
-    public function insertLine(Request $request)
+    public function show_line($numPO)
     {
-        $this->procurementline->insertHeaderLine($request);
+        return $this->procurementline->show_line($numPO);
     }
 
-    public function deleteLine(Request $request)
+    public function store_line($request)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->procurementline->deleteLine($request);
+        $this->procurementline->store_line($request);
     }
 
-    //===============================================================================================================================================================================================================
-    // Fungsi khusus untuk digunakan class lain
-    //===============================================================================================================================================================================================================
-    public function detailLine($numPO)
+    public function delete_line($request)
     {
-        return $this->procurementline->showDetailPOLine($numPO);
+        $this->procurementline->delete_line($request);
     }
 }
