@@ -58,7 +58,7 @@
                         </p>
                     </div>
                     <div class="row card-text">
-                        <a href="/salesorder/history/detail/{{$salesorder->numSO}}" class="more">More...</a>
+                        <a href="/salesorder/{{$salesorder->numSO}}" class="more">More...</a>
                     </div>
                 </div>
             </div>

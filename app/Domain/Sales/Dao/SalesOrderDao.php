@@ -3,7 +3,8 @@
 /* Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
- * Code's Author by Chris Christian, December 2020
+ * Code's Author by Albertus Kevin, Chris Christian, December 2020
+ * Code's Refactor by Albertus Kevin, Januari 2021
  */
 
 namespace App\Domain\Sales\Dao;
@@ -12,45 +13,31 @@ use App\Http\Controllers\Controller;
 use App\Domain\Sales\Entity\SalesOrder;
 use Carbon\Carbon;
 
-class SalesOrderDao extends Controller
+class SalesOrderDao
 {
-    /**
-     * Show the profile for the given user.
-     *
-     * @return Response
-     */
-
-    public function findAllSalesOrders()
+    public function index()
     {
-        // $salesorders = SalesOrder::orderBy('numSO', 'asc')->paginate(9);
         return SalesOrder::where('transactionStatus', 0)->get();
     }
 
-    public function findSalesOrderByNumSOWithCustomer($numSO)
+    public function index_history()
     {
-        $salesorder = SalesOrder::where('numSO', $numSO)
+        return  Salesorder::where('transactionStatus', '!=', 0)->get();
+    }
+
+    public function get_by_customer_and_numSO($numSO)
+    {
+        return SalesOrder::where('numSO', $numSO)
             ->join('customer', 'sales_order.customer', '=', 'customer.id')
             ->first();
-        return $salesorder;
     }
 
-    public function findLastNumSO()
+    public function get_last_numSO()
     {
-        $salesorder =  Salesorder::orderBy('numSO', 'desc')->take(1)->get();
-        return $salesorder;
+        return Salesorder::orderBy('numSO', 'desc')->take(1)->get();
     }
 
-    public function findSalesOrderHistory()
-    {
-        $salesorders =  Salesorder::where('transactionStatus', '=', 1)
-            ->orwhere('transactionStatus', '=', 2)
-            ->orwhere('transactionStatus', '=', 3)
-            ->get();
-        return $salesorders;
-    }
-
-    //insert data header dari PO ke tabel purchase_order
-    public function createSalesOrder($header)
+    public function store_header($header)
     {
 
         SalesOrder::create([
@@ -70,7 +57,7 @@ class SalesOrderDao extends Controller
         ]);
     }
 
-    public function updateSalesOrder($header)
+    public function update_header($header)
     {
 
         SalesOrder::where('numSO', $header['numSO'])->update([
@@ -82,17 +69,12 @@ class SalesOrderDao extends Controller
         ]);
     }
 
-    public function updateProceed($numSO)
+    public function proceed($numSO)
     {
         SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 1]);;
     }
-    public function cancelSO($numSO)
+    public function cancel($numSO)
     {
         SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 2]);;
-    }
-
-    public function updateFinish($numSO)
-    {
-        SalesOrder::where('numSO', $numSO)->update(['transactionStatus' => 3]);;
     }
 }

@@ -14,39 +14,25 @@ use Illuminate\Http\Request;
 
 class SalesOrderLineService extends Controller
 {
-    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $salesorderlines;
 
-    //==================================================================================================================================================
-    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
-    //==================================================================================================================================================
     public function __construct()
     {
         $this->salesorderlines = new SalesOrderLineDB();
     }
 
-    public function createSalesOrderLine(Request $request)
+    public function store_line(Request $request)
     {
-        $this->salesorderlines->insertHeaderLine($request);
+        $this->salesorderlines->store_line($request);
     }
 
-    public function updateSalesOrderLine(Request $request)
+    public function delete_line(Request $request)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorderlines->updateSalesOrderLine($request);
+        $this->salesorderlines->delete_line($request);
     }
 
-    public function deleteLine(Request $request)
+    public function show_line($numSO)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorderlines->deleteLine($request);
-    }
-
-    //===============================================================================================================================================================================================================
-    // Fungsi khusus untuk digunakan class lain
-    //===============================================================================================================================================================================================================
-    public function detailSalesOrderLine($numSO)
-    {
-        return $this->salesorderlines->findSalesOrderLineDetail($numSO);
+        return $this->salesorderlines->show_line($numSO);
     }
 }

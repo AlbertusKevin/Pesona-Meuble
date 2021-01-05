@@ -70,18 +70,7 @@
                             <input type="number" class="form-control header-field-form" id="totalPrice" name="totalPrice" disabled value="{{$salesorder->totalPrice}}">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="paymentDiscount" class="col-sm-4 col-form-label">Discount Payment</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control header-field-form header-field-for" disabled value="{{$salesorder->paymentDiscount}}" name="paymentDiscount" id="paymentDiscount">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control header-field-form" id="totalDisc" name="totalDisc" disabled value="{{$salesorder->totalDiscount}}">
-                        </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <label for="totalPayment" class="col-sm-4 col-form-label">Total Payment</label>
                         <div class="col-sm-8">
@@ -92,7 +81,7 @@
             </div>
         </div>
     </div>
-</div>
+
 <div class="col-12 pt-4">
     <h1 class="text-center">Product Lists</h1>
 </div>
@@ -114,7 +103,6 @@
     </div>
     @endforeach
 </div>
-
 @if(count($salesorderlines) == 0)
 <div class="col-12 col-md-6 pb-5">
     <div class="card" style="width: 100%;">
@@ -124,7 +112,7 @@
     </div>
 </div>
 @endif
-
+</div>
 </div>
 </div>
 

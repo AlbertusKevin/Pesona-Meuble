@@ -47,7 +47,7 @@ const update = function () {
         //ajax query ke database
         if (url == "salesorder") {
             $.ajax({
-                url: "/salesorder/update/header",
+                url: "/salesorder",
                 method: "patch",
                 data: {
                     numSO,
@@ -58,7 +58,7 @@ const update = function () {
                 },
                 success: () => {
                     $.ajax({
-                        url: "/salesorder/item",
+                        url: "/salesorder",
                         method: "delete",
                         data: {
                             numSO,
@@ -81,7 +81,7 @@ const update = function () {
                                     $(`#quantity-${modelType}`).val()
                                 );
                                 $.ajax({
-                                    url: "/salesorder/create/salesorderline",
+                                    url: "/salesorder/line",
                                     method: "post",
                                     data: {
                                         numSO,
@@ -332,22 +332,22 @@ $("#lineHeader").on("click", "#addItem", function () {
                     let totalDisc = 0;
 
                     if (url == "salesorder") {
-                        //ambil percent diskon mebel
-                        const percent = hitungDiskon("#discountMeuble");
-                        //hitung total diskon mebel
-                        const discountVal = parseFloat(
-                            (data.price * percent).toFixed(2)
-                        );
-                        totalDisc = discountVal * quantity;
-                        //ambil total diskon lama
-                        let oldTotalDisc = parseInt($("#totalDisc").val());
-                        //hitung total diskon baru
-                        let newTotalDisc = oldTotalDisc + totalDisc;
-                        //ubah total diskon dengan yang baru
-                        $("#totalDisc").val(newTotalDisc);
-                        //ubah total payment yang baru
-                        let totalPrice = parseInt($("#totalPrice").val());
-                        $("#totalPayment").val(totalPrice - newTotalDisc);
+                        // //ambil percent diskon mebel
+                        // const percent = hitungDiskon("#discountMeuble");
+                        // //hitung total diskon mebel
+                        // const discountVal = parseFloat(
+                        //     (data.price * percent).toFixed(2)
+                        // );
+                        // totalDisc = discountVal * quantity;
+                        // //ambil total diskon lama
+                        // let oldTotalDisc = parseInt($("#totalDisc").val());
+                        // //hitung total diskon baru
+                        // let newTotalDisc = oldTotalDisc + totalDisc;
+                        // //ubah total diskon dengan yang baru
+                        // $("#totalDisc").val(newTotalDisc);
+                        // //ubah total payment yang baru
+                        // let totalPrice = parseInt($("#totalPrice").val());
+                        // $("#totalPayment").val(totalPrice - newTotalDisc);
 
                         if (data.stock < quantity) {
                             alert(
@@ -572,7 +572,7 @@ $("#createTransaction").on("click", function () {
         //ajax query ke database
         if (url == "salesorder") {
             $.ajax({
-                url: "/salesorder/create/header",
+                url: "/salesorder",
                 method: "post",
                 data: {
                     numSO,
@@ -601,7 +601,7 @@ $("#createTransaction").on("click", function () {
                         // const discountMeuble = $(`#discMeuble-${modelType}`).val();
 
                         $.ajax({
-                            url: "/salesorder/create/salesorderline",
+                            url: "/salesorder/line",
                             method: "post",
                             data: {
                                 numSO,

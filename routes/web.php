@@ -17,6 +17,7 @@ use App\Http\Controllers\Finance\InvoicePurchaseOrderController;
 use App\Http\Controllers\Finance\InvoiceSalesOrderController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\Procurement\ProcurementController;
+use App\Http\Controllers\Sales\SalesOrderController;
 use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Warehouse\DeliveryController;
 use App\Http\Controllers\Warehouse\MeubleController;
@@ -91,13 +92,29 @@ Route::group(['middleware' => 'login_check'], function () {
     Route::get('/procurement/{numPO}', [ProcurementController::class, 'show']);
 
     Route::post('/procurement', [ProcurementController::class, 'store']);
-    Route::post('/procurement/line', [ProcurementLController::class, 'store_line']);
+    Route::post('/procurement/line', [ProcurementController::class, 'store_line']);
 
-    Route::patch('/procurement/cancel/{num}', [ProcurementLController::class, 'cancel']);
-    Route::patch('/procurement/proceed/{num}', [ProcurementLController::class, 'proceed']);
-    Route::patch('/procurement', [ProcurementLController::class, 'update']);
+    Route::patch('/procurement/cancel/{num}', [ProcurementController::class, 'cancel']);
+    Route::patch('/procurement/proceed/{num}', [ProcurementController::class, 'proceed']);
+    Route::patch('/procurement', [ProcurementController::class, 'update']);
 
-    Route::delete('/procurement/line', [ProcurementLController::class, 'destroy']);
+    Route::delete('/procurement/line', [ProcurementController::class, 'destroy']);
+
+    //!======================================= Domain Sales =======================================
+    Route::get('/salesorder', [SalesOrderController::class, 'index'])->middleware('login_check');
+    Route::get('/salesorder/history', [SalesOrderController::class, 'index_history'])->middleware('login_check');
+
+    Route::get('/salesorder/create', [SalesOrderController::class, 'create'])->middleware('login_check');
+    Route::post('/salesorder', [SalesOrderController::class, 'store'])->middleware('login_check');
+    Route::post('/salesorder/line', [SalesOrderController::class, 'store_line'])->middleware('login_check');
+
+    Route::get('/salesorder/{numSO}', [SalesOrderController::class, 'show'])->middleware('login_check');
+
+    Route::patch('/salesorder/cancel/{numSO}', [SalesOrderController::class, 'cancel'])->middleware('login_check');
+    Route::patch('/salesorder/proceed/{num}', [SalesOrderController::class, 'proceed'])->middleware('login_check');
+
+    Route::patch('/salesorder', [SalesOrderController::class, 'update'])->middleware('login_check');
+    Route::delete('/salesorder', [SalesOrderController::class, 'delete'])->middleware('login_check');
 
     //? ==============================================================================================
     //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FINANCE DOMAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,27 +154,3 @@ Route::group(['middleware' => 'login_check'], function () {
     Route::get('/delivery/{num}', [DeliveryController::class, 'show'])->middleware('login_check');
     Route::post('/delivery/{num}', [DeliveryController::class, 'store'])->middleware('login_check');
 });
-
-//todo: belum ada url dari gui yang mengarah ke route ini
-Route::patch('/delivery/detail/{num}', 'App\Domain\Sales\Service\DeliveryService@change')->middleware('login_check');
-
-//=============================================================================================================
-// Domain Sales
-//=============================================================================================================
-Route::get('/salesorder', 'App\Domain\Sales\Service\SalesOrderService@listView')->middleware('login_check');
-Route::get('/salesorder/history/', 'App\Domain\Sales\Service\SalesOrderService@historyView')->middleware('login_check');
-Route::get('/salesorder/create', 'App\Domain\Sales\Service\SalesOrderService@createView')->middleware('login_check');
-Route::get('/salesorder/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetailView')->middleware('login_check');
-Route::get('/salesorder/history/detail/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@salesOrderDetaiHistory')->middleware('login_check');
-
-Route::post('/salesorder/create/header', 'App\Domain\Sales\Service\SalesOrderService@createHeader')->middleware('login_check');
-Route::post('/salesorder/create/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@createSalesOrderLine')->middleware('login_check');
-
-Route::patch('/salesorder/cancel/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@cancelSO')->middleware('login_check');
-Route::put('/salesorder/finish/{numSO}', 'App\Domain\Sales\Service\SalesOrderService@finishSO')->middleware('login_check');
-Route::put('/salesorder/update/salesorderline', 'App\Domain\Sales\Service\SalesOrderLineService@updateSalesOrderLine')->middleware('login_check');
-
-Route::patch('/salesorder/update/header', 'App\Domain\Sales\Service\SalesOrderService@updateHeader')->middleware('login_check');
-Route::patch('/salesorder/proceed/{num}', 'App\Domain\Sales\Service\SalesOrderService@proceedSO')->middleware('login_check');
-
-Route::delete('/salesorder/item', 'App\Domain\Sales\Service\SalesOrderLineService@deleteLine')->middleware('login_check');

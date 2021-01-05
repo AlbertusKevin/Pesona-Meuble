@@ -18,124 +18,53 @@ use Illuminate\Http\Request;
 
 class SalesOrderService extends Controller
 {
-    // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
     private $salesorders;
-    private $salesorderlines;
-    private $employees;
-    private $meubles;
-    private $discounts;
 
-    //==================================================================================================================================================
-    // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
-    //==================================================================================================================================================
     public function __construct()
     {
         $this->salesorders = new SalesOrderDao();
-        $this->salesorderlines = new SalesOrderLineService();
-        $this->employees = new EmployeeService();
-        $this->meubles = new MeubleService();
-        $this->discounts = new DiscountService();
     }
 
-    public function listView()
+    public function index()
     {
-        $salesorders = $this->salesorders->findAllSalesOrders();
-        return view('sales.sales_order.listSalesOrder', [
-            'salesorders' => $salesorders,
-        ]);
+        return $this->salesorders->index();
     }
 
-    public function historyView()
+    public function index_history()
     {
-        $salesorders = $this->salesorders->findSalesOrderHistory();
-        return view('sales.sales_order.historySalesOrder', [
-            'salesorders' => $salesorders,
-        ]);
+        return $this->salesorders->index_history();
     }
 
-    public function salesOrderDetailView($numSO)
+    public function get_last_numSO()
     {
-        $salesorder = $this->salesOrderNumAndCustomer($numSO);
-        // $discounts = $this->discounts->showAllDiscount();
-        $salesorderlines = $this->salesorderlines->detailSalesOrderLine($numSO);
-
-        return view('sales.sales_order.updateSalesOrderView', [
-            'salesorder' => $salesorder,
-            'salesorderlines' => $salesorderlines
-            // 'discounts' => $discounts
-        ]);
-    }
-    public function salesOrderDetaiHistory($numSO)
-    {
-        $salesorder = $this->salesOrderNumAndCustomer($numSO);
-        $salesorderlines = $this->salesorderlines->detailSalesOrderLine($numSO);
-        return view('sales.sales_order.detailHistorySalesOrder', [
-            'salesorder' => $salesorder,
-            'salesorderlines' => $salesorderlines,
-        ]);
-    }
-
-    public function createView(Request $request)
-    {
-        $meubles = $this->meubles->index_meuble();
-        $employee = $this->employees->get_employee_by_id($request->session()->get('id_employee'));
-        // $discMeuble = $this->discounts->forMeuble();
-        // $discPayment = $this->discounts->forPayment();
-        $numSO = $this->salesorders->findLastNumSO();
-
+        $numSO = $this->salesorders->get_last_numSO();
         if (count($numSO) != 0) {
-            $numSO = $numSO[0]->numSO;
-            $numSO = ((int)$numSO) + 1;
-            $numSO = (string)$numSO;
-        } else {
-            $numSO = "20000001";
+            return (string)(((int)$numSO[0]->numSO) + 1);
         }
-
-        return view('sales.sales_order.createSalesOrder', [
-            'meubles' => $meubles,
-            'employee' => $employee,
-            // 'discMeuble' => $discMeuble,
-            // 'discPayment' => $discPayment,
-            'numSO' => $numSO
-        ]);
+        return $numSO = "20000001";
     }
 
-    public function createHeader()
+    public function get_by_customer_and_numSO($numSO)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorders->createSalesOrder($_POST);
+        return $this->salesorders->get_by_customer_and_numSO($numSO);
     }
 
-    public function updateHeader(Request $request)
+    public function store_header($data)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorders->updateSalesOrder($request);
+        $this->salesorders->store_header($data);
     }
 
-    public function proceedSO($numSO)
+    public function update_header($request)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorders->updateProceed($numSO);
-    }
-    public function cancelSO($numSO)
-    {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorders->cancelSO($numSO);
-        return redirect('/salesorder')->with(['success' => 'Sales Order  ' . $numSO . ' canceled !']);
+        $this->salesorders->update_header($request);
     }
 
-    public function finishSO($numSO)
+    public function proceed($numSO)
     {
-        // numPo, vendor, employeeName, date, validTo, totalItem, freightIn, totalPrice, totalDisc, totalPayment
-        $this->salesorders->updateFinish($numSO);
-        return redirect('/salesorder')->with('success', 'Sales Order  ' . $numSO . ' finished successfully !');
+        $this->salesorders->proceed($numSO);
     }
-
-    //===============================================================================================================================================================================================================
-    // Fungsi khusus untuk digunakan class lain
-    //===============================================================================================================================================================================================================
-    public function salesOrderNumAndCustomer($numSO)
+    public function cancel($numSO)
     {
-        return $this->salesorders->findSalesOrderByNumSOWithCustomer($numSO);
+        $this->salesorders->cancel($numSO);
     }
 }
