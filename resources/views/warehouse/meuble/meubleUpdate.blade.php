@@ -13,28 +13,12 @@
                             </div>
                             <hr>
                             <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label for="modelType" class="col-sm-3 col-form-label">Model Type:</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="modelType" id="modelType">
-                                    </div>
-                                </div>
+                                <input type="hidden" name="modelType" id="modelType" value={{ $meuble->modelType }}>
                                 <div class="form-group row">
                                     <label for="meubleName" class="col-sm-3 col-form-label">Meuble Name:</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="meubleName" name="meubleName">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="vendor" class="col-sm-3 col-form-label">Vendor:</label>
-                                    <div class="col-sm-8">
-                                        <select id="vendor" name="vendor" class="form-control header-field-form">
-                                            @foreach ($vendors as $vendor)
-                                                <option value="{{ $vendor->companyCode }}">
-                                                    {{ $vendor->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="form-control" id="meubleName" name="meubleName"
+                                            value={{ $meuble->name }}>
                                     </div>
                                 </div>
                                 <div class="form-group row">
