@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Finance;
 
+use App\Http\Controllers\Controller;
 use App\Domain\Employee\Service\EmployeeService;
 use App\Domain\Finance\Service\DiscountService;
 use Illuminate\Http\Request;
@@ -36,15 +37,13 @@ class DiscountController extends Controller
     public function create(Request $request)
     {
         $employee = $this->employee_service->get_employee_by_id($request->session()->get('id_employee'));
-        return view('finance.discount.newDiscount', [
-            "employee" => $employee,
-        ]);
+        return view('finance.discount.newDiscount', compact('employee'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -65,7 +64,7 @@ class DiscountController extends Controller
         }
 
         $this->discount_service->new_discount($request);
-        return redirect('/discount/list')->with(['success' => 'Discount ' . $request->code . 'successfully created !']);
+        return redirect('/discount')->with(['success' => 'Discount ' . $request->code . 'successfully created !']);
     }
 
     /**
@@ -92,7 +91,7 @@ class DiscountController extends Controller
     public function update($code)
     {
         $this->discount_service->update_status($code);
-        return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Updated Expired Successfully !']);
+        return redirect('/discount')->with(['success' => 'Discount ' . $code . ' Updated Expired Successfully !']);
     }
 
     /**
@@ -104,6 +103,6 @@ class DiscountController extends Controller
     public function destroy($code)
     {
         $this->discount_service->delete_discount($code);
-        return redirect('/discount/list')->with(['success' => 'Discount ' . $code . ' Deleted !']);
+        return redirect('/discount')->with(['success' => 'Discount ' . $code . ' Deleted !']);
     }
 }

@@ -168,7 +168,7 @@ const quantity = () => {
 
     if (url == "salesorder") {
         $.ajax({
-            url: `/meuble`,
+            url: `/meuble/search`,
             data: {
                 model,
                 source_url: url,
@@ -192,7 +192,7 @@ $("#modelType").on("change", function () {
     let url = getURL();
 
     $.ajax({
-        url: `/meuble`,
+        url: `/meuble/search`,
         data: {
             model: $("#modelType").val(),
             vendor: $("#vendor").val(),
@@ -305,7 +305,7 @@ $("#lineHeader").on("click", "#addItem", function () {
         let url = getURL();
 
         $.ajax({
-            url: `/meuble`,
+            url: `/meuble/search`,
             data: {
                 model: $("#modelType").val(),
                 vendor: $("#vendor").val(),

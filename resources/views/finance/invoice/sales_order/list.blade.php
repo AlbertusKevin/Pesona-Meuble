@@ -10,7 +10,7 @@
 <div class="container">
   @include('message')
   <div class="row justify-content-center">
-    <h1 class="text-center mt-5 mb-5 font-weight-bold">Invoices Of Purchase Order</h1>
+    <h1 class="text-center mt-5 mb-5 font-weight-bold">Invoices Of Sales Order</h1>
   </div>
   <div class="row pt-3">
     <table class="table">

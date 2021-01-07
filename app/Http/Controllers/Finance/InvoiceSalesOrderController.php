@@ -45,6 +45,6 @@ class InvoiceSalesOrderController extends Controller
      */
     public function show($num)
     {
-        return redirect('/salesorder/history/' . $num);
+        return redirect('/salesorder/' . $num);
     }
 }

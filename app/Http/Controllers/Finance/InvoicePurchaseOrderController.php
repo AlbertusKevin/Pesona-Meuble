@@ -44,6 +44,6 @@ class InvoicePurchaseOrderController extends Controller
      */
     public function show($num)
     {
-        return redirect('/procurement/history/' . $num);
+        return redirect('/procurement/' . $num);
     }
 }

@@ -122,7 +122,7 @@ class ProcurementController extends Controller
     public function cancel($num)
     {
         $this->procurement_service->cancel($num);
-        return redirect('/procurement/list')->with('cancel_po', 'Purchase Order ' . $num . ' canceled!');
+        return redirect('/procurement')->with('cancel_po', 'Purchase Order ' . $num . ' canceled!');
     }
     /**
      * Remove the specified resource from storage.

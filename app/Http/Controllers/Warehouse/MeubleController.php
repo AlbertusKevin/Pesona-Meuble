@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Warehouse;
 
+use App\Domain\Employee\Service\EmployeeService;
+use App\Domain\Vendor\Service\VendorService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Domain\Warehouse\Service\MeubleService;
@@ -9,26 +11,43 @@ use App\Domain\Warehouse\Service\MeubleService;
 class MeubleController extends Controller
 {
     private $meuble_service;
+    private $employee_service;
+    private $vendor_service;
+    private $category_service;
 
     public function __construct()
     {
-        $this->meuble_service = new MeubleService();
+        $this->meuble_service = new MeubleService;
+        $this->employee_service = new EmployeeService;
+        $this->vendor_service = new VendorService;
     }
 
     public function home_customer()
     {
         $meubles = $this->meuble_service->index_meuble();
-        return view('homecust', [
-            'meubles' => $meubles,
-        ]);
+        return view('home', compact('meubles'));
     }
 
-    public function detail_meuble($typeModel)
+    public function home_admin()
+    {
+        $meubles = $this->meuble_service->index_meuble();
+        return view('warehouse.meuble.meubleList', compact('meubles'));
+    }
+
+    public function detail_meuble($typeModel, Request $request)
     {
         $meuble = $this->meuble_service->show_meuble($typeModel);
         $category = $this->meuble_service->show_category_description($meuble->category);
+        $employee = $this->employee_service->get_employee_by_id($request->session()->get('id_employee'));
 
-        return view('customer_service.customer_data.meubleDetail', [
+        if (isset($employee)) {
+            return view('warehouse.meuble.meubleDetailAdmin', [
+                'meuble' => $meuble,
+                'category' => $category
+            ]);
+        }
+
+        return view('warehouse.meuble.meubleDetail', [
             'meuble' => $meuble,
             'category' => $category
         ]);
@@ -67,7 +86,9 @@ class MeubleController extends Controller
      */
     public function create()
     {
-        //
+        $vendors = $this->vendor_service->index();
+        $categories = $this->meuble_service->index_category();
+        return view('warehouse.meuble.meubleCreate', compact('vendors', 'categories'));
     }
 
     /**
@@ -112,9 +133,12 @@ class MeubleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($model)
     {
-        //
+        $vendors = $this->vendor_service->index();
+        $categories = $this->meuble_service->index_category();
+        $meuble = $this->meuble_service->show_meuble($model);
+        return view('warehouse.meuble.meubleUpdate', compact('vendors', 'categories', 'meuble'));
     }
 
     /**

@@ -1,8 +1,8 @@
 {{--
-    Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
-    Unauthorized copying of this file, via any medium is strictly prohibited
-    Proprietary and confidential
-    Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020 
+Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
+Unauthorized copying of this file, via any medium is strictly prohibited
+Proprietary and confidential
+Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
 --}}
 
 <!DOCTYPE html>
@@ -28,16 +28,16 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <a class="navbar-brand" href="">Pesona.</a>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
+                data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/admin">Product</a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sales Order</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-procurement" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Sales Order</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
                             <a class="dropdown-item" href="/salesorder">List</a>
                             <a class="dropdown-item" href="/salesorder/history">History</a>
@@ -45,7 +45,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" id="dropdown-procurement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Procurement</a>
+                        <a class="nav-link dropdown-toggle" href="" id="dropdown-procurement" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Procurement</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-procurement">
                             <a class="dropdown-item" href="/procurement">List</a>
                             <a class="dropdown-item" href="/procurement/history">History</a>
@@ -53,13 +54,16 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-warehouse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Warehouse</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-warehouse" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Warehouse</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-warehouse">
                             <a class="dropdown-item" href="/delivery">Delivery</a>
+                            <a class="dropdown-item" href="/meuble">Meuble</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-finance" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Finance</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-finance" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Finance</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-finance">
                             <a class="dropdown-item" href="/discount">Discount Management</a>
                             <a class="dropdown-item" href="/procurement/invoice">Invoice Purchase Order</a>
@@ -67,7 +71,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">More</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownId">
                             <a class="dropdown-item" href="/customer">Customer Management</a>
                             <a class="dropdown-item" href="/vendor">Vendor Management</a>
@@ -86,7 +91,9 @@
         <div class="row footer w-100">
             <div class="col-12 col-sm-8 w-100 footerparagraph">
                 <h1> Become a member</h1>
-                <p class="pt-2">Sed habitant porttitor at volutpat at. Suscipit a id velit scelerisque leo mi sit. Amet, mauris morbi mauris est elit. In mi, proin accumsan egestas cras quam massa feugiat dui. Odio sed scelerisque libero arcu magna nisl eget id elementum.</p>
+                <p class="pt-2">Sed habitant porttitor at volutpat at. Suscipit a id velit scelerisque leo mi sit. Amet,
+                    mauris morbi mauris est elit. In mi, proin accumsan egestas cras quam massa feugiat dui. Odio sed
+                    scelerisque libero arcu magna nisl eget id elementum.</p>
             </div>
 
             <div class="col-12 col-sm-4 w-100">

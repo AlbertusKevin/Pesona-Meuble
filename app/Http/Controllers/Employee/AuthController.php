@@ -37,12 +37,6 @@ class AuthController extends Controller
         return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
     }
 
-    public function home_admin()
-    {
-        $meubles = $this->meuble_service->index_meuble();
-        return view('employee.home', compact('meubles'));
-    }
-
     public function logout(Request $request)
     {
         $request->session()->flush();
