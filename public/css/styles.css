@@ -138,6 +138,10 @@ body {
     color: white;
 }
 
+.red-border {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
     .overlay {

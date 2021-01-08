@@ -11,6 +11,7 @@ namespace App\Domain\Warehouse\Service;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Domain\Warehouse\Dao\MeubleDao;
+use Illuminate\Support\Facades\File;
 
 class MeubleService extends Controller
 {
@@ -25,17 +26,50 @@ class MeubleService extends Controller
         $this->meubles = new MeubleDao();
     }
 
+    private function upload_image($img, $category)
+    {
+        //upload file ke folder yang disediakan
+        $pictName = $img->getClientOriginalName();
+        //ambil ekstensi file
+        $pictName = explode('.', $pictName);
+        //buat nama baru yang unique
+        $pictName = uniqid() . '.' . end($pictName);
+        $targetUploadDesc = "images\\sales\\meuble\\" . $category;
+        $img->move($targetUploadDesc, $pictName);
+
+        return $targetUploadDesc . "\\" . $pictName;   //membuat file path yang akan digunakan sebagai src html
+    }
+
     public function new_meuble($request)
     {
-        $pict = $request->file('picture');                  //mendapatkan nama file/image
-        //upload file ke folder yang disediakan
-        $pictName = $pict->getClientOriginalName();
-        $targetUploadDesc = "images\\sales\\meuble";
-        $pict->move($targetUploadDesc, $pictName);
-
-        $pathDesc = $targetUploadDesc . "\\" . $pictName;   //membuat file path yang akan digunakan sebagai src html
-
+        $category = $this->meubles->show_category($request->category);
+        $category = $category->description;
+        $pathDesc = $this->upload_image($request->file('picture'), $category);
         $this->meubles->insert($request, $pathDesc);
+    }
+
+    public function soft_delete($model, $status)
+    {
+        $this->meubles->soft_delete($model, $status);
+    }
+
+    public function update_meuble($request, $model)
+    {
+        $pictPath = $this->meubles->show_meuble($model);
+        $pictPath = $pictPath->image;
+
+        if ($request->file('picture') !== null) {
+            // hapus file yang lama
+            if (File::exists(public_path($pictPath))) {
+                File::delete(public_path($pictPath));
+            }
+
+            $category = $this->meubles->show_category($request->category);
+            $category = $category->description;
+            $pictPath = $this->upload_image($request->file('picture'), $category);
+        }
+
+        $this->meubles->update_data($request, $model, $pictPath);
     }
 
     //mengambil data mebel yang sudah ada untuk field create PO

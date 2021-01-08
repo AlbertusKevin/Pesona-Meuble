@@ -132,7 +132,7 @@ const update = function () {
                             },
                             success: () => {
                                 $.ajax({
-                                    url: `/procurement`,
+                                    url: `/procurement/line`,
                                     method: "post",
                                     data: {
                                         numPo,

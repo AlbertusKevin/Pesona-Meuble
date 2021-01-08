@@ -133,19 +133,16 @@ Route::group(['middleware' => 'login_check'], function () {
     //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ WAREHOUSE DOMAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //? ==============================================================================================
     //! =====================================Domain Warehouse: Meuble =============================================
-
-    //todo: Meuble Create View, Meuble Update View, Meuble Update, Meuble Delete
     Route::get('/meuble/update/{model}', [MeubleController::class, 'edit']);
-    Route::put('/meuble/{model}', [MeubleController::class, 'update']);
-    Route::delete('/meuble/{model}', [MeubleController::class, 'destroy']);
-    //todo: end todo
-
     Route::get('/meuble/create', [MeubleController::class, 'create']);
     Route::get('/meuble', [MeubleController::class, 'home_admin']);
     Route::get('/meuble/search', [MeubleController::class, 'search_meuble']);
     Route::patch('/meuble/add', [MeubleController::class, 'add_stock']);
     Route::patch('/meuble/reduce', [MeubleController::class, 'reduce_stock']);
     Route::post('/meuble', [MeubleController::class, 'store']);
+    Route::put('/meuble/{model}', [MeubleController::class, 'update']);
+    Route::patch('/meuble/sale/{model}', [MeubleController::class, 'sale_again']);
+    Route::patch('/meuble/{model}', [MeubleController::class, 'soft_delete']);
 
 
     //! =====================================Domain Warehouse: Delivery =============================================
@@ -160,5 +157,5 @@ Route::get('/gate', [AuthController::class, 'login_view']);
 Route::post('/gate', [AuthController::class, 'login_process']);
 
 //! =====================================Domain Warehouse: Meuble =============================================
-Route::get('/', [MeubleController::class, 'home_customer']);
-Route::get('/meuble/{typeModel}', [MeubleController::class, 'detail_meuble']);
+Route::get('/', [MeubleController::class, 'index']);
+Route::get('/meuble/{typeModel}', [MeubleController::class, 'show']);

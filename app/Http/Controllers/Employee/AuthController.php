@@ -9,12 +9,10 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-    private $meuble_service;
     private $auth_service;
 
     public function __construct()
     {
-        $this->meuble_service = new MeubleService;
         $this->auth_service = new AuthService;
     }
 
@@ -32,7 +30,7 @@ class AuthController extends Controller
 
         $auth = $this->auth_service->login_service($request);
         if ($auth) {
-            return redirect('/admin');
+            return redirect('/meubles');
         }
         return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
     }

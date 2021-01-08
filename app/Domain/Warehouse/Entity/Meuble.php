@@ -26,7 +26,8 @@ class Meuble extends Model
         "size",
         "stock",
         "vendor",
-        "color"
+        "color",
+        "status"
     ];
 
     public function meublecategory()
