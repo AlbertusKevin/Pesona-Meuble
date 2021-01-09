@@ -46,4 +46,10 @@ class InvoicePurchaseOrderController extends Controller
     {
         return redirect('/procurement/' . $num);
     }
+
+    public function update($num)
+    {
+        $this->invoice_po_service->update($num);
+        return redirect("/procurement/invoice")->with("success", "Goods Request from Invoice " . $num . " is/are received!");
+    }
 }

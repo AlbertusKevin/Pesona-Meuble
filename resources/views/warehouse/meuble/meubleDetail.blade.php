@@ -62,38 +62,30 @@ Code's Author by Chris Christian, Mikhael Adriel, December 2020
                     </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
     </div>
 
-    <div class="container pt-5">
+    <div class="container mt-5">
         <div class="row">
-            <div class="col-12 col-md-6">
-                <img src="{{ asset('images/promo3.svg') }}" class="d-block w-100 h-100" alt="...">
+            <div class="col-md-6 offset-md-1">
+                <img src="{{ asset($meuble->image) }}" class="d-block w-100 h-100" alt="...">
             </div>
-            <div class="col-12 col-md-6git">
-                <h2>{{ $meuble->name }}</h2>
+            <div class="col-md-4">
+                <h1>{{ $meuble->name }}</h1>
+                <h6 class="card-subtitle mb-2 text-muted">Model Type: {{ $meuble->modelType }}</h6>
+                <hr>
                 <p class="font-weight-bold">{{ $meuble->description }}</p>
-                <p class="font-weight-bold">{{ $meuble->modelType }}</p>
-                <p>
                 <table>
                     <tr>
-                        <td>Category </td>
+                        <td class="mr-5">Category</td>
                         <td>: {{ $category->description }}</td>
                     </tr>
                     <tr>
-                        <td>Price </td>
+                        <td>Price</td>
                         <td>: {{ $meuble->price }}</td>
                     </tr>
                     <tr>
-                        <td>Warranty Period (Month) </td>
+                        <td>Warranty (Month)</td>
                         <td>: {{ $meuble->warantyPeriodeMonth }}</td>
                     </tr>
                     <tr>
@@ -109,7 +101,6 @@ Code's Author by Chris Christian, Mikhael Adriel, December 2020
                         <td>: {{ $meuble->stock }}</td>
                     </tr>
                 </table>
-                </p>
             </div>
         </div>
     </div>

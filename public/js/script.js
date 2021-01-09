@@ -315,51 +315,73 @@ $("#lineHeader").on("click", "#addItem", function () {
             dataType: "json",
             success: (data) => {
                 if (data) {
-                    let quantity = parseInt($("#quantity").val());
-                    //ambil data awal dari total item dan total price yang ada di header
-                    let totalItem = parseInt($("#totalItem").val());
-                    let totalPrice = parseInt($("#totalPrice").val());
-                    let totalPayment = parseInt($("#totalPayment").val());
+                    //cek apakah barang tersebut sudah ada di line item?
+                    let found = false;
+                    let i = 0;
+                    let item = $("#lineItem").children();
 
-                    //ubah tampilan data awal sesuaikan dengan kalkulasi
-                    totalItem += quantity;
-                    totalPrice += quantity * data.price;
-                    totalPayment += quantity * data.price;
-                    $("#totalItem").val(totalItem);
-                    $("#totalPrice").val(totalPrice);
-                    $("#totalPayment").val(totalPayment);
-
-                    let totalDisc = 0;
-
-                    if (url == "salesorder") {
-                        // //ambil percent diskon mebel
-                        // const percent = hitungDiskon("#discountMeuble");
-                        // //hitung total diskon mebel
-                        // const discountVal = parseFloat(
-                        //     (data.price * percent).toFixed(2)
-                        // );
-                        // totalDisc = discountVal * quantity;
-                        // //ambil total diskon lama
-                        // let oldTotalDisc = parseInt($("#totalDisc").val());
-                        // //hitung total diskon baru
-                        // let newTotalDisc = oldTotalDisc + totalDisc;
-                        // //ubah total diskon dengan yang baru
-                        // $("#totalDisc").val(newTotalDisc);
-                        // //ubah total payment yang baru
-                        // let totalPrice = parseInt($("#totalPrice").val());
-                        // $("#totalPayment").val(totalPrice - newTotalDisc);
-
-                        if (data.stock < quantity) {
-                            alert(
-                                "Insufficient stock " +
-                                    $("#modelType").val() +
-                                    ". You can still continue the process if stock is planned."
-                            );
+                    //looping ambil barang yang ada di line
+                    while (!found && item.length > i) {
+                        if (item.attr("id") == data.modelType) {
+                            found = true;
                         }
+                        i++;
                     }
+                    // item.each(() => {
+                    //     //cek antara div id model dengan data.model, jika ada yang sama, alert
+                    //     if (item.attr("id") == data.modelType) {
+                    //         found = true;
+                    //     }
+                    // });
 
-                    //Buat tag template HTML
-                    const tag_html = /*html*/ `
+                    if (found) {
+                        alert("Data Already Exist in Product List!");
+                    } else {
+                        let quantity = parseInt($("#quantity").val());
+                        //ambil data awal dari total item dan total price yang ada di header
+                        let totalItem = parseInt($("#totalItem").val());
+                        let totalPrice = parseInt($("#totalPrice").val());
+                        let totalPayment = parseInt($("#totalPayment").val());
+
+                        //ubah tampilan data awal sesuaikan dengan kalkulasi
+                        totalItem += quantity;
+                        totalPrice += quantity * data.price;
+                        totalPayment += quantity * data.price;
+                        $("#totalItem").val(totalItem);
+                        $("#totalPrice").val(totalPrice);
+                        $("#totalPayment").val(totalPayment);
+
+                        let totalDisc = 0;
+
+                        if (url == "salesorder") {
+                            // //ambil percent diskon mebel
+                            // const percent = hitungDiskon("#discountMeuble");
+                            // //hitung total diskon mebel
+                            // const discountVal = parseFloat(
+                            //     (data.price * percent).toFixed(2)
+                            // );
+                            // totalDisc = discountVal * quantity;
+                            // //ambil total diskon lama
+                            // let oldTotalDisc = parseInt($("#totalDisc").val());
+                            // //hitung total diskon baru
+                            // let newTotalDisc = oldTotalDisc + totalDisc;
+                            // //ubah total diskon dengan yang baru
+                            // $("#totalDisc").val(newTotalDisc);
+                            // //ubah total payment yang baru
+                            // let totalPrice = parseInt($("#totalPrice").val());
+                            // $("#totalPayment").val(totalPrice - newTotalDisc);
+
+                            if (data.stock < quantity) {
+                                alert(
+                                    "Insufficient stock " +
+                                        $("#modelType").val() +
+                                        ". You can still continue the process if stock is planned."
+                                );
+                            }
+                        }
+
+                        //Buat tag template HTML
+                        const tag_html = /*html*/ `
                         <div id="${data.modelType}">
                             <input type="hidden" id="model-${
                                 data.modelType
@@ -382,8 +404,8 @@ $("#lineHeader").on("click", "#addItem", function () {
                                     <img id="${
                                         data.modelType
                                     }-img" class="card-img-top" src="${baseURL}${
-                        data.image
-                    }" alt="Card image cap">
+                            data.image
+                        }" alt="Card image cap">
                                 </div>
                                 <div class="col-12 col-md-9 pt-4">
                                     <h3 class="font-weight-bold">${
@@ -411,13 +433,14 @@ $("#lineHeader").on("click", "#addItem", function () {
                         </div>
                     `;
 
-                    //tambahkan item ke daftar purchase order
-                    $("#lineItem").append(tag_html);
-                    //setelah klik add, bersihkan field input
-                    $("#lineHeader input").val(null);
-                    $("#price").val(0);
-                    $("#quantity").val(0);
-                    $("#vendor").attr("disabled", true);
+                        //tambahkan item ke daftar purchase order
+                        $("#lineItem").append(tag_html);
+                        //setelah klik add, bersihkan field input
+                        $("#lineHeader input").val(null);
+                        $("#price").val(0);
+                        $("#quantity").val(0);
+                        $("#vendor").attr("disabled", true);
+                    }
                 } else {
                     alert(
                         `Model ${$("#modelType").val()} from vendor ${$(

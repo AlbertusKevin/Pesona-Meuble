@@ -38,6 +38,7 @@ class VendorDB
             'email' => $request->email,
             'telephone' => $request->telephone,
             'address' => $request->address,
+            'status' => 1
         ]);
     }
 
@@ -48,6 +49,13 @@ class VendorDB
             'email' => $request->email,
             'telephone' => $request->telephone,
             'address' => $request->address
+        ]);
+    }
+
+    public function change_status($code, $status)
+    {
+        Vendor::where('companyCode', $code)->update([
+            'status' => $status
         ]);
     }
 }

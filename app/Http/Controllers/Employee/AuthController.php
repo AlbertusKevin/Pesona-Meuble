@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         $auth = $this->auth_service->login_service($request);
         if ($auth) {
-            return redirect('/meubles');
+            return redirect('/meuble');
         }
         return redirect()->back()->with('failed_login', 'Wrong password or username!')->withInput();
     }

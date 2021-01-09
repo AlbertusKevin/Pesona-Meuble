@@ -19,6 +19,7 @@ class CreateVendorsTable extends Migration
             $table->string('email', 255);
             $table->string('telephone', 255);
             $table->string('address', 255);
+            $table->tinyInteger('status');
         });
 
         Schema::table('vendor', function (Blueprint $table) {

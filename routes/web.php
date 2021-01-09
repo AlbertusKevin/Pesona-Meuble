@@ -61,19 +61,21 @@ Route::group(['middleware' => 'login_check'], function () {
     Route::get('/vendor', [VendorController::class, 'index']);
     Route::get('/vendor/{companyCode}', [VendorController::class, 'show']);
 
+    Route::patch('/vendor/status/{companyCode}/{status}', [VendorController::class, 'change_status']);
+
     Route::get('/vendor/update/{companyCode}', [VendorController::class, 'edit']);
     Route::patch('/vendor/{companyCode}', [VendorController::class, 'update']);
 
     // !=================================== Domain Customer ===================================
     Route::get('/customer', [CustomerController::class, 'index']);
     Route::get('/customer/search', [CustomerController::class, 'search']);
+    Route::get('/customer/{id}', [CustomerController::class, 'show']);
 
     Route::get('/customer/create', [CustomerController::class, 'create']);
     Route::post('/customer', [CustomerController::class, 'store']);
 
     Route::get('/customer/update/{id}', [CustomerController::class, 'edit']);
     Route::patch('/customer/update/{id}', [CustomerController::class, 'update']);
-    Route::patch('/customer/member/{id}', [CustomerController::class, 'update_member']);
 
     //? ==============================================================================================
     //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FINANCE DOMAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -97,6 +99,7 @@ Route::group(['middleware' => 'login_check'], function () {
     Route::get('/procurement/invoice', [InvoicePurchaseOrderController::class, 'index']);
     Route::get('/procurement/invoice/{numPO}', [InvoicePurchaseOrderController::class, 'show']);
     Route::post('/procurement/invoice', [InvoicePurchaseOrderController::class, 'store']);
+    Route::patch('/procurement/invoice/{numPO}', [InvoicePurchaseOrderController::class, 'update']);
 
     // !=================================== Domain Procurement ===================================
     Route::get('/procurement/create', [ProcurementController::class, 'create']);

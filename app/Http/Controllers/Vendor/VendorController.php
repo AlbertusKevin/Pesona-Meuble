@@ -112,6 +112,12 @@ class VendorController extends Controller
         return redirect("/vendor")->with(['success' => 'Vendor ' . $request->name . ' Updated Successfully !']);
     }
 
+    public function change_status($code, $status)
+    {
+        $this->vendor_service->change_status($code, $status);
+        return redirect("/vendor")->with(['success' => 'Vendor ' . $code . ' status changed Successfully !']);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

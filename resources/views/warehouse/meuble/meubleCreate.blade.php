@@ -30,9 +30,11 @@
                                     <div class="col-sm-8">
                                         <select id="vendor" name="vendor" class="form-control header-field-form">
                                             @foreach ($vendors as $vendor)
-                                                <option value="{{ $vendor->companyCode }}">
-                                                    {{ $vendor->name }}
-                                                </option>
+                                                @if ($vendor->status != 0)
+                                                    <option value="{{ $vendor->companyCode }}">
+                                                        {{ $vendor->name }}
+                                                    </option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>

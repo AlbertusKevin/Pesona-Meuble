@@ -36,8 +36,7 @@ class CustomerDB extends Controller
             'name' => $line["name"],
             'email' => $line["email"],
             'phone' => (int)$line["phone"],
-            'address' => $line["address"],
-            'member' => 0
+            'address' => $line["address"]
         ]);
     }
 
@@ -48,13 +47,6 @@ class CustomerDB extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address
-        ]);
-    }
-
-    public function update_member($id)
-    {
-        Customer::where('id', $id)->update([
-            'member' => 1,
         ]);
     }
 }

@@ -43,4 +43,9 @@ class VendorService extends Controller
     {
         $this->vendors->update_vendor($request, $companyCode);
     }
+
+    public function change_status($code, $status)
+    {
+        $this->vendors->change_status($code, $status);
+    }
 }
