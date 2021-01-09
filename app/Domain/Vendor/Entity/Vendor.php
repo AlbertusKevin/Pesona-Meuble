@@ -22,7 +22,7 @@ class Vendor extends Model
         'name',
         'email',
         'telephone',
-        'address', 
+        'address',
+        'status'
     ];
-
 }

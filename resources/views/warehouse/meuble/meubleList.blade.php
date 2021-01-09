@@ -28,6 +28,7 @@ Code's Author by Albertus Kevin, January 2021
                         <th scope="col" class="text-center">Vendor</th>
                         <th scope="col" class="text-center">Stock</th>
                         <th scope="col" class="text-center">Price</th>
+                        <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -36,31 +37,46 @@ Code's Author by Albertus Kevin, January 2021
                     <tr class="separator">
                         <th scope="row"></th>
                     </tr>
-                    <tr class="trcard">
-                        <th scope="row" class="text-center">
-                            {{ $meuble->modelType }}
-                        </th>
-                        <td class="text-center">{{ $meuble->name }}</td>
-                        <td class="text-center">{{ $meuble->vendor }}</td>
-                        <td class="text-center">{{ $meuble->stock }}</td>
-                        <td class="text-center">{{ $meuble->price }}</td>
-                        <td class="text-center">
-                            <h5>
-                                <a href="/meuble/{{ $meuble->modelType }}" class="badge badge-pill badge-info">Detail</a>
-                            </h5>
-                        </td>
+                    @if ($meuble->stock < 4)
+                        <tr class="trcard red-border">
+                        @else
+                        <tr class="trcard">
+                    @endif
+                    <th scope="row" class="text-center">
+                        {{ $meuble->modelType }}
+                    </th>
+                    <td class="text-center">{{ $meuble->name }}</td>
+                    <td class="text-center">{{ $meuble->vendor }}</td>
+                    <td class="text-center">{{ $meuble->stock }}</td>
+                    <td class="text-center">{{ $meuble->price }}</td>
+                    <td class="text-center">
+                        @if ($meuble->status == 1)
+                            still on sale
+                        @else
+                            not for sale anymore
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        <h5>
+                            <a href="/meuble/{{ $meuble->modelType }}" class="badge badge-pill badge-info">Detail</a>
+                        </h5>
+                    </td>
                     </tr>
-                @endforeach
-                @if (count($meubles) == 0)
-                    <tr class="trcard">
-                        <th class="text-center" colspan="5" scope="row">No meuble available yet</th>
-                    </tr>
-                    <tr class="separator">
-                        <th colspan="5" scope="row"></th>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
+                    @if ($meuble->stock < 4)
         </div>
+        @endif
+        @endforeach
+        @if (count($meubles) == 0)
+            <tr class="trcard">
+                <th class="text-center" colspan="5" scope="row">No meuble available yet</th>
+            </tr>
+            <tr class="separator">
+                <th colspan="5" scope="row"></th>
+            </tr>
+        @endif
+        </tbody>
+        </table>
+        <small class="text-muted mb-3"><sup>*</sup>Red border indicate the stock is running low</small>
+    </div>
     </div>
 @endsection

@@ -28,4 +28,11 @@ class InvoicePurchaseOrderDao extends Controller
             'date' => Carbon::now()->format("Y-m-d")
         ]);
     }
+
+    public function update($num)
+    {
+        InvoicePurchase::where('numPO', $num)->update([
+            'receivedStatus' => 1
+        ]);
+    }
 }

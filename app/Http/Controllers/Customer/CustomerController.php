@@ -71,6 +71,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
+        $customer = $this->customer_service->customer_by_id($id);
+        return view('customer_service.customer_data.customerDetail', compact('customer'));
     }
 
     public function search()
@@ -103,12 +105,6 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_member(Request $request, $id)
-    {
-        $this->customer_service->update_member($request, $id);
-        return redirect('/customer')->with(['success' => 'Customer ' . $request->name . ' Successfully Registered as a Member  !']);
-    }
-
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

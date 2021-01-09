@@ -25,6 +25,7 @@ class CreateMeublesTable extends Migration
             $table->integer('stock');
             $table->string('vendor', 255);
             $table->string('color', 25);
+            $table->tinyInteger('status');
         });
 
         Schema::table('meuble', function (Blueprint $table) {

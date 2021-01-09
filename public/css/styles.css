@@ -57,8 +57,8 @@ body {
 .updatePost {
     background-color: #9b51e0;
     color: white;
-    max-height: 75px;
-    margin-top: 120px;
+    /* max-height: 75px;
+    margin-top: 120px; */
 }
 
 .updatePost:hover {
@@ -129,13 +129,17 @@ body {
 .buttonPurple {
     background-color: #9b51e0;
     color: white;
-    max-height: 75px;
-    margin-top: 40px;
+    /* max-height: 75px;
+    margin-top: 40px; */
 }
 
 .defaultbtn {
     background-color: #9b51e0;
     color: white;
+}
+
+.red-border {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
 }
 
 /* Extra small devices (portrait phones, less than 576px) */

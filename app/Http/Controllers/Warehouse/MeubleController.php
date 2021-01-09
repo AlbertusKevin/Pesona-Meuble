@@ -22,35 +22,10 @@ class MeubleController extends Controller
         $this->vendor_service = new VendorService;
     }
 
-    public function home_customer()
-    {
-        $meubles = $this->meuble_service->index_meuble();
-        return view('home', compact('meubles'));
-    }
-
     public function home_admin()
     {
         $meubles = $this->meuble_service->index_meuble();
         return view('warehouse.meuble.meubleList', compact('meubles'));
-    }
-
-    public function detail_meuble($typeModel, Request $request)
-    {
-        $meuble = $this->meuble_service->show_meuble($typeModel);
-        $category = $this->meuble_service->show_category_description($meuble->category);
-        $employee = $this->employee_service->get_employee_by_id($request->session()->get('id_employee'));
-
-        if (isset($employee)) {
-            return view('warehouse.meuble.meubleDetailAdmin', [
-                'meuble' => $meuble,
-                'category' => $category
-            ]);
-        }
-
-        return view('warehouse.meuble.meubleDetail', [
-            'meuble' => $meuble,
-            'category' => $category
-        ]);
     }
 
     public function search_meuble()
@@ -76,7 +51,8 @@ class MeubleController extends Controller
      */
     public function index()
     {
-        //
+        $meubles = $this->meuble_service->index_meuble();
+        return view('home', compact('meubles'));
     }
 
     /**
@@ -113,7 +89,7 @@ class MeubleController extends Controller
         ]);
 
         $this->meuble_service->new_meuble($request);
-        return redirect()->back()->with('success_new_meuble', 'Meuble ' . $request->modelType . ': ' . $request->meubleName . ' created success!');
+        return redirect('/meuble')->with('success_new_meuble', 'Meuble ' . $request->modelType . ': ' . $request->meubleName . ' created success!');
     }
 
     /**
@@ -122,9 +98,23 @@ class MeubleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($typeModel, Request $request)
     {
-        //
+        $meuble = $this->meuble_service->show_meuble($typeModel);
+        $category = $this->meuble_service->show_category_description($meuble->category);
+        $employee = $this->employee_service->get_employee_by_id($request->session()->get('id_employee'));
+
+        if (isset($employee)) {
+            return view('warehouse.meuble.meubleDetailAdmin', [
+                'meuble' => $meuble,
+                'category' => $category
+            ]);
+        }
+
+        return view('warehouse.meuble.meubleDetail', [
+            'meuble' => $meuble,
+            'category' => $category
+        ]);
     }
 
     /**
@@ -138,7 +128,9 @@ class MeubleController extends Controller
         $vendors = $this->vendor_service->index();
         $categories = $this->meuble_service->index_category();
         $meuble = $this->meuble_service->show_meuble($model);
-        return view('warehouse.meuble.meubleUpdate', compact('vendors', 'categories', 'meuble'));
+        $category = $this->meuble_service->show_category_description($meuble->category);
+        $vendor = $this->vendor_service->vendor_by_code($meuble->vendor);
+        return view('warehouse.meuble.meubleUpdate', compact('vendors', 'categories', 'meuble', 'category', 'vendor'));
     }
 
     /**
@@ -148,9 +140,21 @@ class MeubleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $model)
     {
-        //
+        $request->validate([
+            'meubleName' => 'required',
+            'category' => 'required',
+            'size' => 'required',
+            'color' => 'required',
+            'description' => 'required',
+            'warranty' => 'required',
+            'price' => 'required',
+            'vendor' => 'required'
+        ]);
+
+        $this->meuble_service->update_meuble($request, $model);
+        return redirect()->back()->with('success_new_meuble', 'Meuble ' . $request->modelType . ': ' . $request->meubleName . ' updated success!');
     }
 
     public function add_stock(Request $request)
@@ -169,8 +173,15 @@ class MeubleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function soft_delete($model)
     {
-        //
+        $this->meuble_service->soft_delete($model, 0);
+        return redirect('/meuble')->with('success_soft_delete_meuble', 'Meuble ' . $model . ' not for sale anymore!');
+    }
+
+    public function sale_again($model)
+    {
+        $this->meuble_service->soft_delete($model, 1);
+        return redirect('/meuble')->with('sale_again_meuble', 'Meuble ' . $model . ' for sale again!');
     }
 }

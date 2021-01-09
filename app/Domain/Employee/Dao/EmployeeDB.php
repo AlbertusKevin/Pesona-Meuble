@@ -46,13 +46,22 @@ class EmployeeDB
 
     public function update_employee(Request $request, $id)
     {
-        Employee::where('id', $id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'role' => $request->role,
-        ]);
+        if ($id != 1) {
+            Employee::where('id', $id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'role' => $request->role,
+            ]);
+        } else {
+            Employee::where('id', $id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address
+            ]);
+        }
     }
     public function resign($id)
     {

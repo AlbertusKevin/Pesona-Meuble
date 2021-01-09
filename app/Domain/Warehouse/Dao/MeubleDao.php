@@ -50,7 +50,8 @@ class MeubleDao extends Controller
             'stock' => 0,
             'vendor' => $line["vendor"],
             'color' => $line["color"],
-            'image' => $img
+            'image' => $img,
+            'status' => 1
         ]);
     }
 
@@ -59,6 +60,30 @@ class MeubleDao extends Controller
         Meuble::where('modelType', $line["modelType"])
             ->update([
                 'stock' => $stock
+            ]);
+    }
+
+    public function soft_delete($model, $status)
+    {
+        Meuble::where('modelType', $model)
+            ->update([
+                'status' => $status
+            ]);
+    }
+
+    public function update_data($request, $model, $path)
+    {
+        Meuble::where('modelType', $model)
+            ->update([
+                'image' => $path,
+                'name' => $request->meubleName,
+                'description' => $request->description,
+                'category' => $request->category,
+                'warantyPeriodeMonth' => $request->warranty,
+                'size' => $request->size,
+                'vendor' => $request->vendor,
+                'color' => $request->color,
+                'price' => $request->price
             ]);
     }
 

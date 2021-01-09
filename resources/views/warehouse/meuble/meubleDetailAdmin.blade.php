@@ -10,7 +10,7 @@ Code's Author by Chris Christian, Mikhael Adriel, December 2020
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6 offset-md-1">
-                <img src="{{ asset('images/forestrine.svg') }}" class="d-block w-100 h-100" alt="...">
+                <img src="{{ asset($meuble->image) }}" class="d-block w-100 h-100" alt="...">
             </div>
             <div class="col-md-4">
                 <h1>{{ $meuble->name }}</h1>
@@ -42,17 +42,39 @@ Code's Author by Chris Christian, Mikhael Adriel, December 2020
                         <td>Color </td>
                         <td>: {{ $meuble->stock }}</td>
                     </tr>
+                    <tr>
+                        <td>Status </td>
+                        <td>:
+                            @if ($meuble->status == 1)
+                                still on sale
+                            @else
+                                not for sale anymore
+                            @endif
+                        </td>
+                    </tr>
                 </table>
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <form action="/meuble/{{ $meuble->modelType }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <a href="/meuble/update/{{ $meuble->modelType }}" class="btn btn-warning mr-2">Update</a>
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                @if ($meuble->status != 0)
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <form action="/meuble/{{ $meuble->modelType }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <a href="/meuble/update/{{ $meuble->modelType }}" class="btn btn-warning mr-2">Update</a>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @else
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <form action="/meuble/sale/{{ $meuble->modelType }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-primary">For Sale Again</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

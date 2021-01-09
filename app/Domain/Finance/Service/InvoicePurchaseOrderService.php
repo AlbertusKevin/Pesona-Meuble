@@ -34,4 +34,9 @@ class InvoicePurchaseOrderService extends Controller
     {
         $this->invoice->create($request);
     }
+
+    public function update($num)
+    {
+        $this->invoice->update($num);
+    }
 }

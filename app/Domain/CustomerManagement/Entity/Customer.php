@@ -19,8 +19,7 @@ class Customer extends Model
         'name',
         'email',
         'phone',
-        'address',
-        'member'
+        'address'
     ];
 
     public function salesorders()

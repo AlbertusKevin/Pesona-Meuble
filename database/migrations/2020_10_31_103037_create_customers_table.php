@@ -19,7 +19,6 @@ class CreateCustomersTable extends Migration
             $table->string('email', 255);
             $table->string('phone', 255);
             $table->string('address', 255);
-            $table->tinyInteger('member');
         });
     }
 

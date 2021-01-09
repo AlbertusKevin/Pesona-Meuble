@@ -48,7 +48,7 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:4',
+            'name' => 'required',
             'password' => 'required|min:6',
             'confirmPassword' => 'required|same:password',
             'role' => 'required',
@@ -111,8 +111,7 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:4',
-            'role' => 'required',
+            'name' => 'required',
             'email' => 'required',
             'phone' => 'required',
             'address' => 'required',
