@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Warehouse;
 
+use App\Domain\Finance\Service\InvoiceSalesOrderService;
+use App\Domain\Sales\Service\SalesOrderService;
 use App\Domain\Warehouse\Service\DeliveryService;
 use App\Http\Controllers\Controller;
 
@@ -10,10 +12,12 @@ use Illuminate\Http\Request;
 class DeliveryController extends Controller
 {
     private $delivery_service;
+    private $invoice_so_service;
 
     public function __construct()
     {
         $this->delivery_service = new DeliveryService;
+        $this->invoice_so_service = new InvoiceSalesOrderService;
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +27,7 @@ class DeliveryController extends Controller
     public function index()
     {
         $deliveries = $this->delivery_service->index();
-        return view('sales.shipment.shipmentlist', compact('deliveries'));
+        return view('warehouse.shipment.shipmentlist', compact('deliveries'));
     }
 
     /**
@@ -33,7 +37,7 @@ class DeliveryController extends Controller
      */
     public function create($num)
     {
-        return view('sales.shipment.createShipment', compact('num'));
+        return view('warehouse.shipment.createShipment', compact('num'));
     }
 
     /**
@@ -45,9 +49,7 @@ class DeliveryController extends Controller
     public function store($num, Request $request)
     {
         $request->validate([
-            'numSO' => 'required',
             'shippingPoint' => 'required',
-            'status' => 'required',
             'shipDate' => 'required',
             'deliveredDate' => 'required',
             'notes' => 'required'
@@ -66,7 +68,7 @@ class DeliveryController extends Controller
     public function show($num)
     {
         $delivery = $this->delivery_service->show($num);
-        return view('sales.shipment.shipmentDetail', compact('delivery'));
+        return view('warehouse.shipment.shipmentDetail', compact('delivery'));
     }
 
     /**
@@ -87,9 +89,16 @@ class DeliveryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($num)
     {
-        //
+        $this->delivery_service->change($num);
+        return redirect('/delivery')->with('success', 'Shipment Number ' . $num . ' Processed');
+    }
+
+    public function update_complete_status($numSO)
+    {
+        $this->invoice_so_service->update_complete_status($numSO);
+        return redirect("/salesorder/invoice")->with("success", 'Invoice Sales Order ' . $numSO . ' is Complete!');
     }
 
     /**

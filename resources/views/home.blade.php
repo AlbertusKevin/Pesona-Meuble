@@ -78,8 +78,8 @@
                             <div class="card" style="width: 18rem;">
                                 <img class="card-img-top" src="{{ asset($meuble->image) }}" alt="Card image cap">
                                 <div class="card-body">
-                                    <h4 class="font-weight-bold">{{ $meuble->modelType }}</h4>
-                                    <p class="card-text text-muted">Stylish cafe chair</p>
+                                    <h4 class="font-weight-bold">{{ $meuble->name }}</h4>
+                                    <p class="card-text text-muted">Available: {{ $meuble->stock }}</p>
                                     <h5 class="font-weight-bold">{{ $meuble->price }}</h5>
                                     <a style="color:#9B51E0;text-decoration:none"
                                         href="/meuble/{{ $meuble->modelType }}">Detail</a>

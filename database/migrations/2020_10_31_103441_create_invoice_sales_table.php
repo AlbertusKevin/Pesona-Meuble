@@ -17,6 +17,8 @@ class CreateInvoiceSalesTable extends Migration
             $table->string('numSO', 20);
             $table->bigInteger('responsibleEmployee')->unsigned();
             $table->date('date');
+            $table->tinyInteger('isSent');
+            $table->tinyInteger('isComplete');
         });
 
         Schema::table('invoice_sales', function (Blueprint $table) {

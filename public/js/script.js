@@ -787,16 +787,17 @@ $("#proceed").on("click", function () {
 
     //? Can be better with DRY
     if (result == "salesorder") {
+        const freightIn = parseInt($("#freightIn").val());
         $.ajax({
             url: "/salesorder/invoice",
             method: "post",
             data: {
                 numSO: $("#numSO").val(),
                 id,
+                freightIn,
                 _token: $("#ajaxInput").children()[0].getAttribute("value"),
             },
             success: () => {
-                const freightIn = parseInt($("#freightIn").val());
                 if (freightIn != 0) {
                     if (
                         confirm(

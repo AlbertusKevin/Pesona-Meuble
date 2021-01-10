@@ -71,10 +71,17 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                         </div>
                     </li>
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown-customer" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Customer</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-customer">
+                            <a class="dropdown-item" href="/customer">Customer Data</a>
+                            <a class="dropdown-item" href="/warranty">Warranty</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">More</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownId">
-                            <a class="dropdown-item" href="/customer">Customer Management</a>
                             <a class="dropdown-item" href="/vendor">Vendor Management</a>
                             <a class="dropdown-item" href="/employee">Employee Management</a>
                         </div>

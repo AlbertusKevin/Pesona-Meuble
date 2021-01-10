@@ -59,7 +59,6 @@ class SalesOrderDao
 
     public function update_header($header)
     {
-
         SalesOrder::where('numSO', $header['numSO'])->update([
             'totalItem' => (int)$header["totalItem"],
             'totalPrice' => (int)$header["totalPrice"],

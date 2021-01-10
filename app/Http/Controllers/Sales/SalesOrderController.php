@@ -32,7 +32,7 @@ class SalesOrderController extends Controller
     public function index()
     {
         $salesorders = $this->salesorder_service->index();
-        return view('sales.sales_order.listSalesOrder', [
+        return view('sales.listSalesOrder', [
             'salesorders' => $salesorders,
         ]);
     }
@@ -40,7 +40,7 @@ class SalesOrderController extends Controller
     public function index_history()
     {
         $salesorders = $this->salesorder_service->index_history();
-        return view('sales.sales_order.historySalesOrder', [
+        return view('sales.historySalesOrder', [
             'salesorders' => $salesorders,
         ]);
     }
@@ -58,7 +58,7 @@ class SalesOrderController extends Controller
         // $discPayment = $this->discounts->forPayment();
         $numSO = $this->salesorder_service->get_last_numSO();
 
-        return view('sales.sales_order.createSalesOrder', [
+        return view('sales.createSalesOrder', [
             'meubles' => $meubles,
             'employee' => $employee,
             // 'discMeuble' => $discMeuble,
@@ -94,7 +94,7 @@ class SalesOrderController extends Controller
         // $discounts = $this->discounts->showAllDiscount();
         $salesorderlines = $this->salesorder_line_service->show_line($numSO);
 
-        return view('sales.sales_order.updateSalesOrderView', [
+        return view('sales.updateSalesOrderView', [
             'salesorder' => $salesorder,
             'salesorderlines' => $salesorderlines
             // 'discounts' => $discounts

@@ -3,45 +3,31 @@
 /* Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
- * Code's Author by Albertus Kevin, Chris Christian, December 2020
+ * Code's Author by Albertus Kevin January 2021
  */
 
-namespace App\Domain\Warehouse\Service;
+namespace App\Domain\CustomerManagement\Service;
 
 use App\Http\Controllers\Controller;
-use App\Domain\Warehouse\Dao\DeliveryDao;
 use Illuminate\Http\Request;
+use App\Domain\CustomerManagement\Dao\WarrantyDB;
+use Illuminate\Support\Facades\Validator;
 
-class DeliveryService extends Controller
+class WarrantyService extends Controller
 {
     // Deklarasi variable global, untuk pemanggilan model ORM dan class agar bisa digunakan semua function di dalam class ini
-    private $delivery;
+    private $warranty;
 
     //==================================================================================================================================================
     // Inisialisasi secara otomatis model dan class yang akan digunakan untuk berinteraksi dengan database ketika class service ini di panggil
     //==================================================================================================================================================
     public function __construct()
     {
-        $this->delivery = new DeliveryDao();
+        $this->warranty = new WarrantyDB();
     }
 
     public function index()
     {
-        return $this->delivery->index();
-    }
-
-    public function show($num)
-    {
-        return $this->delivery->show($num);
-    }
-
-    public function store($num, $request)
-    {
-        $this->delivery->store($num, $request);
-    }
-
-    public function change($num)
-    {
-        $this->delivery->update_status($num);
+        return $this->warranty->index();
     }
 }
