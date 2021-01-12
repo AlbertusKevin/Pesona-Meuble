@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+        @include('message')
         <div class="row justify-content-center">
             <h1 class="text-center mt-5 mb-5 font-weight-bold">Warranty List</h1>
         </div>
@@ -80,25 +81,27 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Warranty</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
+                <form action="/warranty/create" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Warranty</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Invoice Number: </label>
+                            <label for="number" class="col-sm-4 col-form-label">Invoice Number: </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="number" value="2000000x">
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
