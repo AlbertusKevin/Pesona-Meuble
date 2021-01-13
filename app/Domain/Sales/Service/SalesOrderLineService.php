@@ -35,4 +35,15 @@ class SalesOrderLineService extends Controller
     {
         return $this->salesorderlines->show_line($numSO);
     }
+
+    public function show_item($request)
+    {
+        $item = $this->salesorderlines->show_item($request);
+
+        if ($request->quantity > $item->quantity) {
+            return false;
+        }
+
+        return true;
+    }
 }

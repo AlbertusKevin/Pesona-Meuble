@@ -41,6 +41,11 @@ class SalesOrderLineDB extends Controller
             ->join('meuble', 'sales_order_line.modelType', '=', 'meuble.modelType')->get();
     }
 
+    public function show_item($request)
+    {
+        return SalesOrderLine::where('numSO', $request->numSO)->where('modelType', $request->modelType)->first();
+    }
+
     public function addNewLineItem($num, $line)
     {
         SalesOrderLine::create([

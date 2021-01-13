@@ -18,4 +18,41 @@ class WarrantyDB
     {
         return Waranty::all();
     }
+
+    public function store($data, $numSO)
+    {
+        Waranty::create([
+            'numSO' => $numSO,
+            'modelType' => $data['item'],
+            'responsibleEmployee' => $data['employee'],
+            'quantity' => $data['quantity'],
+            'description' => $data['info'],
+            'status' => 0
+        ]);
+    }
+
+    public function show($numSO, $modelType)
+    {
+        return Waranty::where('numSO', $numSO)->where('modelType', $modelType)->first();
+    }
+
+    public function get_by_numSO($numSO)
+    {
+        return Waranty::where('numSO', $numSO)->get();
+    }
+
+    public function update($request, $numSO, $modelType)
+    {
+        Waranty::where('numSO', $numSO)->where('modelType', $modelType)->update([
+            'quantity' => $request->quantity,
+            'description' => $request->information
+        ]);
+    }
+
+    public function update_status($numSO, $modelType)
+    {
+        Waranty::where('numSO', $numSO)->where('modelType', $modelType)->update([
+            'status' => 1
+        ]);
+    }
 }

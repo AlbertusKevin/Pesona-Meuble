@@ -872,16 +872,27 @@ $(".warranty").on("click", function () {
 
 //mengecek apakah quantity yang di klaim melebih jumlah dari yang dipesan
 $(".info-item").on("change", ".quantity-warranty", function () {
-    const numSO = "2001";
+    const modelType = $(this)
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .attr("id");
     const quantity = $(this).val();
-    console.log(quantity);
-    console.log("oke");
+    const numSO = $(".heading").attr("id");
 
-    // $.ajax({
-    //     url: "/warranty/quantity",
-    //     dataType: "json",
-    //     data: { numSO, quantity },
-    // });
+    $.ajax({
+        url: "/warranty/quantity",
+        dataType: "json",
+        data: { numSO, quantity, modelType },
+        success: (data) => {
+            if (!data) {
+                alert("The amount claimed exceeds the amount on the invoice");
+                $(this).val(null);
+            }
+        },
+    });
 });
 //Diskon
 // if(url == 'salesorder'){

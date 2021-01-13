@@ -30,4 +30,40 @@ class WarrantyService extends Controller
     {
         return $this->warranty->index();
     }
+
+    public function store($request, $numSO, $id_employee)
+    {
+        $quantity = $request->quantity;
+        $item = $request->item;
+        $info = $request->information;
+
+        for ($i = 0; $i < count($quantity); $i++) {
+            $data["quantity"] = $quantity[$i];
+            $data["item"] = $item[$i];
+            $data["info"] = $info[$i];
+            $data["employee"] = $id_employee;
+
+            $this->warranty->store($data, $numSO);
+        }
+    }
+
+    public function show($numSO, $modelType)
+    {
+        return $this->warranty->show($numSO, $modelType);
+    }
+
+    public function get_by_numSO($numSO)
+    {
+        return $this->warranty->get_by_numSO($numSO);
+    }
+
+    public function update_status($numSO, $modelType)
+    {
+        $this->warranty->update_status($numSO, $modelType);
+    }
+
+    public function update($request, $numSO, $modelType)
+    {
+        $this->warranty->update($request, $numSO, $modelType);
+    }
 }

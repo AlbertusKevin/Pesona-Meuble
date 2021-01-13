@@ -45,10 +45,11 @@
                         <th scope="col" class="text-center">Furniture Name</th>
                         <th scope="col" class="text-center">Qty</th>
                         <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center">action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($warranties != null)
+                    @if ($warranties == null)
                         <tr class="trcard">
                             <th colspan="4" scope="row" class="text-center">
                                 There is no warranty that must be processed
@@ -67,6 +68,10 @@
                                     Reedemed
                                 @endif
                             </td>
+                            <td class="text-center">
+                                <h5><a href="/warranty/{{ $warranty->numSO }}/{{ $warranty->modelType }}"
+                                        class="badge badge-info">detail</a></h5>
+                            </td>
                         </tr>
                         <tr class="separator">
                             <th scope="row"></th>
@@ -81,8 +86,7 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/warranty/create" method="POST">
-                    @csrf
+                <form action="/warranty/create">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">New Warranty</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

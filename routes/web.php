@@ -80,11 +80,17 @@ Route::group(['middleware' => 'login_check'], function () {
 
     Route::get('/customer/update/{id}', [CustomerController::class, 'edit']);
     Route::patch('/customer/update/{id}', [CustomerController::class, 'update']);
+
     // !=================================== Domain Customer: Warranty ===================================
     Route::get('/warranty', [WarrantyController::class, 'index']);
-    Route::post('/warranty/create', [WarrantyController::class, 'create']);
+    Route::get('/warranty/create', [WarrantyController::class, 'create']);
     Route::get('/warranty/quantity', [WarrantyController::class, 'check_quantity']);
-    Route::post('/warranty', [WarrantyController::class, 'store']);
+    Route::post('/warranty/{numSO}', [WarrantyController::class, 'store']);
+    Route::get('/warranty/{num}/{model}', [WarrantyController::class, 'show']);
+    Route::get('/warranty/update/{num}/{model}', [WarrantyController::class, 'edit']);
+
+    Route::patch('/warranty/{num}/{model}', [WarrantyController::class, 'update']);
+    Route::patch('/warranty/status/{num}/{model}', [WarrantyController::class, 'update_status']);
 
 
     //? ==============================================================================================

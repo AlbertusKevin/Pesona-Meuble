@@ -25,6 +25,11 @@ class InvoiceSalesOrderDao extends Controller
         return InvoiceSales::all();
     }
 
+    public function show_line($numSO)
+    {
+        return InvoiceSales::where('numSO', $numSO)->get();
+    }
+
     public function create($request, $isComplete, $isSent)
     {
         InvoiceSales::create([
