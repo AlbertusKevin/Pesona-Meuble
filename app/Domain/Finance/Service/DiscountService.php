@@ -47,6 +47,11 @@ class DiscountService extends Controller
         $this->discounts->update_status($code);
     }
 
+    public function update_data($request, $code)
+    {
+        $this->discounts->update_data($request, $code);
+    }
+
     public function delete_discount($code)
     {
         $this->discounts->delete_discount($code);

@@ -47,6 +47,15 @@ class DiscountDB
         ]);
     }
 
+    public function update_data($request, $code)
+    {
+        return Discount::where('code', $code)->update([
+            'description' => $request->description,
+            'percentDisc' => (float)$request->percentDisc / 100,
+            'discountFor' => $request->discFor
+        ]);
+    }
+
     public function delete_discount($code)
     {
         return Discount::where('code', $code)->delete();

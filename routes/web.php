@@ -101,9 +101,11 @@ Route::group(['middleware' => 'login_check'], function () {
     Route::post('/discount', [DiscountController::class, 'store']);
 
     Route::get('/discount', [DiscountController::class, 'index']);
+    Route::get('/discount/update/{code}', [DiscountController::class, 'edit']);
     Route::get('/discount/{code}', [DiscountController::class, 'show']);
 
-    Route::patch('/discount/{code}', [DiscountController::class, 'update']);
+    Route::patch('/discount/status/{code}', [DiscountController::class, 'update']);
+    Route::patch('/discount/{code}', [DiscountController::class, 'update_data']);
     Route::delete('/discount/{code}', [DiscountController::class, 'destroy']);
 
     // !=============================== Domain Finance: Invoice Sales Order ===============================

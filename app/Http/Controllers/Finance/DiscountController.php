@@ -81,6 +81,19 @@ class DiscountController extends Controller
         ]);
     }
 
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($code)
+    {
+        $discount = $this->discount_service->discount_by_code($code);
+        return view('finance.discount.updateDiscount', compact('discount'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -91,7 +104,25 @@ class DiscountController extends Controller
     public function update($code)
     {
         $this->discount_service->update_status($code);
-        return redirect('/discount')->with(['success' => 'Discount ' . $code . ' Updated Expired Successfully !']);
+        return redirect('/discount')->with(['success' => 'Discount ' . $code . ' Update Expired Successfully !']);
+    }
+
+    public function update_data(Request $request, $code)
+    {
+        $validator = Validator::make($request->all(), [
+            'description' => 'required',
+            'percentDisc' => 'required|numeric|max:2',
+            'discFor' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/discount/update/' . $code)
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        $this->discount_service->update_data($request, $code);
+        return redirect('/discount')->with(['success' => 'Discount ' . $code . ' Update data Successfully !']);
     }
 
     /**

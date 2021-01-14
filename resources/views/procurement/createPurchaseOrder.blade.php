@@ -102,21 +102,20 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                             <div class="form-group row">
                                 <label for="modelType" class="col-sm-4 col-form-label">Model Type:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control header-line-field-form" name="modelType"
-                                        id="modelType" placeholder="Generate Data If Exist">
+                                    <input type="text" class="form-control line-field-form" name="modelType" id="modelType"
+                                        placeholder="Generate Data If Exist">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="quantity" class="col-sm-4 col-form-label">Quantity:</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control header-line-field-form" id="quantity"
-                                        name="quantity">
+                                    <input type="number" class="form-control line-field-form" id="quantity" name="quantity">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="modelType" class="col-sm-4 col-form-label">Price:</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control header-line-field-form" name="price" id="price"
+                                    <input type="number" class="form-control line-field-form" name="price" id="price"
                                         disabled value="0" ;>
                                 </div>
                             </div>

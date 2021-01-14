@@ -3,32 +3,27 @@
  * Proprietary and confidential
  * Code's Author by Albertus Kevin, Chris Christian, December 2020
  */
+
 const baseURL = "http://localhost:8000/";
 
-const getURL = () => {
-    //ambil asal url terlebih dahulu
-    let url = window.location.href;
-    url = url.split("/");
-    url = url[3];
+//ambil asal url terlebih dahulu
+const getURL = () => window.location.href.split("/")[3];
 
-    return url;
-};
-
-function validateForm(type) {
+const validateForm = (type) => {
     if (type == "header") {
         let isValidHeader = true;
-        $(".header-field-form").each(function () {
+        $(`.${type}-field-form`).each(function () {
             if ($(this).val() === "") isValidHeader = false;
         });
         return isValidHeader;
     }
 
     let isValidLine = true;
-    $(".header-line-field-form").each(function () {
+    $(`.${type}-field-form`).each(function () {
         if ($(this).val() === "") isValidLine = false;
     });
     return isValidLine;
-}
+};
 
 const update = function () {
     //ambil asal url terlebih dahulu
@@ -852,7 +847,7 @@ $(".warranty").on("click", function () {
             class="col-md-3 col-form-label font-weight-bold m-1">Quantity :</label>
         <div class="col-md-4">
             <input type="number"
-                class="form-control header-line-field-form quantity-warranty"
+                class="form-control line-field-form quantity-warranty"
                 name="quantity[]" placeholder="Quantity">
         </div>
     </div>
