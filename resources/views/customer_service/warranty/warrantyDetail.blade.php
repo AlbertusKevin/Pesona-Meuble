@@ -2,61 +2,68 @@
 
 @section('content')
 
-<div class="container">
-    <h1 class="text-center pt-5 pb-5">Employee Detail</h1>
-    <div class="row justify-content-center">
-        <div class="col-6 pb-5">
-            <div class="card" style="width: 100%;">
-                <div class="card-body pt-4">
-                    <form>
+    <div class="container">
+        @include('message')
+        <h1 class="text-center pt-5 pb-5">Warranty Detail</h1>
+        <div class="row justify-content-center">
+            <div class="col-6 pb-5">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body pt-4">
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Employee ID: </label>
+                            <label class="col-sm-4 col-form-label">Invoice Number:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">EM-001</label>
+                                <label class="col-form-label font-weight-bold">{{ $warranty->numSO }}</label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Employee Name:</label>
+                            <label class="col-sm-4 col-form-label">Employee in Contact:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">Joko Nugraha</label>
+                                <label class="col-form-label font-weight-bold">{{ $employee->name }}</label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Roles:</label>
+                            <label class="col-sm-4 col-form-label">Model Type:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">Sales</label>
+                                <label class="col-form-label font-weight-bold">{{ $warranty->modelType }}</label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">E-mail:</label>
+                            <label class="col-sm-4 col-form-label">Quantity:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">Joko24@gmail.com</label>
+                                <label class="col-form-label font-weight-bold">{{ $warranty->quantity }}</label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Telephone Number: </label>
+                            <label class="col-sm-4 col-form-label">Description:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">Jalan Padarisih 19, Cibinong Jakarta Utara</label>
+                                <label class="col-form-label font-weight-bold">{{ $warranty->description }}</label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Gaji Awal: </label>
+                            <label class="col-sm-4 col-form-label">Status:</label>
                             <div class="col-sm-8">
-                                <label class="col-form-label font-weight-bold">Rp 500.000,00</label>
+                                @if ($warranty->status == 0)
+                                    <label class="col-form-label font-weight-bold">Not Yet Reedemed</label>
+                                @else
+                                    <label class="col-form-label font-weight-bold">Reedemed</label>
+                                @endif
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    @if ($warranty->status == 0)
+                        <div class="modal-footer">
+                            <form action="/warranty/status/{{ $warranty->numSO }}/{{ $warranty->modelType }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <a href="/warranty/update/{{ $warranty->numSO }}/{{ $warranty->modelType }}"
+                                    class="btn btn-primary">Update Data</a>
+                                <button type="submit" class="btn btn-success">Close the Case</button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-    <div class="row justify-content-center">
-        <button type="button" class="btn btn-secondary updatePost">Add</button>
-    </div>
-    <div class="row justify-content-center pt-3">
-        <a href="#" class="more">Back   </a>
-    </div>
-</div>
-</div>
 
 @endsection

@@ -10,6 +10,7 @@ use PharIo\Manifest\Email;
 
 // Namespace controller yang akan digunakan
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Customer\WarrantyController;
 use App\Http\Controllers\Finance\DiscountController;
 use App\Http\Controllers\Employee\AuthController;
 use App\Http\Controllers\Employee\EmployeeController;
@@ -66,7 +67,10 @@ Route::group(['middleware' => 'login_check'], function () {
     Route::get('/vendor/update/{companyCode}', [VendorController::class, 'edit']);
     Route::patch('/vendor/{companyCode}', [VendorController::class, 'update']);
 
-    // !=================================== Domain Customer ===================================
+    //? ==============================================================================================
+    //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CUSTOMER DOMAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //? ==============================================================================================
+    // !=================================== Domain Customer: Customer Data ===================================
     Route::get('/customer', [CustomerController::class, 'index']);
     Route::get('/customer/search', [CustomerController::class, 'search']);
     Route::get('/customer/{id}', [CustomerController::class, 'show']);
@@ -76,6 +80,18 @@ Route::group(['middleware' => 'login_check'], function () {
 
     Route::get('/customer/update/{id}', [CustomerController::class, 'edit']);
     Route::patch('/customer/update/{id}', [CustomerController::class, 'update']);
+
+    // !=================================== Domain Customer: Warranty ===================================
+    Route::get('/warranty', [WarrantyController::class, 'index']);
+    Route::get('/warranty/create', [WarrantyController::class, 'create']);
+    Route::get('/warranty/quantity', [WarrantyController::class, 'check_quantity']);
+    Route::post('/warranty/{numSO}', [WarrantyController::class, 'store']);
+    Route::get('/warranty/{num}/{model}', [WarrantyController::class, 'show']);
+    Route::get('/warranty/update/{num}/{model}', [WarrantyController::class, 'edit']);
+
+    Route::patch('/warranty/{num}/{model}', [WarrantyController::class, 'update']);
+    Route::patch('/warranty/status/{num}/{model}', [WarrantyController::class, 'update_status']);
+
 
     //? ==============================================================================================
     //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FINANCE DOMAIN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -149,10 +165,14 @@ Route::group(['middleware' => 'login_check'], function () {
 
 
     //! =====================================Domain Warehouse: Delivery =============================================
-    Route::get('/delivery/create/{num}', [DeliveryController::class, 'create'])->middleware('login_check');
-    Route::get('/delivery', [DeliveryController::class, 'index'])->middleware('login_check');
-    Route::get('/delivery/{num}', [DeliveryController::class, 'show'])->middleware('login_check');
-    Route::post('/delivery/{num}', [DeliveryController::class, 'store'])->middleware('login_check');
+    Route::get('/delivery/create/{num}', [DeliveryController::class, 'create']);
+    Route::get('/delivery', [DeliveryController::class, 'index']);
+    Route::get('/delivery/{num}', [DeliveryController::class, 'show']);
+
+    Route::post('/delivery/{num}', [DeliveryController::class, 'store']);
+
+    Route::patch('/delivery/sent/{num}', [DeliveryController::class, 'update']);
+    Route::patch('/delivery/complete/{numSO}', [DeliveryController::class, 'update_complete_status']);
 });
 
 // !=================================== Domain Authentication and Login Employee ===================================

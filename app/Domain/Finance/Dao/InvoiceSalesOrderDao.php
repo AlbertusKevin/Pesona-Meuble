@@ -25,12 +25,32 @@ class InvoiceSalesOrderDao extends Controller
         return InvoiceSales::all();
     }
 
-    public function create($request)
+    public function show_line($numSO)
+    {
+        return InvoiceSales::where('numSO', $numSO)->get();
+    }
+
+    public function create($request, $isComplete, $isSent)
     {
         InvoiceSales::create([
             'numSO' => $request->numSO,
             'responsibleEmployee' => $request->id,
-            'date' => Carbon::now()->format("Y-m-d")
+            'date' => Carbon::now()->format("Y-m-d"),
+            'isSent' => $isSent,
+            'isComplete' => $isComplete
+        ]);
+    }
+
+    public function update_complete_status($numSO)
+    {
+        InvoiceSales::where('numSO', $numSO)->update([
+            'isComplete' => 1
+        ]);
+    }
+    public function update_sent_status($numSO)
+    {
+        InvoiceSales::where('numSO', $numSO)->update([
+            'isComplete' => 1
         ]);
     }
 }

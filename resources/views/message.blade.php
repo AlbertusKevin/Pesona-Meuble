@@ -46,6 +46,14 @@ Code's Author by Albertus Kevin, Chris Christian, December 2020
 </div>
 
 <div class="row justify-content-center">
+    @if (session('complete_delivery_so'))
+        <div class="alert alert-success">
+            {{ session('complete_delivery_so') }}
+        </div>
+    @endif
+</div>
+
+<div class="row justify-content-center">
     @if (session('cancel_po'))
         <div class="alert alert-warning">
             {{ session('cancel_po') }}

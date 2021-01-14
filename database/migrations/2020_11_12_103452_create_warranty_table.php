@@ -17,8 +17,6 @@ class CreateWarrantyTable extends Migration
             $table->string('numSO', 20);
             $table->string('modelType', 255);
             $table->bigInteger('responsibleEmployee')->unsigned();
-            $table->date('fromDate');
-            $table->date('toDate');
             $table->integer('quantity');
             $table->string('description', 255);
             $table->tinyInteger('status');

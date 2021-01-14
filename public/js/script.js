@@ -760,7 +760,9 @@ $("#proceed").on("click", function () {
     $.ajax({
         url: ajaxProceed,
         method: "patch",
-        data: { _token: $("#ajaxInput").children()[0].getAttribute("value") },
+        data: {
+            _token: $("#ajaxInput").children()[0].getAttribute("value"),
+        },
         success: () => {
             // ambil data per list barang, lalu lakukan query insert ke database purchase_order_line
             const item = $("#lineItem").children();
@@ -787,16 +789,17 @@ $("#proceed").on("click", function () {
 
     //? Can be better with DRY
     if (result == "salesorder") {
+        const freightIn = parseInt($("#freightIn").val());
         $.ajax({
             url: "/salesorder/invoice",
             method: "post",
             data: {
                 numSO: $("#numSO").val(),
                 id,
+                freightIn,
                 _token: $("#ajaxInput").children()[0].getAttribute("value"),
             },
             success: () => {
-                const freightIn = parseInt($("#freightIn").val());
                 if (freightIn != 0) {
                     if (
                         confirm(
@@ -841,6 +844,56 @@ $(".quantity-SO").on("change", function () {
     quantity();
 });
 
+//menampilkan field yang harus diisi ketika claim warranty
+$(".warranty").on("click", function () {
+    const html = /*html*/ `
+    <div class="form-group row">
+        <label for="quantity"
+            class="col-md-3 col-form-label font-weight-bold m-1">Quantity :</label>
+        <div class="col-md-4">
+            <input type="number"
+                class="form-control header-line-field-form quantity-warranty"
+                name="quantity[]" placeholder="Quantity">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="information" class="font-weight-bold m-1">Information:</label>
+        <textarea class="form-control" id="information" name="information[]"
+            rows="3"></textarea>
+    </div>`;
+
+    if (this.checked == true) {
+        $(this).parent().parent().append(html);
+    } else {
+        $(this).parent().next().next().remove();
+        $(this).parent().next().remove();
+    }
+});
+
+//mengecek apakah quantity yang di klaim melebih jumlah dari yang dipesan
+$(".info-item").on("change", ".quantity-warranty", function () {
+    const modelType = $(this)
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .parent()
+        .attr("id");
+    const quantity = $(this).val();
+    const numSO = $(".heading").attr("id");
+
+    $.ajax({
+        url: "/warranty/quantity",
+        dataType: "json",
+        data: { numSO, quantity, modelType },
+        success: (data) => {
+            if (!data) {
+                alert("The amount claimed exceeds the amount on the invoice");
+                $(this).val(null);
+            }
+        },
+    });
+});
 //Diskon
 // if(url == 'salesorder'){
 //     // console.log("--Debug--"); //////////////////////////////////////////////////////////

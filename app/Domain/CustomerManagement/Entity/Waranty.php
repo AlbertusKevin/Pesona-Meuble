@@ -17,4 +17,12 @@ class Waranty extends Model
     protected $table = 'warranty';
     public $timestamps = false;
     protected $keyType = 'string';
+    protected $fillable = [
+        'numSO',
+        'modelType',
+        'responsibleEmployee',
+        'quantity',
+        'description',
+        'status'
+    ];
 }

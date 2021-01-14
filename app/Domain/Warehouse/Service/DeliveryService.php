@@ -42,7 +42,6 @@ class DeliveryService extends Controller
 
     public function change($num)
     {
-        $this->delivery->updateStatus($num);
-        return redirect('/delivery')->with('delivery', 'Shipment Number ' . $num . ' Processed');
+        $this->delivery->update_status($num);
     }
 }

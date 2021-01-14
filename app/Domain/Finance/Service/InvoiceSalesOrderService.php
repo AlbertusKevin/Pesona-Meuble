@@ -30,8 +30,30 @@ class InvoiceSalesOrderService extends Controller
         return $this->invoice->index_so_invoice();
     }
 
+    public function show_line($numSO)
+    {
+        return $this->invoice->show_line($numSO);
+    }
+
     public function create_so_invoice(Request $request)
     {
-        $this->invoice->create($request);
+        if ($request->freightIn == 0) {
+            $isComplete = 1;
+            $isSent = 0;
+        } else {
+            $isComplete = 0;
+            $isSent = 1;
+        }
+        $this->invoice->create($request, $isComplete, $isSent);
+    }
+
+    public function update_complete_status($numSO)
+    {
+        $this->invoice->update_complete_status($numSO);
+    }
+
+    public function update_sent_status($numSO)
+    {
+        $this->invoice->update_complete_status($numSO);
     }
 }
