@@ -37,19 +37,19 @@ class MeubleDao extends Controller
         return Meuble::where('modelType', $data["model"])->where('vendor', $data["vendor"])->first();
     }
 
-    public function insert($line, $img)
+    public function insert($request, $img, $price)
     {
         Meuble::create([
-            'modelType' => $line["modelType"],
-            'name' => $line["meubleName"],
-            'description' => $line["description"],
-            'price' => (int)$line["price"],
-            'category' => (int)$line["category"],
-            'warantyPeriodeMonth' => (int)$line["warranty"],
-            'size' => $line["size"],
+            'modelType' => $request->modelType,
+            'name' => $request->meubleName,
+            'description' => $request->description,
+            'price' => $price,
+            'category' => (int)$request->category,
+            'warantyPeriodeMonth' => (int)$request->warranty,
+            'size' => $request->size,
             'stock' => 0,
-            'vendor' => $line["vendor"],
-            'color' => $line["color"],
+            'vendor' => $request->vendor,
+            'color' => $request->color,
             'image' => $img,
             'status' => 1
         ]);

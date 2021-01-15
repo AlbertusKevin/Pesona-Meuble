@@ -16,7 +16,7 @@ class CreatePurchaseOrderLineTable extends Migration
         Schema::create('purchase_order_line', function (Blueprint $table) {
             $table->string('numPO', 20);
             $table->string('modelType', 255);
-            $table->integer('price');
+            $table->integer('buying_price');
             $table->integer('quantity');
         });
 

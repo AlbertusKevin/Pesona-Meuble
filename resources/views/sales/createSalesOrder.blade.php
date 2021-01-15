@@ -73,6 +73,7 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                                 <div class="col-sm-8">
                                     <input type="number" class="form-control header-field-form" value="0" id="freightIn"
                                         name="freightIn">
+                                    <input type="hidden" class="form-control" value="0" id="oldfreightIn">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -167,10 +168,6 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                         </div>
                     </div>
                 </form>
-                <div class=" row w-100 mh-100 justify-content-start pl-3">
-                    <button type="button" class="btn btn-secondary updatePost btn-lg" id="newItem" data-toggle="modal"
-                        data-target="#formModal">New Customer</button>
-                </div>
             </div>
             <div class="col-12 pt-4">
                 <h1 class="text-center">Product Lists</h1>
@@ -186,62 +183,4 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
             </form>
         </div>
     </div>
-
-    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="judulModal">Add New Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/customer/create" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card" style="width: 100%;">
-                            <div class="card-body pt-4">
-                                <h4>Customer' s Data</h4>
-                                <div class="form-group row">
-                                    <label for="name" class="col-sm-4 col-form-label">Name</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="name" id="name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="email" class="col-sm-4 col-form-label">Email</label>
-                                    <div class="col-sm-8">
-                                        <input type="email" class="form-control" id="email" name="email">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="phone" class="col-sm-4 col-form-label">Phone</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" id="phone" name="phone">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="address" class="col-sm-4 col-form-label">Address</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="address" id="address">
-                                    </div>
-                                </div>
-                                {{-- <div class="form-group row">
-                                    <label for="memberId" class="col-sm-4 col-form-label">Member ID</label>
-                                    <div class="col-sm-8">
-                                        <input type="number" class="form-control" id="memberId" name="memberId">
-                                    </div>
-                                </div> --}}
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="createCustomer">Create New Customer</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection

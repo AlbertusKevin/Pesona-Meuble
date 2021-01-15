@@ -94,11 +94,13 @@ class ProcurementController extends Controller
         $detailProcurement = $this->procurement_service->show_header($numPO);
         $detailProcurementLine = $this->procurement_line_service->show_line($numPO);
         $employee = $this->employee_service->get_employee_by_id($request->session()->get('id_employee'));
+        $vendor = $this->vendor_service->index();
 
         return view('procurement.detailPurchaseOrder', [
             "po" => $detailProcurement,
             "line" => $detailProcurementLine,
-            "employee" => $employee
+            "employee" => $employee,
+            "vendor" => $vendor
         ]);
     }
 

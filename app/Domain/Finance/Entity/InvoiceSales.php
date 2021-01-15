@@ -15,7 +15,7 @@ class InvoiceSales extends Model
     protected $table = 'invoice_sales';
     public $timestamps = false;
     protected $keyType = 'string';
-    protected $fillable = ['numSO', 'responsibleEmployee', 'date'];
+    protected $fillable = ['numSO', 'responsibleEmployee', 'date', 'isSent', 'isComplete'];
 
     public function salesorder()
     {

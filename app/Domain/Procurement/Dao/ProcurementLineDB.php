@@ -21,10 +21,10 @@ class ProcurementLineDB
     public function store_line($line)
     {
         PurchaseOrderLine::create([
-            'numPO' => $line["numPo"],
-            'modelType' => $line["modelType"],
-            'price' => $line["price"],
-            'quantity' => $line["quantity"]
+            'numPO' => $line->numPo,
+            'modelType' => $line->modelType,
+            'buying_price' => $line->price,
+            'quantity' => $line->quantity
         ]);
     }
 

@@ -18,7 +18,7 @@ class PurchaseOrderLine extends Model
     protected $fillable = [
         'numPO',
         'modelType',
-        'price',
+        'buying_price',
         'quantity'
     ];
     public function purchaseorder()

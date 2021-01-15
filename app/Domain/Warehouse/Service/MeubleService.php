@@ -45,7 +45,23 @@ class MeubleService extends Controller
         $category = $this->meubles->show_category($request->category);
         $category = $category->description;
         $pathDesc = $this->upload_image($request->file('picture'), $category);
-        $this->meubles->insert($request, $pathDesc);
+
+        $price = (int)$request->price;
+        if ($price <= 100000) {
+            $price += 25000;
+        } else if ($price <= 300000) {
+            $price += 50000;
+        } else if ($price <= 1000000) {
+            $price += 150000;
+        } else if ($price <= 5000000) {
+            $price += 300000;
+        } else if ($price <= 10000000) {
+            $price += 450000;
+        } else {
+            $price += 600000;
+        }
+
+        $this->meubles->insert($request, $pathDesc, $price);
     }
 
     public function soft_delete($model, $status)

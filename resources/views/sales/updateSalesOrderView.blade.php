@@ -72,8 +72,10 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                         <div class="form-group row">
                             <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-field-form" disabled
+                                <input type="number" class="form-control header-field-form"
                                     value="{{ $salesorder->freightIn }}" id="freightIn" name="freightIn">
+                                <input type="hidden" class="form-control" value="{{ $salesorder->freightIn }}"
+                                    id="oldfreightIn">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -139,7 +141,8 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                                         <select id="discountMeuble" name="discountMeuble" class="form-control">
                                             @foreach ($discounts as $discount)
                                                 <option value="{{ $discount->code }}">{{ $discount->code }}:
-                                                    {{ $discount->percentDisc }}</option>
+                                                    {{ $discount->percentDisc }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -181,30 +184,33 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                     <div class="card" style="width: 100%;" id="lineItem">
                         @foreach ($salesorderlines as $item)
                             <div id="{{ $item->modelType }}">
-                                <input type="hidden" id="model-{{ $item->modelType }}" value="{{ $item->modelType }}">
-                                <input type="hidden" id="price-{{ $item->modelType }}" value="{{ $item->price }}">
-                                <input type="hidden" id="quantity-{{ $item->modelType }}" value="{{ $item->quantity }}">
-                                {{--<input type="hidden"
-                                    id="discMeuble-{{ $item->modelType }}" value="{{ $item->discountMeuble }}">
-                                <input type="hidden" id="disc-${data.modelType}" value="${totalDisc}">` : ''}
-                                --}}
-                                <div class="row pt-3">
-                                    <div class="col-12 col-md-3">
-                                        <img id="{{ $item->modelType }}-img" class="card-img-top"
-                                            src="{{ asset($item->image) }}" alt="Card image cap">
-                                    </div>
-                                    <div class="col-12 col-md-9 pt-4">
-                                        <h3 class="font-weight-bold">{{ $item->modelType }}</h3>Rp {{ $item->price }},00
-                                        <p class="font-weight-bold">Ammount: {{ $item->quantity }}</p>
-                                        <p class="font-weight-bold">Color: {{ $item->color }}</p>
-                                        <p class="font-weight-bold">Size: {{ $item->size }}</p>
-                                        <p class="font-weight-bold">Description: {{ $item->description }}.</p>
-                                        @if ($salesorder->transactionStatus == 0)
-                                            <button type="button" class="btn btn-primary editItem"
-                                                id="editItem">edit</button>
-                                            <button type="button" class="btn btn-danger removeItem"
-                                                id="removeItem">remove</button>
-                                        @endif
+                                <div class="card-body">
+                                    <input type="hidden" id="model-{{ $item->modelType }}" value="{{ $item->modelType }}">
+                                    <input type="hidden" id="price-{{ $item->modelType }}" value="{{ $item->price }}">
+                                    <input type="hidden" id="quantity-{{ $item->modelType }}" value="{{ $item->quantity }}">
+                                    {{--<input type="hidden"
+                                        id="discMeuble-{{ $item->modelType }}" value="{{ $item->discountMeuble }}">
+                                    <input type="hidden" id="disc-${data.modelType}" value="${totalDisc}">` : ''}
+                                    --}}
+                                    <div class="row pt-3">
+                                        <div class="col-12 col-md-3">
+                                            <img id="{{ $item->modelType }}-img" class="card-img-top"
+                                                src="{{ asset($item->image) }}" alt="Card image cap">
+                                        </div>
+                                        <div class="col-12 col-md-9 pt-4">
+                                            <h3 class="font-weight-bold">{{ $item->modelType }}</h3>Rp
+                                            {{ number_format($item->price, 2, ',', '.') }}
+                                            <p class="font-weight-bold">Ammount: {{ $item->quantity }}</p>
+                                            <p class="font-weight-bold">Color: {{ $item->color }}</p>
+                                            <p class="font-weight-bold">Size: {{ $item->size }}</p>
+                                            <p class="font-weight-bold">Description: {{ $item->description }}.</p>
+                                            @if ($salesorder->transactionStatus == 0)
+                                                <button type="button" class="btn btn-primary editItem"
+                                                    id="editItem">edit</button>
+                                                <button type="button" class="btn btn-danger removeItem"
+                                                    id="removeItem">remove</button>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>

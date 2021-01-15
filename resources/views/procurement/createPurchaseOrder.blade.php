@@ -67,6 +67,7 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                             <div class="col-sm-8">
                                 <input type="number" class="form-control header-field-form" value="0" id="freightIn"
                                     name="freightIn" placeholder="Press enter when the data is right">
+                                <input type="hidden" class="form-control" value="0" id="oldfreightIn">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -81,6 +82,7 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                             <div class="col-sm-8">
                                 <input type="number" class="form-control header-field-form" value="0" id="totalDisc"
                                     name="totalDisc" placeholder="Press enter when the data is right">
+                                <input type="hidden" class="form-control" value="0" id="oldDiscount">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -127,7 +129,7 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                 </form>
             </div>
             <div class="col-12 pt-4">
-                <h1 class="text-center">Product Lists</h1>
+                <h1 class="text-center" id="productList">Product Lists</h1>
                 <hr>
             </div>
             <form id="ajaxInput" action="/procurement" method="POST">

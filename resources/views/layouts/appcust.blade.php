@@ -21,7 +21,9 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <a class="navbar-brand" href="/">Pesona.</a>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
+                data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -38,7 +40,9 @@
         <div class="row footer w-100">
             <div class="col-12 col-sm-8 w-100 footerparagraph">
                 <h1> Become a member</h1>
-                <p class="pt-2">Sed habitant porttitor at volutpat at. Suscipit a id velit scelerisque leo mi sit. Amet, mauris morbi mauris est elit. In mi, proin accumsan egestas cras quam massa feugiat dui. Odio sed scelerisque libero arcu magna nisl eget id elementum.</p>
+                <p class="pt-2">Sed habitant porttitor at volutpat at. Suscipit a id velit scelerisque leo mi sit. Amet,
+                    mauris morbi mauris est elit. In mi, proin accumsan egestas cras quam massa feugiat dui. Odio sed
+                    scelerisque libero arcu magna nisl eget id elementum.</p>
             </div>
 
             <div class="col-12 col-sm-4 w-100">

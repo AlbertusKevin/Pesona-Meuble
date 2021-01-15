@@ -30,10 +30,19 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                         <div class="form-group row">
                             <label for="vendor" class="col-sm-4 col-form-label">Vendor:</label>
                             <div class="col-sm-8">
-                                <select id="vendor" name="vendor" class="form-control header-field-form">
+                                <select id="vendor" name="vendor" class="form-control header-field-form" disabled>
                                     <option selected value="{{ $po->vendor }}">
                                         {{ $po->vendor }}
                                     </option>
+                                    @foreach ($vendor as $vend)
+                                        @if ($vend->companyCode != $po->vendor)
+                                            @if ($vend->status != 0)
+                                                <option value="{{ $vend->companyCode }}">
+                                                    {{ $vend->name }}
+                                                </option>
+                                            @endif
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -68,8 +77,9 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                         <div class="form-group row">
                             <label for="freightIn" class="col-sm-4 col-form-label">Freight In:</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-field-form" disabled
-                                    value="{{ $po->freightIn }}" id="freightIn" name="freightIn">
+                                <input type="number" class="form-control header-field-form" value="{{ $po->freightIn }}"
+                                    id="freightIn" name="freightIn">
+                                <input type="hidden" class="form-control" value="{{ $po->freightIn }}" id="oldfreightIn">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -82,8 +92,9 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                         <div class="form-group row">
                             <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount:</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control header-field-form" disabled
-                                    value="{{ $po->totalDiscount }}" id="totalDisc" name="totalDisc">
+                                <input type="number" class="form-control header-field-form" value="{{ $po->totalDiscount }}"
+                                    id="totalDisc" name="totalDisc">
+                                <input type="hidden" class="form-control" value="0" id="oldDiscount">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -98,7 +109,7 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                                 <form action="/procurement/cancel/{{ $po->numPO }}" method="Post">
                                     @method('Patch')
                                     @csrf
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-12">
                                         <button type="button" class="btn btn-success" id="proceed">Proceed</button>
                                         <button type="submit" class="btn btn-danger" id="cancel">Cancel</button>
                                     </div>
@@ -157,31 +168,35 @@ Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
                     <div class="card" style="width: 100%;" id="lineItem">
                         @foreach ($line as $item)
                             <div id="{{ $item->modelType }}">
-                                <input type="hidden" id="model-{{ $item->modelType }}" value="{{ $item->modelType }}">
-                                <input type="hidden" id="price-{{ $item->modelType }}" value="{{ $item->price }}">
-                                <input type="hidden" id="quantity-{{ $item->modelType }}" value="{{ $item->quantity }}">
-                                <div class="row pt-3">
-                                    <div class="col-12 col-md-3">
-                                        <img id="{{ $item->modelType }}-img" class="card-img-top"
-                                            src="{{ asset($item->image) }}" alt="Card image cap">
-                                    </div>
-                                    <div class="col-12 col-md-9 pt-4">
-                                        <h3 class="font-weight-bold">{{ $item->modelType }}</h3>Rp {{ $item->price }},00
-                                        <p class="font-weight-bold dataQuantity">Ammount: {{ $item->quantity }}</p>
-                                        <p class="font-weight-bold">Color: {{ $item->color }}</p>
-                                        <p class="font-weight-bold">Size: {{ $item->size }}</p>
-                                        <p class="font-weight-bold">Description: {{ $item->description }}.</p>
-                                        @if ($po->transactionStatus == 0)
-                                            <button type="button" class="btn btn-primary editItem">edit</button>
-                                            <button type="button" class="btn btn-danger removeItem">remove</button>
-                                        @endif
+                                <div class="card-body">
+                                    <input type="hidden" id="model-{{ $item->modelType }}" value="{{ $item->modelType }}">
+                                    <input type="hidden" id="price-{{ $item->modelType }}"
+                                        value="{{ $item->buying_price }}">
+                                    <input type="hidden" id="quantity-{{ $item->modelType }}" value="{{ $item->quantity }}">
+                                    <div class="row pt-3">
+                                        <div class="col-12 col-md-3">
+                                            <img id="{{ $item->modelType }}-img" class="card-img-top"
+                                                src="{{ asset($item->image) }}" alt="Card image cap">
+                                        </div>
+                                        <div class="col-12 col-md-9 pt-4">
+                                            <h3 class="font-weight-bold">{{ $item->modelType }}</h3>Rp
+                                            {{ number_format($item->buying_price, 2, ',', '.') }}
+                                            <p class="font-weight-bold dataQuantity">Ammount: {{ $item->quantity }}</p>
+                                            <p class="font-weight-bold">Color: {{ $item->color }}</p>
+                                            <p class="font-weight-bold">Size: {{ $item->size }}</p>
+                                            <p class="font-weight-bold">Description: {{ $item->description }}.</p>
+                                            @if ($po->transactionStatus == 0)
+                                                <button type="button" class="btn btn-primary editItem">edit</button>
+                                                <button type="button" class="btn btn-danger removeItem">remove</button>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                     @if ($po->transactionStatus == 0)
-                        <div class=" row w-100 mh-100 justify-content-end pl-3">
+                        <div class=" row justify-content-end ml-5 mt-5">
                             <button type="button" class="btn btn-secondary updatePost btn-lg"
                                 id="updateTransaction">Update</button>
                         </div>
