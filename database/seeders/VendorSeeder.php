@@ -23,7 +23,8 @@ class VendorSeeder extends Seeder
                 'name' => 'Clarissa',
                 'email' => 'clarissa@gmail.com',
                 'telephone' => '022-5456323',
-                'address' => 'Jl. Jendral Sudirman no. 34'
+                'address' => 'Jl. Jendral Sudirman no. 34',
+                'status' => 1
             ]
         );
         DB::table('vendor')->insert(
@@ -32,7 +33,8 @@ class VendorSeeder extends Seeder
                 'name' => 'Jepara',
                 'email' => 'jepara@gmail.com',
                 'telephone' => '022-5236231',
-                'address' => 'Jl. Soeta 116'
+                'address' => 'Jl. Soeta 116',
+                'status' => 1
             ]
         );
     }

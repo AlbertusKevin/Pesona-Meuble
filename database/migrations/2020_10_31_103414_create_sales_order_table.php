@@ -23,7 +23,6 @@ class CreateSalesOrderTable extends Migration
             $table->integer('totalItem');
             $table->integer('totalPrice');
             $table->integer('freightIn');
-            $table->string('paymentDiscount', 20);
             $table->integer('totalDiscount');
             $table->integer('totalPayment');
         });
@@ -37,10 +36,6 @@ class CreateSalesOrderTable extends Migration
             $table->foreign('customer')
                 ->references('id')
                 ->on('customer')
-                ->cascadeOnDelete();
-            $table->foreign('paymentDiscount')
-                ->references('code')
-                ->on('discount')
                 ->cascadeOnDelete();
             $table->foreign('transactionStatus')
                 ->references('id')

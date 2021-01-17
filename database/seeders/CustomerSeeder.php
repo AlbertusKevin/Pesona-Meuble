@@ -23,7 +23,6 @@ class CustomerSeeder extends Seeder
                 'email' => 'garrix@gmail.com',
                 'phone' => '5662738812',
                 'address' => 'Jl. ABCDE 22',
-                'member' => '0'
             ]
         );
         DB::table('customer')->insert(
@@ -32,7 +31,6 @@ class CustomerSeeder extends Seeder
                 'email' => 'watson@gmail.com',
                 'phone' => '6624188723',
                 'address' => 'Jl. Baker Street 221B',
-                'member' => '0'
             ]
         );
     }

@@ -25,7 +25,6 @@ class SalesOrder extends Model
         'totalItem',
         'freightIn',
         'totalPrice',
-        'paymentDiscount',
         'totalDiscount',
         'totalPayment'
     ];

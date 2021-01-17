@@ -41,30 +41,27 @@ class SalesOrderDao
     {
 
         SalesOrder::create([
-            'numSO' => $header["numSO"],
-            'customer' => (int)$header["customer"],
-            'responsibleEmployee' => (int)$header["id"],
-            'date' => Carbon::parse($header["date"])->format('Y-m-d'),
-            'validTo' => Carbon::parse($header["validTo"])->format('Y-m-d'),
+            'numSO' => $header->numSO,
+            'customer' => (int)$header->customer,
+            'responsibleEmployee' => (int)$header->id,
+            'date' => Carbon::parse($header->date)->format('Y-m-d'),
+            'validTo' => Carbon::parse($header->validTo)->format('Y-m-d'),
             'transactionStatus' => 0,
-            'totalItem' => (int)$header["totalItem"],
-            'freightIn' => (int)$header["freightIn"],
-            'totalPrice' => (int)$header["totalPrice"],
-            'paymentDiscount' => "default_m",
-            // 'totalDiscount' => (int)$header["totalDisc"],
-            'totalDiscount' => 0,
-            'totalPayment' => (int)$header["totalPayment"]
+            'totalItem' => (int)$header->totalItem,
+            'freightIn' => (int)$header->freightIn,
+            'totalPrice' => (int)$header->totalPrice,
+            'totalDiscount' => (int)$header->totalDisc,
+            'totalPayment' => (int)$header->totalPayment
         ]);
     }
 
     public function update_header($header)
     {
-        SalesOrder::where('numSO', $header['numSO'])->update([
-            'totalItem' => (int)$header["totalItem"],
-            'totalPrice' => (int)$header["totalPrice"],
-            // 'totalDiscount' => (int)$header["totalDisc"],
-            'totalDiscount' => 0,
-            'totalPayment' => (int)$header["totalPayment"]
+        SalesOrder::where('numSO', $header->numSO)->update([
+            'totalItem' => (int)$header->totalItem,
+            'totalPrice' => (int)$header->totalPrice,
+            'totalDiscount' => (int)$header->totalDisc,
+            'totalPayment' => (int)$header->totalPayment
         ]);
     }
 

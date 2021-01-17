@@ -83,27 +83,13 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                                         name="totalPrice" disabled value="0">
                                 </div>
                             </div>
-                            {{-- <div class="form-group row">
-                                <label for="paymentDiscount" class="col-sm-4 col-form-label">Discount Payment</label>
-                                <div class="col-sm-8">
-                                    <select id="discount" name="paymentDiscount" id="paymentDiscount"
-                                        class="form-control header-field-form">
-                                        <option selected disabled>--discount payment--</option>
-                                        @foreach ($discPayment as $discount)
-                                            <option class="{{ $discount->code }}" value="{{ $discount->code }}">
-                                                {{ $discount->code }}:{{ $discount->percentDisc }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                             <div class="form-group row">
                                 <label for="totalDisc" class="col-sm-4 col-form-label">Total Discount</label>
                                 <div class="col-sm-8">
                                     <input type="number" class="form-control header-field-form" id="totalDisc"
                                         name="totalDisc" disabled value="0">
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="form-group row">
                                 <label for="totalPayment" class="col-sm-4 col-form-label">Total Payment</label>
                                 <div class="col-sm-8">
@@ -142,19 +128,19 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
                                         name="quantity" placeholder="Quantity">
                                 </div>
                             </div>
-                            {{-- <div class="form-group row">
+                            <div class="form-group row">
                                 <label for="price" class="col-sm-4 col-form-label">Discount Meuble</label>
                                 <div class="col-sm-8">
                                     <select id="discountMeuble" name="discountMeuble" class="form-control">
                                         <option selected disabled>--discount meuble--</option>
-                                        @foreach ($discMeuble as $discount)
+                                        @foreach ($discMeuble as $discount)\
                                             <option class="{{ $discount->code }}" value="{{ $discount->code }}">
                                                 {{ $discount->code }}:{{ $discount->percentDisc }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="form-group row">
                                 <label for="modelType" class="col-sm-4 col-form-label">Price</label>
                                 <div class="col-sm-8">

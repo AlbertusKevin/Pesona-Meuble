@@ -21,18 +21,12 @@ class SalesOrderLineDB extends Controller
     public function store_line($line)
     {
         SalesOrderLine::create([
-            'numSO' => $line["numSO"],
-            'modelType' => $line["modelType"],
-            'price' => $line["price"],
-            'discountMeuble' => "default_m",
-            'quantity' => $line["quantity"]
+            'numSO' => $line->numSO,
+            'modelType' => $line->modelType,
+            'price' => $line->price,
+            'discountMeuble' => $line->discountMeuble,
+            'quantity' => $line->quantity
         ]);
-    }
-
-    public function findSalesOrderLineByNumSO($numSO)
-    {
-        $salesorderline = SalesOrderLine::where('numSO', $numSO)->get();
-        return $salesorderline;
     }
 
     public function show_line($numSO)
@@ -44,17 +38,6 @@ class SalesOrderLineDB extends Controller
     public function show_item($request)
     {
         return SalesOrderLine::where('numSO', $request->numSO)->where('modelType', $request->modelType)->first();
-    }
-
-    public function addNewLineItem($num, $line)
-    {
-        SalesOrderLine::create([
-            'numSO' => $num,
-            'modelType' => $line["model"],
-            'price' => $line["price"],
-            'quantity' => $line["quantity"],
-            'discountMeuble' => "default_m"
-        ]);
     }
 
     public function delete_line($request)

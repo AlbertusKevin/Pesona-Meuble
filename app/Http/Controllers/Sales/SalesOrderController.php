@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sales;
 
 use App\Domain\Employee\Service\EmployeeService;
+use App\Domain\Finance\Service\DiscountService;
 use App\Domain\Sales\Service\SalesOrderLineService;
 use App\Domain\Sales\Service\SalesOrderService;
 use App\Domain\Warehouse\Service\MeubleService;
@@ -16,11 +17,13 @@ class SalesOrderController extends Controller
     private $salesorder_line_service;
     private $meuble_service;
     private $employee_service;
+    private $discount_service;
 
     public function __construct()
     {
         $this->salesorder_service = new SalesOrderService;
         $this->salesorder_line_service = new SalesOrderLineService;
+        $this->discount_service = new DiscountService;
         $this->meuble_service = new MeubleService;
         $this->employee_service = new EmployeeService;
     }
@@ -54,15 +57,13 @@ class SalesOrderController extends Controller
     {
         $meubles = $this->meuble_service->index_meuble();
         $employee = $this->employee_service->get_employee_by_id($request->session()->get('id_employee'));
-        // $discMeuble = $this->discounts->forMeuble();
-        // $discPayment = $this->discounts->forPayment();
+        $discMeuble = $this->discount_service->discounts();
         $numSO = $this->salesorder_service->get_last_numSO();
 
         return view('sales.createSalesOrder', [
             'meubles' => $meubles,
             'employee' => $employee,
-            // 'discMeuble' => $discMeuble,
-            // 'discPayment' => $discPayment,
+            'discMeuble' => $discMeuble,
             'numSO' => $numSO
         ]);
     }

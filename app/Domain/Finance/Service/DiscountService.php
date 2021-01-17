@@ -56,4 +56,9 @@ class DiscountService extends Controller
     {
         $this->discounts->delete_discount($code);
     }
+
+    public function discounts()
+    {
+        return $this->discounts->index();
+    }
 }

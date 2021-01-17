@@ -25,7 +25,6 @@ class Discount extends Model
         'statusActive',
         'from',
         'to',
-        'discountFor'
     ];
 
     public function salesorders()

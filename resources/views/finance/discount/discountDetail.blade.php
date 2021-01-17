@@ -62,16 +62,6 @@ Code's Author by Chris Christian, Mikhael Adriel, December 2020
                                 <label class="col-form-label font-weight-bold"> : {{ $discount->to }}</label>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="customerName" class="col-sm-4 col-form-label">Discount For</label>
-                            <div class="col-sm-8">
-                                @if ($discount->discountFor == 0)
-                                    <label class="col-form-label font-weight-bold"> : Meuble Discount</label>
-                                @else
-                                    <label class="col-form-label font-weight-bold"> : Payment Discount</label>
-                                @endif
-                            </div>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         @if ($discount->statusActive === 1)

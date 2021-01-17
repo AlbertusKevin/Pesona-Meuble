@@ -59,20 +59,6 @@
                                     <label class="col-form-label font-weight-bold"> : {{ $discount->to }}</label>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="discFor" class="col-sm-4 col-form-label">Discount For:</label>
-                                <div class="col-sm-8">
-                                    <select id="discFor" name="discFor" class="form-control header-field-form">
-                                        @if ($discount->discountFor == 0)
-                                            <option value="0" selected>Meuble</option>
-                                            <option value="1">Payment</option>
-                                        @else
-                                            <option value="0">Meuble</option>
-                                            <option value="1" selected>Payment</option>
-                                        @endif
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class=" btn discount">Save</button>

@@ -35,8 +35,7 @@ class DiscountDB
             'responsibleEmployee' => $request->employeeID,
             'statusActive' => 1,
             'from' => Carbon::parse($request->from)->format('Y-m-d'),
-            'to' => Carbon::parse($request->to)->format('Y-m-d'),
-            'discountFor' => $request->discFor
+            'to' => Carbon::parse($request->to)->format('Y-m-d')
         ]);
     }
 
@@ -51,8 +50,7 @@ class DiscountDB
     {
         return Discount::where('code', $code)->update([
             'description' => $request->description,
-            'percentDisc' => (float)$request->percentDisc / 100,
-            'discountFor' => $request->discFor
+            'percentDisc' => (float)$request->percentDisc / 100
         ]);
     }
 

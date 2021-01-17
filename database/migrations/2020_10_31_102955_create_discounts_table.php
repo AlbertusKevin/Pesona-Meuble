@@ -21,7 +21,6 @@ class CreateDiscountsTable extends Migration
             $table->boolean('statusActive');
             $table->date('from');
             $table->date('to');
-            $table->tinyInteger('discountFor');
         });
 
         Schema::table('discount', function (Blueprint $table) {

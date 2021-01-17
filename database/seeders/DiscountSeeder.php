@@ -26,20 +26,7 @@ class DiscountSeeder extends Seeder
                 "responsibleEmployee" => 1,
                 "statusActive" => 1,
                 "from" => Carbon::parse('2018-12-01')->format('Y-m-d'),
-                "to" => Carbon::parse('9999-12-31')->format('Y-m-d'),
-                "discountFor" => 0
-            ]
-        );
-        DB::table('discount')->insert(
-            [
-                "code" => 'default_p',
-                "description" => 'default code for payment',
-                "percentDisc" => 0.00,
-                "responsibleEmployee" => 1,
-                "statusActive" => 1,
-                "from" => Carbon::parse('2018-12-01')->format('Y-m-d'),
-                "to" => Carbon::parse('9999-12-31')->format('Y-m-d'),
-                "discountFor" => 1
+                "to" => Carbon::parse('9999-12-31')->format('Y-m-d')
             ]
         );
     }

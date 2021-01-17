@@ -53,8 +53,7 @@ class DiscountController extends Controller
             'description' => 'required',
             'percentDisc' => 'required',
             'from' => 'required',
-            'to' => 'required',
-            'discFor' => 'required'
+            'to' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -111,8 +110,7 @@ class DiscountController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'description' => 'required',
-            'percentDisc' => 'required|numeric|max:2',
-            'discFor' => 'required'
+            'percentDisc' => 'required|numeric|max:2'
         ]);
 
         if ($validator->fails()) {
