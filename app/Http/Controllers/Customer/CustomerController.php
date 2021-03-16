@@ -23,7 +23,6 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = $this->customer_service->index_customers();
-        return $customers;
         return view('customer_service.customer_data.customerlist', [
             "customers" => $customers,
         ]);

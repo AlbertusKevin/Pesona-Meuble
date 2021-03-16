@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Domain\CustomerManagement\Service\CustomerService;
+use App\Domain\Employee\Service\EmployeeService;
 use App\Domain\Procurement\Service\ProcurementService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,19 +26,6 @@ class UnitTest extends TestCase
     //     $response->assertStatus(200);
     // }
 
-    // public function testPostCustomer()
-    // {
-    //     $response = $this->from('customer/create')->json('POST', 'customer', [
-    //         'name' => "Martin",
-    //         'email' => "martin",
-    //         'phone' => "0819283212",
-    //         'address' => "Jl. Soetta 23"
-    //     ]);
-
-    //     $response->assertStatus(302);
-    //     $response->assertRedirect('customer');
-    // }
-
     public function testQueryListCustomer()
     {
         $customer = new CustomerService();
@@ -57,4 +45,34 @@ class UnitTest extends TestCase
 
         $this->assertEquals("10000002", $number);
     }
+
+    public function testQueryListEmployee()
+    {
+        $employee = new EmployeeService();
+        $this->assertNotEmpty($employee->index_employee());
+        $this->assertCount(2, $employee->index_employee());
+    }
+
+    // public function testPostCustomer()
+    // {
+    // $response = $this->from('/customer/create')->postJson('/customer', [
+    //     '_token' => csrf_token(),
+    //     'name' => "Martin",
+    //     'email' => "martin@gmail.com",
+    //     'phone' => "0819283212",
+    //     'address' => "Jl. Soetta 23"
+    // ]);
+
+    // $response->assertStatus(302);
+    // $response->assertRedirect('/customer');
+
+    //     $customer = new CustomerService();
+
+    //     $this->assertTrue($customer->new_customer([
+    //         'name' => "Martin",
+    //         'email' => "martin@gmail.com",
+    //         'phone' => "0819283212",
+    //         'address' => "Jl. Soetta 23"
+    //     ]));
+    // }
 }
