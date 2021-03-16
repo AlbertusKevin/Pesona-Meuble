@@ -27,40 +27,42 @@ class CustTest extends TestCase
         $response->assertRedirect('/');
     }
 
-    public function testLogin()
-    {
-        $credential = [
-            'email' => 'albertus@gmail.com',
-            'password' => Hash::make('owner')
-        ];
 
-        $response = $this->post('/gate',$credential);
-        $response->assertSessionHasNoErrors();
+    public function testGoToCustomerPage()
+    {
+
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->get('/customer')
+            ->assertStatus(200);
 
     }
 
-    public function testAfterLogin()
+    public function testGetSearchCustomer()
     {
-
-        // $credential = [
-        //     'email' => 'albertus@gmail.com',
-        //     'password' => Hash::make('owner')
-        // ];
-
-        // $response = $this->post('/gate',$credential);
-        // $response->assertRedirect('/meuble');
-
-        // $user = Employee::factory()->create([
-        //     'email' =>'albertus@gmail.com',
-        //     'password' => Hash::make('owner'),
-        // ]);
-        // $response = $this->actingAs($user)->get('/meuble');
-
-        $this->post('/gate',[
-            'email' =>'albertus@gmail.com',
-            'password' => Hash::make('owner'),
-        ])->assertStatus(200);
-
-
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->get('/customer/1')
+            ->assertSee('Martin');
     }
+
+    // disini gaada validasi, jadi customer dengan nama&email sama pun bisa berkali2 dimasukin
+    public function testPostCustomer(){
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->post('/customer',[
+                'name'=>'Fera',
+                'email'=>'christy.ferani@gmail.com',
+                'phone'=> '0811112222',
+                'address'=>'Jalan layang no 22'
+            ])
+            ->assertRedirect('/customer');
+    }
+
+    public function testUpdateCustomer(){
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->patch('/customer/update/1',[
+                'name' => 'Kimchi',
+            ])
+            ->assertSessionHasErrors('phone');
+    }
+
+
 }
