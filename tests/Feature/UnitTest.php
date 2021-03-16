@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Domain\CustomerManagement\Service\CustomerService;
+use App\Domain\Procurement\Service\ProcurementService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -47,5 +48,13 @@ class UnitTest extends TestCase
     {
         $customer = new CustomerService();
         $this->assertNull($customer->customer_by_id(3));
+    }
+
+    public function testGetNumPO()
+    {
+        $procurement = new procurementService();
+        $number = $procurement->get_last_numPO();
+
+        $this->assertEquals("10000002", $number);
     }
 }
