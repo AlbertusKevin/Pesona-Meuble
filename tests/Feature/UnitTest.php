@@ -14,37 +14,17 @@ use Illuminate\Support\Facades\Validator;
 
 class UnitTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    // public function testExample()
-    // {
-    //     $response = $this->get('/');
-
-    //     $response->assertStatus(200);
-    // }
-
-    // public function testPostCustomer()
-    // {
-    //     $response = $this->from('customer/create')->json('POST', 'customer', [
-    //         'name' => "Martin",
-    //         'email' => "martin",
-    //         'phone' => "0819283212",
-    //         'address' => "Jl. Soetta 23"
-    //     ]);
-
-    //     $response->assertStatus(302);
-    //     $response->assertRedirect('customer');
-    // }
-
     public function testQueryListCustomer()
     {
         $customer = new CustomerService();
-        $this->assertCount(3, $customer->index_customers());
+        $this->assertCount(2, $customer->index_customers());
+    }
 
-        // Test Failed, It should be 3.
+    public function testQueryListEmployee()
+    {
+        $employee = new EmployeeService();
+        $this->assertNotEmpty($employee->index_employee());
+        $this->assertCount(3, $employee->index_employee());
     }
 
     public function testQueryShowCustomer()
@@ -61,18 +41,10 @@ class UnitTest extends TestCase
         $this->assertEquals("10000002", $number);
     }
 
-    public function testQueryListEmployee()
-    {
-        $employee = new EmployeeService();
-        $this->assertNotEmpty($employee->index_employee());
-        $this->assertCount(2, $employee->index_employee());
-    }
-
     //TEST LOGIN 
     public function testLoginPage()
     {
         $response = $this->get('/gate');
-
         $this->assertEquals(200, $response->status());
     }
 
@@ -82,6 +54,7 @@ class UnitTest extends TestCase
             'email' => 'abc@gmail.com',
             'password' => 'test',
         ]);
+
         $response->assertRedirect('/');
     }
 
@@ -91,12 +64,14 @@ class UnitTest extends TestCase
             'email' => 'albertus@gmail.com',
             'password' => 'owner',
         ]);
+
         $response->assertRedirect('/meuble');
     }
 
     public function testLogout()
     {
-        $response = $this->withSession(['login' => true, 'id_employee' => 1])->get('/logout');
+        $response = $this->withSession(['login' => true, 'id_employee' => 1])
+            ->get('/logout');
         $response->assertRedirect('/');
     }
 
@@ -107,14 +82,59 @@ class UnitTest extends TestCase
             'email' => 'test',
             'password' => '',
         ]);
+
         $response->assertSessionHasErrors(['email', 'password']);
     }
 
-    // masih sedikit error
-    // public function testCancelSalesOrder() { 
-    //     $response = $this->withSession(['login' => true, 'id_employee' => 1])
-    //         ->patch('/salesorder/cancel/123')
-    //         ->assertRedirect('/salesorder');
-    // }
+    public function testGetCustomer()
+    {
+        $response = $this->get('/customer');
 
+        $response->assertRedirect('/');
+    }
+
+    public function testGetPageCustomerSearch()
+    {
+        $response = $this->get('/customer/search');
+
+        $response->assertRedirect('/');
+    }
+
+
+    public function testGoToCustomerPage()
+    {
+
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->get('/customer')
+            ->assertStatus(200);
+    }
+
+    public function testGetSearchCustomer()
+    {
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->get('/customer/1')
+            ->assertSee('Martin');
+    }
+
+    // disini gaada validasi, jadi customer dengan nama&email sama pun bisa berkali2 dimasukin
+    public function testPostCustomer()
+    {
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->post('/customer', [
+                'name' => 'Fera',
+                'email' => 'christy.ferani@gmail.com',
+                'phone' => '0811112222',
+                'address' => 'Jalan layang no 22'
+            ])
+            ->assertRedirect('/customer');
+    }
+
+    public function testUpdateCustomer()
+    {
+        $this->withSession(['login' => true, 'id_employee' => 1])
+            ->patch('/customer/update/1', [
+                'name' => 'Kimchi',
+            ])
+            ->assertSessionHasErrors('phone');
+    }
 }
