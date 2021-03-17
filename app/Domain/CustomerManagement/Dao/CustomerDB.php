@@ -32,7 +32,7 @@ class CustomerDB extends Controller
 
     public function create_customer($line)
     {
-        Customer::create([
+        return Customer::create([
             'name' => $line["name"],
             'email' => $line["email"],
             'phone' => (int)$line["phone"],

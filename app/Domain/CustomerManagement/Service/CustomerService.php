@@ -35,7 +35,7 @@ class CustomerService extends Controller
 
     public function new_customer($request)
     {
-        $this->customers->create_customer($request);
+        return $this->customers->create_customer($request);
     }
 
     public function update($request, $id)
