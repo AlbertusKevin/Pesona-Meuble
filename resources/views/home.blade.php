@@ -1,4 +1,5 @@
 @extends('layouts.appcust')
+@include('message')
 @section('content')
     {{-- carousel --}}
     <div class="container-fluid">

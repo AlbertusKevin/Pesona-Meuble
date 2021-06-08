@@ -25,6 +25,7 @@ Code's Author by Albertus Kevin, Chris Christian, Mikhael Adriel, December 2020
 </head>
 
 <body class="antialiased">
+    @include('sweetalert::alert')
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <a class="navbar-brand" href="">Pesona.</a>

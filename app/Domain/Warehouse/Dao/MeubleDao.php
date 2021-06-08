@@ -20,7 +20,6 @@ class MeubleDao extends Controller
      *
      * @return Response
      */
-
     public function index_meuble()
     {
         $meubles = Meuble::all();
