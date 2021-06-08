@@ -1,8 +1,8 @@
-{{-- 
+{{--
     Copyright (C) 2020 PBBO Persona Meuble - All Rights Reserved
     Unauthorized copying of this file, via any medium is strictly prohibited
     Proprietary and confidential
-    Code's Author by Albertus Kevin, Mikhael Adriel, December 2020 
+    Code's Author by Albertus Kevin, Mikhael Adriel, December 2020
 --}}
 
 @extends('layouts.authdummy')
@@ -31,7 +31,7 @@
             <a href=""> Forgot your password?</a>
           </div>
           <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <input type="checkbox" name="remember" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Remember me</label>
           </div>
           <div class="row w-100 ml-auto mr-auto">

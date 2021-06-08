@@ -7,6 +7,7 @@ use App\Domain\Vendor\Service\VendorService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Domain\Warehouse\Service\MeubleService;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MeubleController extends Controller
 {

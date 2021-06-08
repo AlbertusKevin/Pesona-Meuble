@@ -21,6 +21,7 @@ use App\Http\Controllers\Sales\SalesOrderController;
 use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Warehouse\DeliveryController;
 use App\Http\Controllers\Warehouse\MeubleController;
+use RealRashid\SweetAlert\Facades\Alert;
 
 /*
 |--------------------------------------------------------------------------

@@ -28,10 +28,10 @@
                                             <option value="{{ $vendor->companyCode }}">
                                                 {{ $vendor->name }}
                                             </option>
-                                            @foreach ($vendors as $vend)
-                                                @if ($vend->name != $vendor->name)
-                                                    <option value="{{ $vend->companyCode }}">
-                                                        {{ $vend->name }}
+                                            @foreach ($vendors as $vendor)
+                                                @if ($vendor->name != $vendor->name)
+                                                    <option value="{{ $vendor->companyCode }}">
+                                                        {{ $vendor->name }}
                                                     </option>
                                                 @endif
                                             @endforeach
@@ -51,10 +51,10 @@
                                             <option value="{{ $meuble->category }}">
                                                 {{ $category->description }}
                                             </option>
-                                            @foreach ($categories as $cat)
-                                                @if ($cat->description != $category->description)
-                                                    <option value="{{ $cat->id }}">
-                                                        {{ $cat->description }}
+                                            @foreach ($categories as $category)
+                                                @if ($category->description != $category->description)
+                                                    <option value="{{ $category->id }}">
+                                                        {{ $category->description }}
                                                     </option>
                                                 @endif
                                             @endforeach

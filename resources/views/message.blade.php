@@ -83,3 +83,9 @@ Code's Author by Albertus Kevin, Chris Christian, December 2020
         </ul>
     </div>
 @endif
+
+@if (session('type') == 'success')
+    <?php Alert::success(session('title'), session('message')); ?>
+@elseif(session('type') == 'error')
+    <?php Alert::error(session('title'), session('message')); ?>
+@endif
